@@ -6,7 +6,7 @@
 package eventosgowebapp.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author pacoa
+ * @author juanm
  */
 @Entity
 @Table(name = "USUARIO")
@@ -66,15 +66,15 @@ public class Usuario implements Serializable {
     @Column(name = "ROL")
     private int rol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private List<Conversacion> conversacionList;
+    private Collection<Conversacion> conversacionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTeleoperador")
-    private List<Conversacion> conversacionList1;
+    private Collection<Conversacion> conversacionCollection1;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     private UsuarioEvento usuarioEvento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAnalista")
-    private List<Estudio> estudioList;
+    private Collection<Estudio> estudioCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private List<Mensaje> mensajeList;
+    private Collection<Mensaje> mensajeCollection;
 
     public Usuario() {
     }
@@ -132,21 +132,21 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<Conversacion> getConversacionList() {
-        return conversacionList;
+    public Collection<Conversacion> getConversacionCollection() {
+        return conversacionCollection;
     }
 
-    public void setConversacionList(List<Conversacion> conversacionList) {
-        this.conversacionList = conversacionList;
+    public void setConversacionCollection(Collection<Conversacion> conversacionCollection) {
+        this.conversacionCollection = conversacionCollection;
     }
 
     @XmlTransient
-    public List<Conversacion> getConversacionList1() {
-        return conversacionList1;
+    public Collection<Conversacion> getConversacionCollection1() {
+        return conversacionCollection1;
     }
 
-    public void setConversacionList1(List<Conversacion> conversacionList1) {
-        this.conversacionList1 = conversacionList1;
+    public void setConversacionCollection1(Collection<Conversacion> conversacionCollection1) {
+        this.conversacionCollection1 = conversacionCollection1;
     }
 
     public UsuarioEvento getUsuarioEvento() {
@@ -158,21 +158,21 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<Estudio> getEstudioList() {
-        return estudioList;
+    public Collection<Estudio> getEstudioCollection() {
+        return estudioCollection;
     }
 
-    public void setEstudioList(List<Estudio> estudioList) {
-        this.estudioList = estudioList;
+    public void setEstudioCollection(Collection<Estudio> estudioCollection) {
+        this.estudioCollection = estudioCollection;
     }
 
     @XmlTransient
-    public List<Mensaje> getMensajeList() {
-        return mensajeList;
+    public Collection<Mensaje> getMensajeCollection() {
+        return mensajeCollection;
     }
 
-    public void setMensajeList(List<Mensaje> mensajeList) {
-        this.mensajeList = mensajeList;
+    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
+        this.mensajeCollection = mensajeCollection;
     }
 
     @Override
