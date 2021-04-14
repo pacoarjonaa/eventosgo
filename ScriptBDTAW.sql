@@ -52,7 +52,7 @@ create table ESTUDIO
 	ID INTEGER not null generated always as identity (start with 1, increment by 1),
 	ID_ANALISTA INTEGER not null,
 	TITULO VARCHAR(100) not null,
-	RESULTADO DOUBLE not null,
+	RESULTADO LONG VARCHAR not null,
 	primary key (ID)
 );
 
