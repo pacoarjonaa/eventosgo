@@ -28,5 +28,5 @@ public class EstudioFacade extends AbstractFacade<Estudio> {
     public EstudioFacade() {
         super(Estudio.class);
     }
-    
+ 
 }
