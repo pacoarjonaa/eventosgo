@@ -6,8 +6,8 @@
 package eventosgowebapp.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author juanm
+ * @author pacoa
  */
 @Entity
 @Table(name = "EVENTO")
@@ -86,11 +86,11 @@ public class Evento implements Serializable {
     @Column(name = "AFORO")
     private int aforo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvento")
-    private Collection<EventoEtiqueta> eventoEtiquetaCollection;
+    private List<EventoEtiqueta> eventoEtiquetaList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "evento")
     private EventoAforo eventoAforo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvento")
-    private Collection<Entrada> entradaCollection;
+    private List<Entrada> entradaList;
 
     public Evento() {
     }
@@ -175,12 +175,12 @@ public class Evento implements Serializable {
     }
 
     @XmlTransient
-    public Collection<EventoEtiqueta> getEventoEtiquetaCollection() {
-        return eventoEtiquetaCollection;
+    public List<EventoEtiqueta> getEventoEtiquetaList() {
+        return eventoEtiquetaList;
     }
 
-    public void setEventoEtiquetaCollection(Collection<EventoEtiqueta> eventoEtiquetaCollection) {
-        this.eventoEtiquetaCollection = eventoEtiquetaCollection;
+    public void setEventoEtiquetaList(List<EventoEtiqueta> eventoEtiquetaList) {
+        this.eventoEtiquetaList = eventoEtiquetaList;
     }
 
     public EventoAforo getEventoAforo() {
@@ -192,12 +192,12 @@ public class Evento implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Entrada> getEntradaCollection() {
-        return entradaCollection;
+    public List<Entrada> getEntradaList() {
+        return entradaList;
     }
 
-    public void setEntradaCollection(Collection<Entrada> entradaCollection) {
-        this.entradaCollection = entradaCollection;
+    public void setEntradaList(List<Entrada> entradaList) {
+        this.entradaList = entradaList;
     }
 
     @Override

@@ -12,12 +12,12 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author juanm
+ * @author pacoa
  */
 @Stateless
 public class EtiquetaFacade extends AbstractFacade<Etiqueta> {
 
-    @PersistenceContext(unitName = "EventosGOPU")
+    @PersistenceContext(unitName = "eventosgoPU")
     private EntityManager em;
 
     @Override

@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author juanm
+ * @author pacoa
  */
 @Entity
 @Table(name = "ESTUDIO")
@@ -32,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Estudio.findAll", query = "SELECT e FROM Estudio e")
     , @NamedQuery(name = "Estudio.findById", query = "SELECT e FROM Estudio e WHERE e.id = :id")
-    , @NamedQuery(name = "Estudio.findByTitulo", query = "SELECT e FROM Estudio e WHERE e.titulo = :titulo")})
+    , @NamedQuery(name = "Estudio.findByTitulo", query = "SELECT e FROM Estudio e WHERE e.titulo = :titulo")
+    , @NamedQuery(name = "Estudio.findByResultado", query = "SELECT e FROM Estudio e WHERE e.resultado = :resultado")})
 public class Estudio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,10 +48,8 @@ public class Estudio implements Serializable {
     private String titulo;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 32700)
     @Column(name = "RESULTADO")
-    private String resultado;
+    private double resultado;
     @JoinColumn(name = "ID_ANALISTA", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Usuario idAnalista;
@@ -63,7 +61,7 @@ public class Estudio implements Serializable {
         this.id = id;
     }
 
-    public Estudio(Integer id, String titulo, String resultado) {
+    public Estudio(Integer id, String titulo, double resultado) {
         this.id = id;
         this.titulo = titulo;
         this.resultado = resultado;
@@ -85,11 +83,11 @@ public class Estudio implements Serializable {
         this.titulo = titulo;
     }
 
-    public String getResultado() {
+    public double getResultado() {
         return resultado;
     }
 
-    public void setResultado(String resultado) {
+    public void setResultado(double resultado) {
         this.resultado = resultado;
     }
 

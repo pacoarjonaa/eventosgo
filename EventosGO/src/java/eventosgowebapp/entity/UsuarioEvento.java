@@ -6,8 +6,8 @@
 package eventosgowebapp.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author juanm
+ * @author pacoa
  */
 @Entity
 @Table(name = "USUARIO_EVENTO")
@@ -74,7 +74,7 @@ public class UsuarioEvento implements Serializable {
     @Column(name = "SEXO")
     private int sexo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private Collection<Entrada> entradaCollection;
+    private List<Entrada> entradaList;
     @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Usuario usuario;
@@ -144,12 +144,12 @@ public class UsuarioEvento implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Entrada> getEntradaCollection() {
-        return entradaCollection;
+    public List<Entrada> getEntradaList() {
+        return entradaList;
     }
 
-    public void setEntradaCollection(Collection<Entrada> entradaCollection) {
-        this.entradaCollection = entradaCollection;
+    public void setEntradaList(List<Entrada> entradaList) {
+        this.entradaList = entradaList;
     }
 
     public Usuario getUsuario() {
