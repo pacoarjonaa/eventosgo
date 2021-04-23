@@ -28,7 +28,7 @@
     <body>
         
         <!-- Navbar de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-4 text" style="margin-bottom: 20px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-5 text" style="margin-bottom: 20px">
             <div class="container-fluid">
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -63,7 +63,7 @@
                 <h1 class="display-1">Estudios Estad&iacute;sticos</h1>
             </header>
             <article>
-                <table class="table table-responsive-md table-hover table-sm fs-5 text-center" title="Lista de estudios">
+                <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de estudios">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
