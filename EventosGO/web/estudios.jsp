@@ -28,12 +28,12 @@
     <body>
         
         <!-- Navbar de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-3 text" style="margin-bottom: 20px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-4 text" style="margin-bottom: 20px">
             <div class="container-fluid">
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
-                <a class="navbar-brand fs-1" href="#">EventosGO</a>
+                <a class="navbar-brand fs-2" href="#">EventosGO</a>
               <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
@@ -63,7 +63,7 @@
                 <h1 class="display-1">Estudios Estad&iacute;sticos</h1>
             </header>
             <article>
-                <table class="table table-responsive-md table-hover table-sm fs-4 text-center" title="Lista de estudios">
+                <table class="table table-responsive-md table-hover table-sm fs-5 text-center" title="Lista de estudios">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -73,7 +73,8 @@
                     </thead>
                     <tbody>
                         <%
-                        for(int i = 0; i<estudios.size();i++) {
+                        int i; 
+                        for(i = 0; i<estudios.size();i++) {
                         %>
                             <tr>
                                 <th scope="row"><%= (i+1) %></th>
@@ -81,6 +82,15 @@
                                 <td><%= estudios.get(i).getResultado() %></td>
                             </tr>
                         <%
+                        }
+                        for(int j=10;j>i;j--) {
+                            %>
+                            <tr>
+                                <th scope="row"><%= (12-j) %></th>
+                                <td>*</td>
+                                <td>*</td>
+                            </tr>
+                            <%
                         }
                         %>
                     </tbody>
