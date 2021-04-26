@@ -49,9 +49,16 @@
                   <li class="nav-item">
                       <a class="nav-link" href="#">Chat</a>
                   </li>
+                  
+                
+                  
                 </ul>
-                  <button class="btn btn-outline-light m-4" type="buttom">Iniciar Sesion</button>
-                  <button class="btn btn-outline-light" type="buttom">Registrarse</button>
+                  
+                  <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                      <input type="search" class="form-control form-control-dark" placeholder="Search...">
+                  </form>
+                  <button class="btn btn-outline-light m-4" type="buttom">Perfil</button>
+                  <button class="btn btn-outline-light" type="buttom">Cerrar Sesion</button>
               </div>
             </div>
         </nav>

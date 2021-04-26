@@ -45,8 +45,14 @@
                       <a class="nav-link" href="ServletAdminUsuarioCargar">Usuarios</a>
 <!--             Deshabilitar enlaces del navbar       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
                   </li>
+                  
                  
                 </ul>
+              
+                  <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                      <input type="search" class="form-control form-control-dark" placeholder="Search...">
+                  </form>
+                  
                   <button class="btn btn-outline-light m-4" type="buttom">Perfil</button>
                   <button class="btn btn-outline-light" type="buttom">Cerrar Sesion</button>
               </div>
@@ -57,6 +63,10 @@
         <section class="container rounded shadow-sm w3-padding">
             <header class="container">
                 <h1 class="display-1">Lista de eventos</h1>
+                <form class="d-flex">
+                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
+                 </form>
             </header>
             <article>
                 <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de eventos">
