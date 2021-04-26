@@ -69,7 +69,7 @@ public class ServletUsuarioCrear extends HttpServlet {
             this.userFacade.edit(nuevoUsuario);
         }
         
-        response.sendRedirect("ServletUsuarioListar");
+        response.sendRedirect("ServletAdminUsuarioCargar");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
