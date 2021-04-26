@@ -1,17 +1,17 @@
 <%-- 
-    Document   : adminEventos
-    Created on : 23-abr-2021, 20:00:28
-    Author     : Kiko BM
+    Document   : adminUsuarios
+    Created on : Apr 26, 2021, 11:21:42 AM
+    Author     : pacoa
 --%>
 
-<%@page import="eventosgowebapp.entity.Evento"%>
-<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="eventosgowebapp.entity.Usuario"%>
+<%@page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Administrador Eventos</title>
+        <title>Administrador Usuarios</title>
         
         <!--        Boostrap -->
         
@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         
         <%
-            List<Evento> listaEventos = (List) request.getAttribute("listaEventos");
+            List<Usuario> listaUsuarios = (List) request.getAttribute("listaUsuarios");
             %>
     </head>
     <body>
@@ -42,7 +42,7 @@
                     <a class="nav-link" href="ServletEventosCargar">Eventos</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" href="ServletAdminUsuarioCargar">Usuarios</a>
+                      <a class="nav-link" href="#">Usuarios</a>
 <!--             Deshabilitar enlaces del navbar       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
                   </li>
                  
@@ -56,31 +56,36 @@
          <!-- Sección con la tabla de los estudios -->
         <section class="container rounded shadow-sm w3-padding">
             <header class="container">
-                <h1 class="display-1">Lista de eventos</h1>
+                <h1 class="display-1">Lista de usuarios</h1>
+                <form class="d-flex">
+                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
+                 </form>
             </header>
             <article>
-                <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de eventos">
+                <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de usuarios">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Fecha</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Rol</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%
                         int i; 
-                        for(i = 0; i<listaEventos.size();i++) {
+                        for(i = 0; i<listaUsuarios.size();i++) {
                         %>
                           
                             <tr>
                                      
                                     <th scope="row"><%= (i+1) %></th>
-                                    <td> <a href="ServletEstudioCargar"> <%= listaEventos.get(i).getTitulo() %> </a></td>
-                                    <td><a href="ServletEstudioCargar"> <%= listaEventos.get(i).getFechaEvento()%> </a></td>
-                                     
+                                    <td><a href = "ServletAdminCrudUsuario?id=<%=listaUsuarios.get(i).getId()%>"><%= listaUsuarios.get(i).getNombre() %></a></td>
+                                    <td><%= listaUsuarios.get(i).getCorreo()%></td>
+                                    <td><%= listaUsuarios.get(i).getRol()%></td>
                             </tr>
-                        
+                       
                         <%
                         }
                         for(int j=10;j>i;j--) {
@@ -121,3 +126,4 @@
         
     </body>
 </html>
+
