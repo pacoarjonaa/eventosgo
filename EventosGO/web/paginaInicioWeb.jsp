@@ -40,8 +40,13 @@
                       <a class="nav-link" href="ServletAdminUsuarioCargar">Usuarios</a>
 <!--             Deshabilitar enlaces del navbar       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
                   </li>
+                  
                  
                 </ul>
+                  <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                      <input type="search" class="form-control form-control-dark" placeholder="Search...">
+                  </form>
+                  
                   <button class="btn btn-outline-light m-4" type="buttom">Iniciar Sesion</button>
                   <button class="btn btn-outline-light" type="buttom">Registrarse</button>
                  
@@ -49,5 +54,15 @@
             </div>
         </nav>
         <!-- END Navbar de paginación de los estudios -->
+        
+        
+        <div class="card" style="width: 18rem;">
+            <img src="Imagenes/eventoEjemplo1.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                  <h5 class="card-title">Titulo Evento</h5>
+                   <p class="card-text">Aqui iria una breve descripcion del evento en cuestion</p>
+                    <a href="#" class="btn btn-primary">Ir al evento</a>
+             </div>
+        </div>
     </body>
 </html>

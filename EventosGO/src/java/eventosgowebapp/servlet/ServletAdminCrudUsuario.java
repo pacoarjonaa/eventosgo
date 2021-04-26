@@ -5,13 +5,19 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.UsuarioFacade;
+import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,21 +35,30 @@ public class ServletAdminCrudUsuario extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    @EJB
+    private UsuarioFacade usuarioFacade;
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletAdminCrudUsuario</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletAdminCrudUsuario at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+      
+        // Como lo ha seleccionado de los usuarios que hay, es imposible que sea un Usuario null
+        
+        String Id = request.getParameter("id");
+        Usuario usuario = null;
+        List<Usuario> lista =  usuarioFacade.findAll();
+        
+        for(Usuario cont : lista){  
+            if(cont.getId().toString().equals(Id)){
+                usuario = cont;     
+            }
         }
+        
+        request.setAttribute("usuario", usuario);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("adminCrudUsuario.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

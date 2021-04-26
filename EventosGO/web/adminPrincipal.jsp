@@ -44,6 +44,11 @@
                   </li>
                  
                 </ul>
+                
+                  <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                      <input type="search" class="form-control form-control-dark" placeholder="Search...">
+                  </form>
+                  
                   <button class="btn btn-outline-light m-4" type="buttom">Perfil</button>
                   <button class="btn btn-outline-light" type="buttom">Cerrar Sesion</button>
                  
