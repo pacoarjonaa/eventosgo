@@ -31,13 +31,13 @@
               <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                    <a class="nav-link" aria-current="page" href="#">Categorias</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="ServletEventosCargar">Eventos</a>
+                    <a class="nav-link" href="#">Contacto</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" href="ServletAdminUsuarioCargar">Usuarios</a>
+                      <a class="nav-link" href=""">Quienes somos</a>
 <!--             Deshabilitar enlaces del navbar       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
                   </li>
                   

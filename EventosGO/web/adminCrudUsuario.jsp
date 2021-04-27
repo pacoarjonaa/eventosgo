@@ -62,9 +62,35 @@
         <!-- END Navbar de paginación de los estudios -->
         
          <!-- Aqui ya mostrariamos todos los datos del usuario seleccionado, donde tambien podremos modificarlos o borrarlos -->
-        <div>   
-           <td><%= usuario.getCorreo()%></td>
-        </div>
+        
+         
+            <div class="card-body">
+                <blockquote class="blockquote">
+                 <p>Perfil del usuario</p>
+                 </blockquote>
+                 <figcaption class="blockquote-footer">
+                     Aqui podra editar la información que desee acerca del usuario
+                 </figcaption>
+                   
+            </div>
+         
+         
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+               Datos
+            </div>
+            <ul class="list-group list-group-flush">
+           <li class="list-group-item"><%= usuario.getNombre() %></li>
+           <li class="list-group-item"><%= usuario.getCorreo() %></li>
+           <li class="list-group-item"><%= usuario.getContrasena() %></li>
+             </ul>
+       </div>
+             
+             <div>
+                 <a href="#" class="btn btn-primary">Modificar</a>
+                 <a href="#" class="btn btn-primary">Eliminar</a>
+             </div>
+       
      
         
     </body>
