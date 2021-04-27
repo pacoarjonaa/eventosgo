@@ -40,23 +40,16 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByRol", query = "SELECT u FROM Usuario u WHERE u.rol = :rol")})
 public class Usuario implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Basic (optional = false)
     @Column(name = "CORREO")
     private String correo;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
+    @Basic (optional = false)
     @Column(name = "CONTRASENA")
     private String contrasena;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Basic (optional = false)
     @Column(name = "NOMBRE")
     private String nombre;
-    @Basic(optional = false)
-    @NotNull
+    @Basic (optional = false)
     @Column(name = "ROL")
     private int rol;
 
@@ -170,13 +163,6 @@ public class Usuario implements Serializable {
         return "eventosgowebapp.entity.Usuario[ id=" + id + " ]";
     }
 
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
 
     public String getContrasena() {
         return contrasena;
@@ -200,6 +186,14 @@ public class Usuario implements Serializable {
 
     public void setRol(int rol) {
         this.rol = rol;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
     
 }
