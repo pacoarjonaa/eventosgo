@@ -18,6 +18,9 @@
 
         <!--        W3 CSS -->
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="CSS/paginaInicioWeb.css" media="screen" />
 
     </head>
     <body>
@@ -40,8 +43,6 @@
                             <a class="nav-link" href=""">Quienes somos</a>
                             <!--             Deshabilitar enlaces del navbar       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
                         </li>
-
-
                     </ul>
                     <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                         <input type="search" class="form-control form-control-dark" placeholder="Search...">
@@ -58,7 +59,36 @@
             </div>
         </nav>
         <!-- END Navbar de paginación de los estudios -->
-
+        
+        
+        <!-- SLIDES -->
+ <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+        <img src="Imagenes/ejemplo2.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="Imagenes/ejemplo2.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="Imagenes/ejemplo2.jpg" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+        <!-- END SLIDES -->
 
         <div class="card" style="width: 18rem;">
             <img src="Imagenes/eventoEjemplo1.jpg" class="card-img-top" alt="...">
@@ -68,5 +98,7 @@
                 <a href="#" class="btn btn-primary">Ir al evento</a>
             </div>
         </div>
+           
+           
     </body>
 </html>
