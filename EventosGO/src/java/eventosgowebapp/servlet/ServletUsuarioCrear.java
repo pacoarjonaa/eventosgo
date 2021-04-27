@@ -39,7 +39,7 @@ public class ServletUsuarioCrear extends HttpServlet {
             throws ServletException, IOException {
         
         String id, correo, password, nombre, sexo, ciudad;
-        Integer edad, rol;
+        Integer edad, rol=3;
         Usuario nuevoUsuario;
         
         id = request.getParameter("id");
@@ -52,8 +52,7 @@ public class ServletUsuarioCrear extends HttpServlet {
         
         if (id == null || id.isEmpty()){
             nuevoUsuario = new Usuario();       // Crea un usuario nuevo
-            nuevoUsuario.setRol(3);
-            nuevoUsuario.setId(this.userFacade.count()+1);
+            nuevoUsuario.setRol(rol);
         } else{
             nuevoUsuario = this.userFacade.find(new Integer(id));      // Editar el cliente seleccionado
         }
