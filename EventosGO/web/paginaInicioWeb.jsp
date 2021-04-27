@@ -47,8 +47,8 @@
                       <input type="search" class="form-control form-control-dark" placeholder="Search...">
                   </form>
                   
-                  <button class="btn btn-outline-light m-4" type="buttom">Iniciar Sesion</button>
-                  <button class="btn btn-outline-light" type="buttom">Registrarse</button>
+                    <a href="inicioSesion.jsp"><button class="btn btn-outline-light m-4" type="buttom">Iniciar Sesion</button>
+                    <a href="registroUsuario.jsp"><button class="btn btn-outline-light" type="buttom">Registrarse</button>
                  
               </div>
             </div>

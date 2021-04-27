@@ -25,7 +25,7 @@
 
     <body>     
         <h1>Datos del usuario</h1>
-        <form action="ServletUsuarioCrear">
+        <form method='POST' action="ServletUsuarioCrear">
             <table>
                 <input type="hidden" name="id" value=""/>
                 <tr>
