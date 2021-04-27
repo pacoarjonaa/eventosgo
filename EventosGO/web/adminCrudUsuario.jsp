@@ -87,8 +87,8 @@
        </div>
              
              <div>
-                 <a href="#" class="btn btn-primary">Modificar</a>
-                 <a href="#" class="btn btn-primary">Eliminar</a>
+                 <a href="ServletAdminCrudUsuarioModificar.java?id=<%=usuario%>" class="btn btn-primary">Modificar</a>
+                 <a href="ServletAdminCrudUsuarioBorrar.java?id=<%=usuario%>" class="btn btn-primary">Eliminar</a>
              </div>
        
      
