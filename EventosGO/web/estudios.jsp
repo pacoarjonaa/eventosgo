@@ -23,6 +23,7 @@
         
         <%
             List<Estudio> estudios = (List) request.getAttribute("listaEstudios");
+            int pagina = (Integer) request.getAttribute("pagina");
         %>
     </head>
     <body>
@@ -37,7 +38,7 @@
               <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                    <a class="nav-link" aria-current="page" href="paginaInicioWeb.jsp">Inicio</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#">Eventos</a>
@@ -80,45 +81,85 @@
                     </thead>
                     <tbody>
                         <%
-                        int i; 
-                        for(i = 0; i<estudios.size();i++) {
+                            int i;
+                            for (i = (pagina - 1) * 10; i < estudios.size(); i++) {
                         %>
-                            <tr>
-                                <th scope="row"><%= (i+1) %></th>
-                                <td><%= estudios.get(i).getTitulo() %></td>
-                                <td><%= estudios.get(i).getResultado() %></td>
-                            </tr>
+                        <tr>
+                            <th scope="row"><%= (i + 1)%></th>
+                            <td><%= estudios.get(i).getTitulo()%></td>
+                            <td><%= estudios.get(i).getResultado()%></td>
+                        </tr>
                         <%
-                        }
-                        for(int j=10;j>i;j--) {
-                            %>
-                            <tr>
-                                <th scope="row"><%= (12-j) %></th>
-                                <td>*</td>
-                                <td>*</td>
-                            </tr>
-                            <%
-                        }
+                            }
+                            for (int j = 10; j > i; j--) {
+                        %>
+                        <tr>
+                            <th scope="row"><%= (12 - j)%></th>
+                            <td>*</td>
+                            <td>*</td>
+                        </tr>
+                        <%
+                            }
                         %>
                     </tbody>
                 </table>
             </article>
+                    
             <!-- Navbar de paginación de los estudios-->
             <nav aria-label="Paginación de estudios">
                 <ul class="pagination justify-content-center">
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
+                    <%
+                        int totalPaginas = (Integer) (estudios.size() / 10) + 1;
+                        if (pagina > totalPaginas) {
+                    %>
+                    <li class="page-item">
+                        
+                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina-1 %>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <%                        
+                        }
+                    %>
+                    <%                        
+                        if (pagina > 1) {
+                    %>
+
+                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina-1 %>"><%= pagina-1 %></a></li>
+                        <%    
+                            }
+                            if (pagina == totalPaginas && totalPaginas > 2) {
+                        %>
+                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina-2 %>"><%= pagina-2 %></a></li>
+                        <%
+                            }
+                        %>
+
+                    <li class="page-item"><a class="page-link active" href="ServletEstudioCargar?paginaActual=<%= pagina %>"><%= pagina %></a></li>
+                        <%
+                            if (pagina < totalPaginas) {
+                        %>
+                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina+1 %>"><%= pagina+1 %></a></li>
+                        <%                        
+                            if (pagina == 1 && totalPaginas > 2) {
+                        %>
+                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina+2 %>"><%= pagina+2 %></a></li>
+                        <%
+                                }
+                            }
+                        %>
+                        <%                            
+                            if (pagina < totalPaginas) {
+                        %>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <%
+                        }
+                    %>
+
                 </ul>
             </nav>
             <!-- END Navbar de paginación de los estudios-->

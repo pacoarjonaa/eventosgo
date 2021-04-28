@@ -41,8 +41,14 @@ public class ServletEstudioCargar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int pagina = 1;
+        if(request.getParameter("paginaActual") != null) {
+            pagina = Integer.parseInt(request.getParameter("paginaActual"));
+        }
+        
         Usuario u = usuarioFacade.find(1);
         request.setAttribute("listaEstudios", u.getEstudioList());
+        request.setAttribute("pagina", pagina);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("estudios.jsp");
         requestDispatcher.forward(request, response);
     }
