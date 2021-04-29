@@ -46,45 +46,36 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Evento.findByAforo", query = "SELECT e FROM Evento e WHERE e.aforo = :aforo")})
 public class Evento implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "TITULO")
+    private String titulo;
+    @Basic(optional = false)
+    @Lob()
+    @Column(name = "DESCRIPCION")
+    private String descripcion;
+    @Basic(optional = false)
+    @Column(name = "FECHA_EVENTO")
+    @Temporal(TemporalType.DATE)
+    private Date fechaEvento;
+    @Basic(optional = false)
+    @Column(name = "FECHA_FIN_RESERVAS")
+    @Temporal(TemporalType.DATE)
+    private Date fechaFinReservas;
+    @Basic(optional = false)
+    @Column(name = "COSTE")
+    private double coste;
+    @Basic(optional = false)
+    @Column(name = "MAXIMO_ENTRADAS_USUARIO")
+    private int maximoEntradasUsuario;
+    @Basic(optional = false)
+    @Column(name = "AFORO")
+    private int aforo;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "TITULO")
-    private String titulo;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Size(min = 1, max = 32700)
-    @Column(name = "DESCRIPCION")
-    private String descripcion;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "FECHA_EVENTO")
-    @Temporal(TemporalType.DATE)
-    private Date fechaEvento;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "FECHA_FIN_RESERVAS")
-    @Temporal(TemporalType.DATE)
-    private Date fechaFinReservas;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "COSTE")
-    private double coste;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "MAXIMO_ENTRADAS_USUARIO")
-    private int maximoEntradasUsuario;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "AFORO")
-    private int aforo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvento")
     private List<EventoEtiqueta> eventoEtiquetaList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "evento")
@@ -118,21 +109,6 @@ public class Evento implements Serializable {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
 
     public Date getFechaEvento() {
         return fechaEvento;
@@ -150,13 +126,6 @@ public class Evento implements Serializable {
         this.fechaFinReservas = fechaFinReservas;
     }
 
-    public double getCoste() {
-        return coste;
-    }
-
-    public void setCoste(double coste) {
-        this.coste = coste;
-    }
 
     public int getMaximoEntradasUsuario() {
         return maximoEntradasUsuario;
@@ -166,13 +135,6 @@ public class Evento implements Serializable {
         this.maximoEntradasUsuario = maximoEntradasUsuario;
     }
 
-    public int getAforo() {
-        return aforo;
-    }
-
-    public void setAforo(int aforo) {
-        this.aforo = aforo;
-    }
 
     @XmlTransient
     public List<EventoEtiqueta> getEventoEtiquetaList() {
@@ -223,6 +185,38 @@ public class Evento implements Serializable {
     @Override
     public String toString() {
         return "eventosgowebapp.entity.Evento[ id=" + id + " ]";
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public double getCoste() {
+        return coste;
+    }
+
+    public void setCoste(double coste) {
+        this.coste = coste;
+    }
+
+    public int getAforo() {
+        return aforo;
+    }
+
+    public void setAforo(int aforo) {
+        this.aforo = aforo;
     }
     
 }

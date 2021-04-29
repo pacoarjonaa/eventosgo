@@ -40,24 +40,25 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByRol", query = "SELECT u FROM Usuario u WHERE u.rol = :rol")})
 public class Usuario implements Serializable {
 
+    @Basic (optional = false)
+    @Column(name = "CORREO")
+    private String correo;
+    @Basic (optional = false)
+    @Column(name = "CONTRASENA")
+    private String contrasena;
+    @Basic (optional = false)
+    @Column(name = "NOMBRE")
+    private String nombre;
+    @Basic (optional = false)
+    @Column(name = "ROL")
+    private int rol;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Basic(optional = false)
-    @Column(name = "CORREO",length=50,nullable=false)
-    private String correo;
-    @Basic(optional = false)
-    @Column(name = "CONTRASENA",length=30,nullable=false)
-    private String contrasena;
-    @Basic(optional = false)
-    @Column(name = "NOMBRE",length=50,nullable=false)
-    private String nombre;
-    @Basic(optional = false)
-    @Column(name = "ROL",nullable = false)
-    private int rol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Conversacion> conversacionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTeleoperador")
@@ -92,37 +93,6 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getRol() {
-        return rol;
-    }
-
-    public void setRol(int rol) {
-        this.rol = rol;
-    }
 
     @XmlTransient
     public List<Conversacion> getConversacionList() {
@@ -191,6 +161,39 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "eventosgowebapp.entity.Usuario[ id=" + id + " ]";
+    }
+
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getRol() {
+        return rol;
+    }
+
+    public void setRol(int rol) {
+        this.rol = rol;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
     
 }

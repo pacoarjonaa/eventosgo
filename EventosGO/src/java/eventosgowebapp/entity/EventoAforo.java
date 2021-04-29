@@ -32,12 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "EventoAforo.findByAsientos", query = "SELECT e FROM EventoAforo e WHERE e.asientos = :asientos")})
 public class EventoAforo implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "FILAS")
@@ -46,6 +40,13 @@ public class EventoAforo implements Serializable {
     @NotNull
     @Column(name = "ASIENTOS")
     private int asientos;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID")
+    private Integer id;
     @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Evento evento;
@@ -71,21 +72,6 @@ public class EventoAforo implements Serializable {
         this.id = id;
     }
 
-    public int getFilas() {
-        return filas;
-    }
-
-    public void setFilas(int filas) {
-        this.filas = filas;
-    }
-
-    public int getAsientos() {
-        return asientos;
-    }
-
-    public void setAsientos(int asientos) {
-        this.asientos = asientos;
-    }
 
     public Evento getEvento() {
         return evento;
@@ -118,6 +104,22 @@ public class EventoAforo implements Serializable {
     @Override
     public String toString() {
         return "eventosgowebapp.entity.EventoAforo[ id=" + id + " ]";
+    }
+
+    public int getFilas() {
+        return filas;
+    }
+
+    public void setFilas(int filas) {
+        this.filas = filas;
+    }
+
+    public int getAsientos() {
+        return asientos;
+    }
+
+    public void setAsientos(int asientos) {
+        this.asientos = asientos;
     }
     
 }

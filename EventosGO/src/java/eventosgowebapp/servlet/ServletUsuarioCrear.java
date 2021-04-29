@@ -39,19 +39,20 @@ public class ServletUsuarioCrear extends HttpServlet {
             throws ServletException, IOException {
         
         String id, correo, password, nombre, sexo, ciudad;
-        Integer edad, rol;
+        Integer edad, rol=3;
         Usuario nuevoUsuario;
         
         id = request.getParameter("id");
         correo = request.getParameter("correo");
         password = request.getParameter("pass1");
         nombre = request.getParameter("nombre");
-        sexo = request.getParameter("sexo");
-        ciudad = request.getParameter("cuidad");
+        sexo = request.getParameter("Sexo");
+        ciudad = request.getParameter("ciudad");
         edad = new Integer(request.getParameter("edad"));
         
         if (id == null || id.isEmpty()){
             nuevoUsuario = new Usuario();       // Crea un usuario nuevo
+            nuevoUsuario.setRol(rol);
         } else{
             nuevoUsuario = this.userFacade.find(new Integer(id));      // Editar el cliente seleccionado
         }
@@ -59,6 +60,7 @@ public class ServletUsuarioCrear extends HttpServlet {
         nuevoUsuario.setNombre(nombre);
         nuevoUsuario.setCorreo(correo);
         nuevoUsuario.setContrasena(password);
+    
         // nuevoUsuario.setSexo(sexo);
         // nuevoUsuario.setCiudad(ciudad)
         // nuevoUsuario.setEdad(edad);

@@ -90,6 +90,9 @@
 </div>
         <!-- END SLIDES -->
 
+        <!-- href tiene que ir a ServletEditarCrearEvento -->
+        <a href="crearEvento.jsp"><button type="button" class="btn btn-outline-dark">Crear Evento</button>
+            
         <div class="card" style="width: 18rem;">
             <img src="Imagenes/eventoEjemplo1.jpg" class="card-img-top" alt="...">
             <div class="card-body">

@@ -36,17 +36,16 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Etiqueta.findByNombre", query = "SELECT e FROM Etiqueta e WHERE e.nombre = :nombre")})
 public class Etiqueta implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "NOMBRE")
+    private String nombre;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "NOMBRE")
-    private String nombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEtiqueta")
     private List<EventoEtiqueta> eventoEtiquetaList;
 
@@ -70,13 +69,6 @@ public class Etiqueta implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     @XmlTransient
     public List<EventoEtiqueta> getEventoEtiquetaList() {
@@ -110,6 +102,14 @@ public class Etiqueta implements Serializable {
     @Override
     public String toString() {
         return "eventosgowebapp.entity.Etiqueta[ id=" + id + " ]";
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
     
 }
