@@ -47,36 +47,27 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Evento implements Serializable {
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "TITULO")
     private String titulo;
     @Basic(optional = false)
-    @NotNull()
     @Lob()
-    @Size(min = 1, max = 32700)
     @Column(name = "DESCRIPCION")
     private String descripcion;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "FECHA_EVENTO")
     @Temporal(TemporalType.DATE)
     private Date fechaEvento;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "FECHA_FIN_RESERVAS")
     @Temporal(TemporalType.DATE)
     private Date fechaFinReservas;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "COSTE")
     private double coste;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "MAXIMO_ENTRADAS_USUARIO")
     private int maximoEntradasUsuario;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "AFORO")
     private int aforo;
     private static final long serialVersionUID = 1L;

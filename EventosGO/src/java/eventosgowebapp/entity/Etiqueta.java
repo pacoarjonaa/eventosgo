@@ -37,8 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Etiqueta implements Serializable {
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "NOMBRE")
     private String nombre;
 

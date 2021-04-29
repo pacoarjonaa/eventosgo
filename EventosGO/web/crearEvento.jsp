@@ -1,16 +1,15 @@
 <%-- 
-    Document   : registroUsuario
-    Created on : 26-abr-2021, 11:17:48
-    Author     : alumno
+    Document   : crearEvento
+    Created on : Apr 28, 2021, 6:54:40 PM
+    Author     : x Cristhian x
 --%>
-
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registro Usuario</title>
+        <title>Nuevo Evento</title>
         
         <!--        Boostrap -->
         
@@ -20,51 +19,48 @@
         <!--        W3 CSS -->
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         
-        
     </head>
-
+    <% 
+            String strError = (String) request.getAttribute("error");
+            if(strError == null) strError ="";
+    %>
     <body>     
-        <h1>Datos del usuario</h1>
-        <form method='POST' action="ServletUsuarioCrear">
+        <h1>Datos del evento</h1>
+        <form method='POST' action="ServletEventoCrear">
+            <%= strError %><br/>
             <table>
                 <input type="hidden" name="id" value=""/>
                 <tr>
-                    <td>Nombre:</td>
-                    <td><input type="text" name="nombre"/></td>
+                    <td>T&iacute;tulo:</td>
+                    <td><input type="text" name="titulo"/></td>
                 </tr>
                 <tr>
-                    <td>Apellidos:</td>
-                    <td><input type="text" name="apellidos"/></td>
+                    <td>Descripci&oacute;n:</td>
+                    <td><input type="text" name="descripcion" size="300"/></td>
                 </tr>
                 <tr>
-                    <td>Correo:</td>
-                    <td><input type="email" name="correo"/></td>
+                    <td>Fecha del evento:</td>
+                    <td><input type="date" name="fechaEvento"/></td>
                 </tr>
                 <tr>
-                    <td>Contraseña</td>
-                    <td><input type="password" name="pass1"/></td>
+                    <td>Fecha de máxima para comprar entradas:</td>
+                    <td><input type="date" name="fechaEntradas"/></td>
                 </tr>
                 <tr>
-                    <td>Confirmar contraseña</td>
-                    <td><input type="password" name="pass2"</td>
-                </tr>
-                <tr></tr>
-                <tr>
-                    <td>Sexo:</td>
-                    <td><select name="Sexo">
-                            <option value="">
-                            <option value="hombre">Hombre</option>
-                            <option value="mujer">Mujer</option>
-                            <option value="otro">Otro</option>
-                        </select></td>
+                    <td>Coste de la entrada:</td>
+                    <td><input id="coste" type="number" name="coste" step="0.01"/>  &euro;</td>               
                 </tr>
                 <tr>
-                    <td>Ciudad de residencia:</td>
-                    <td><input type="text" name="ciudad"/></td>
+                    <td>Aforo del evento</td>
+                    <td><input type="number" name="aforo"</td>
                 </tr>
                 <tr>
-                    <td>Edad:</td>
-                    <td><input type="text" name="edad" maxlength="2" size="2"/></td>
+                    <td>N&uacute;mero m&aacute;ximo posible de entradas a adquirir por el usuario</td>
+                    <td><input type="number" name="entradas"</td>
+                </tr>
+                <tr>
+                    <td>Etiquetas:</td>
+                    <td><textarea name="etiquetas"></textarea></td>
                 </tr>
                 <tr></tr>
                 <tr>
@@ -73,6 +69,5 @@
                 
             </table>
         </form>
-         
     </body>
 </html>
