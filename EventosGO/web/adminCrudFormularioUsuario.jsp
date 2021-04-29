@@ -1,19 +1,18 @@
 <%-- 
-    Document   : adminCrudUsuario
-    Created on : Apr 26, 2021, 12:25:17 PM
+    Document   : adminCrudFormularioUsuario
+    Created on : Apr 28, 2021, 1:08:02 PM
     Author     : pacoa
 --%>
 
 <%@page import="eventosgowebapp.entity.Usuario"%>
-<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Administrador</title>
+        <title>Datos del usuario</title>
         
-        <!--        Boostrap -->
+         <!--        Boostrap -->
         
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
@@ -21,13 +20,29 @@
         <!--        W3 CSS -->
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         
-        <%
-        Usuario usuario = (Usuario)request.getAttribute("usuario");
-        %>
         
     </head>
-    <body>
-        <!-- Navbar de navegación -->
+        <%
+        Usuario usuario = (Usuario)request.getAttribute("usuario");
+        String strNombre = "", strEmail = "", strPassword = "", strId = "", strRol = "";
+        int rol = 0;
+        
+        if (usuario != null) {
+           strNombre = usuario.getNombre();
+           strEmail = usuario.getCorreo();
+           strPassword = usuario.getContrasena();
+           strId = usuario.getId().toString();
+           rol = usuario.getRol();
+           
+           if(rol > 0){
+               strRol = rol+"";
+           }
+        }
+
+    %>    
+   <body>        
+        
+       <!-- Navbar de navegación -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-5 text" style="margin-bottom: 20px">
             <div class="container-fluid">
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,48 +76,35 @@
         </nav>
         <!-- END Navbar de paginación de los estudios -->
         
-         <!-- Aqui ya mostrariamos todos los datos del usuario seleccionado, donde tambien podremos modificarlos o borrarlos -->
-        
-         
-            <div class="card-body">
-                <blockquote class="blockquote">
-                 <p>Perfil del usuario</p>
-                 </blockquote>
-                 <figcaption class="blockquote-footer">
-                     Aqui podra editar la información que desee acerca del usuario
-                 </figcaption>
-                   
-            </div>
-         
-         
-        <div class="card" style="width: 18rem;">
-            <div class="card-header">
-               Datos
-            </div>
-            <ul class="list-group list-group-flush">
-           <li class="list-group-item"><%= usuario.getNombre() %></li>
-           <li class="list-group-item"><%= usuario.getCorreo() %></li>
-           <li class="list-group-item"><%= usuario.getContrasena() %></li>
-           <li class="list-group-item"><%= usuario.getRol() %></li>
-             </ul>
-       </div>
-             
-             <div>
-                <form action="ServletAdminUsuarioCargar">
-                    <input type="submit" value="Volver"/>
-                </form>
-                 
-                <form action="ServletAdminCrudUsuarioCrearEditar">
-                    <input type ="hidden" name = "id" value = "<%=usuario.getId()%>" />
-                    <input type="submit" value="Modificar"/>
-                </form>
-                 
-                 <form method = "get" action="ServletAdminCrudUsuarioBorrar">
-                    <input type ="hidden" name = "id" value = "<%=usuario.getId()%>" />
-                    <input type="submit" value="Borrar"/>
-                </form>
-             </div>
-     
-        
+        <div>
+        <h1>Datos del usuario</h1>
+        <form action = "ServletAdminCrudUsuarioGuardar">
+            <table>
+                <input type="hidden" name="id" value="<%= strId %>" />
+                <tr>
+                    <td>Nombre:</td>
+                    <td><input type="text" name="nombre" maxlength="30" size="30" value="<%= strNombre %>" /></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="text" name="email"  maxlength="40" size="40" value="<%= strEmail %>" /></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="text" name="password" maxlength="30" size="30"  value="<%= strPassword %>"/> 
+                </tr>
+                 <tr>
+                   <td>Rol</td>
+                    <td><input type="text" name="rol"  maxlength="40" size="40" value="<%= rol %>" /></td>
+                </tr>
+                <tr>            
+                    <td colspan="2">
+                       <input type="submit" value="Guardar"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        </div>
     </body>
 </html>
+

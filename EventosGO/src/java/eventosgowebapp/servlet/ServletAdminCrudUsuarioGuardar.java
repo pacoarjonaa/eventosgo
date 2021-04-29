@@ -5,8 +5,10 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.UsuarioFacade;
+import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author pacoa
  */
-@WebServlet(name = "ServletAdminCrudUsuarioModificar", urlPatterns = {"/ServletAdminCrudUsuarioModificar"})
-public class ServletAdminCrudUsuarioModificar extends HttpServlet {
+@WebServlet(name = "ServletAdminCrudUsuarioGuardar", urlPatterns = {"/ServletAdminCrudUsuarioGuardar"})
+public class ServletAdminCrudUsuarioGuardar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,13 +31,46 @@ public class ServletAdminCrudUsuarioModificar extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    @EJB
+    private UsuarioFacade UsuarioFacade;
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        // Cojo usuario
-        // Redirecciono a formulario
-        // En formulario escribo y llamo a ServletGuardar
+        
+        // Aqui lo mismo, no hace falta autenticacion porque solo se puede una vez que ya haya iniciado sesion el admin
+        
+            String  nombre, email, password, id;
+            int rol;
+            
+            Usuario usuario;
+           
+            id =  request.getParameter("id");
+            nombre = request.getParameter("nombre");
+            email = request.getParameter("email");      
+            password = request.getParameter("password");
+            rol = Integer.parseInt(request.getParameter("rol"));
+            
+            if (id == null || id.isEmpty()) { // Crear nuevo usuario
+                usuario = new Usuario();            
+            } else { // Editar usuario existente
+                usuario = this.UsuarioFacade.find(new Integer(id));
+            }
+            usuario.setNombre(nombre);
+            usuario.setCorreo(email);
+            usuario.setContrasena(password);
+            usuario.setRol(rol);
+
+            if (id == null || id.isEmpty()) { // Crear nuevo cliente        
+                this.UsuarioFacade.create(usuario);
+            } else { // Editar cliente existente
+                this.UsuarioFacade.edit(usuario);
+            }
+
+            response.sendRedirect("ServletAdminUsuarioCargar");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

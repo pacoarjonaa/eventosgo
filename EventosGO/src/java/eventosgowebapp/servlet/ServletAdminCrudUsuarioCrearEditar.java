@@ -8,8 +8,8 @@ package eventosgowebapp.servlet;
 import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author pacoa
  */
-@WebServlet(name = "ServletAdminCrudUsuarioBorrar", urlPatterns = {"/ServletAdminCrudUsuarioBorrar"})
-public class ServletAdminCrudUsuarioBorrar extends HttpServlet {
+@WebServlet(name = "ServletAdminCrudUsuarioCrearEditar", urlPatterns = {"/ServletAdminCrudUsuarioCrearEditar"})
+public class ServletAdminCrudUsuarioCrearEditar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,18 +34,27 @@ public class ServletAdminCrudUsuarioBorrar extends HttpServlet {
      */
     
     @EJB
-    private UsuarioFacade UsuarioFacade;   
+    private UsuarioFacade UsuarioFacade;
+    
+    
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        // No hace falta que comprobemos si es admin o no, ya que estas opciones solo puede
+        // hacerlas una vez ya iniciada su sesion como admin 
        
         String strId = request.getParameter("id");
-
-        Usuario usuario = this.UsuarioFacade.find(new Integer(strId));        
-        this.UsuarioFacade.remove(usuario);
-
-        response.sendRedirect("ServletAdminUsuarioCargar"); 
+        
+        if(strId != null){    // Es editar el usuario
+            Usuario nuevoUsuario = this.UsuarioFacade.find(new Integer(strId));
+            request.setAttribute("usuario", nuevoUsuario); 
+        }
+        
+        RequestDispatcher rd = request.getRequestDispatcher("adminCrudFormularioUsuario.jsp");
+        rd.forward(request, response); 
+            
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
