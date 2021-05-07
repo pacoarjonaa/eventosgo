@@ -6,9 +6,11 @@
 package eventosgowebapp.dao;
 
 import eventosgowebapp.entity.Estudio;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,20 @@ public class EstudioFacade extends AbstractFacade<Estudio> {
 
     public EstudioFacade() {
         super(Estudio.class);
+    }
+    
+    public Estudio findByID(int id) {
+        Query q;
+        List<Estudio> res;
+        q = this.em.createQuery("SELECT e FROM ESTUDIO e WHERE e.ID = :id");
+        q.setParameter("id", id);
+        res = q.getResultList();
+
+        if (res == null || res.isEmpty()) {
+            return null;
+        } else {
+            return res.get(0);
+        }
     }
  
 }
