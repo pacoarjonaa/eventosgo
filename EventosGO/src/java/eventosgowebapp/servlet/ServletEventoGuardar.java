@@ -34,7 +34,7 @@ import javax.servlet.RequestDispatcher;
  * @author x Cristhian x
  */
 @WebServlet(name = "ServletEventoCrear", urlPatterns = {"/ServletEventoCrear"})
-public class ServletEventoCrear extends HttpServlet {
+public class ServletEventoGuardar extends HttpServlet {
 
     @EJB
     private EventoFacade eventoFacade;
@@ -93,7 +93,7 @@ public class ServletEventoCrear extends HttpServlet {
             fechaEvento = formato.parse(request.getParameter("fechaEvento"));
             fechaEntradas = formato.parse(request.getParameter("fechaEntradas"));
         } catch (ParseException ex) {
-            // Logger.getLogger(ServletEventoCrear.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletEventoGuardar.class.getName()).log(Level.SEVERE, null, ex);
             strTo = "crearEvento.jsp";
             request.setAttribute("error", "Formato de fecha no válido. Prueba con (yyyy-MM-dd)");
             RequestDispatcher rd = request.getRequestDispatcher(strTo);

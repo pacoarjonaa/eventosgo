@@ -4,6 +4,13 @@
     Author     : x Cristhian x
 --%>
 
+<%@page import="javax.ejb.EJB"%>
+<%@page import="eventosgowebapp.entity.EventoEtiqueta"%>
+<%@page import="eventosgowebapp.dao.EtiquetaFacade"%>
+<%@page import="eventosgowebapp.entity.Etiqueta"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Date"%>
+<%@page import="eventosgowebapp.entity.Evento"%>"
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,47 +27,59 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         
     </head>
-    <% 
+    <%    
             String strError = (String) request.getAttribute("error");
             if(strError == null) strError ="";
+            Evento evento = (Evento) request.getAttribute("evento");
+            String strId="", titulo ="", descripcion="", strFechaEvento="", strFechaEntradas="", strCoste="", strAforo="", strEntradasPorUsuario="";
+            List<Etiqueta> listaEtiquetas = (List<Etiqueta>)request.getAttribute("listaEtiquetas");
+            if(evento!=null){
+                strId = evento.getId().toString();
+                titulo = evento.getTitulo();
+                descripcion = evento.getDescripcion();
+                strFechaEvento = evento.getFechaEvento().toString();
+                strFechaEntradas = evento.getFechaFinReservas().toString();
+                strCoste = Double.toString(evento.getCoste());
+                strEntradasPorUsuario = Integer.toString(evento.getMaximoEntradasUsuario());
+            }
     %>
     <body>     
         <h1>Datos del evento</h1>
         <form method='POST' action="ServletEventoCrear">
             <%= strError %><br/>
             <table>
-                <input type="hidden" name="id" value=""/>
+                <input type="hidden" name="id" value="<%= strId %>/>
                 <tr>
                     <td>T&iacute;tulo:</td>
-                    <td><input type="text" name="titulo"/></td>
+                    <td><input type="text" name="titulo" value="<%= titulo %>/></td>
                 </tr>
                 <tr>
                     <td>Descripci&oacute;n:</td>
-                    <td><input type="text" name="descripcion" size="300"/></td>
+                    <td><input type="text" name="descripcion" size="300" value="<%= descripcion %>"/></td>
                 </tr>
                 <tr>
                     <td>Fecha del evento:</td>
-                    <td><input type="date" name="fechaEvento"/></td>
+                    <td><input type="date" name="fechaEvento" value="<%= strFechaEvento %>"/></td>
                 </tr>
                 <tr>
                     <td>Fecha de máxima para comprar entradas:</td>
-                    <td><input type="date" name="fechaEntradas"/></td>
+                    <td><input type="date" name="fechaEntradas" value="<%= strFechaEntradas %>"/></td>
                 </tr>
                 <tr>
                     <td>Coste de la entrada:</td>
-                    <td><input id="coste" type="number" name="coste" step="0.01"/>  &euro;</td>               
+                    <td><input id="coste" type="number" name="coste" step="0.01" value="<%= strCoste %>"/>  &euro;</td>               
                 </tr>
                 <tr>
                     <td>Aforo del evento</td>
-                    <td><input type="number" name="aforo"</td>
+                    <td><input type="number" name="aforo" value="<%= strAforo %>"/></td>
                 </tr>
                 <tr>
                     <td>N&uacute;mero m&aacute;ximo posible de entradas a adquirir por el usuario</td>
-                    <td><input type="number" name="entradas"</td>
+                    <td><input type="number" name="entradas" value="<%= strEntradasPorUsuario %>"/></td>
                 </tr>
                 <tr>
                     <td>Etiquetas:</td>
-                    <td><textarea name="etiquetas"></textarea></td>
+                    <td><textarea name="etiquetas"  value="<%= listaEtiquetas %>"></textarea></td>
                 </tr>
                 <tr></tr>
                 <tr>
