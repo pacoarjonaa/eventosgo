@@ -5,26 +5,36 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EtiquetaFacade;
+import eventosgowebapp.dao.EventoFacade;
+import eventosgowebapp.entity.Etiqueta;
+import eventosgowebapp.entity.Evento;
+import eventosgowebapp.entity.EventoEtiqueta;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import eventosgowebapp.dao.UsuarioFacade;
-import eventosgowebapp.entity.Usuario;
-import javax.ejb.EJB;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author x Cristhian x
  */
-@WebServlet(name = "ServletUsuarioCrear", urlPatterns = {"/ServletUsuarioCrear"})
-public class ServletUsuarioCrear extends HttpServlet {
+@WebServlet(name = "ServletEventoCrearEditar", urlPatterns = {"/ServletEventoCrearEditar"})
+public class ServletEventoCrearEditar extends HttpServlet {
     
     @EJB
-    private UsuarioFacade userFacade;
+    private EventoFacade eventoFacade;
+    
+    @EJB
+    private EtiquetaFacade etiquetaFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,41 +47,26 @@ public class ServletUsuarioCrear extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String id, correo, password, nombre, sexo, ciudad;
-        Integer edad, rol=4;
-        Usuario nuevoUsuario;
-        
-        id = request.getParameter("id");
-        correo = request.getParameter("correo");
-        password = request.getParameter("pass1");
-        nombre = request.getParameter("nombre");
-        sexo = request.getParameter("Sexo");
-        ciudad = request.getParameter("ciudad");
-        edad = new Integer(request.getParameter("edad"));
-        
-        if (id == null || id.isEmpty()){
-            nuevoUsuario = new Usuario();       // Crea un usuario nuevo
-            nuevoUsuario.setRol(rol);
-        } else{
-            nuevoUsuario = this.userFacade.find(new Integer(id));      // Editar el cliente seleccionado
-        }
-        
-        nuevoUsuario.setNombre(nombre);
-        nuevoUsuario.setCorreo(correo);
-        nuevoUsuario.setContrasena(password);
+        response.setContentType("text/html;charset=UTF-8");
     
-        // nuevoUsuario.setSexo(sexo);
-        // nuevoUsuario.setCiudad(ciudad)
-        // nuevoUsuario.setEdad(edad);
+        String strTo = "crearEvento.jsp";                    
+        String strId = request.getParameter("id");
+         List<Etiqueta> listEtiquetas = new ArrayList<>();
+
+        if (strId != null) { // Es editar evento
+  
+            Evento evento = this.eventoFacade.find(new Integer(strId));
+            request.setAttribute("evento", evento);       
+           
+            for(EventoEtiqueta evet : evento.getEventoEtiquetaList()){
+                listEtiquetas.add(this.etiquetaFacade.find(evet.getIdEtiqueta()));
+            }
+            request.setAttribute("listaEtiquetas", listEtiquetas);
+        } 
         
-        if(id==null || id.isEmpty()){
-            this.userFacade.create(nuevoUsuario);
-        } else{
-            this.userFacade.edit(nuevoUsuario);
-        }
+        RequestDispatcher rd = request.getRequestDispatcher(strTo);
+        rd.forward(request, response);  
         
-        response.sendRedirect("ServletAdminUsuarioCargar");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
