@@ -48,10 +48,10 @@
         <form method='POST' action="ServletEventoCrear">
             <%= strError %><br/>
             <table>
-                <input type="hidden" name="id" value="<%= strId %>/>
+                <input type="hidden" name="id" value="<%= strId %>"/>
                 <tr>
                     <td>T&iacute;tulo:</td>
-                    <td><input type="text" name="titulo" value="<%= titulo %>/></td>
+                    <td><input type="text" name="titulo" value="<%= titulo %>"/></td>
                 </tr>
                 <tr>
                     <td>Descripci&oacute;n:</td>
