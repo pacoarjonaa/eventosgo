@@ -103,7 +103,7 @@ public class ServletEventoGuardar extends HttpServlet {
         if (id == null || id.isEmpty()){
             nuevoEvento = new Evento();                 // Nuevo evento
         } else{
-            nuevoEvento = this.eventoFacade.find(id);  // Editar evento existente
+            nuevoEvento = this.eventoFacade.find(new Integer(id));  // Editar evento existente
         }
        
         nuevoEvento.setTitulo(titulo);
