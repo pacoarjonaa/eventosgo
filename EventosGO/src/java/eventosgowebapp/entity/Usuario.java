@@ -238,10 +238,6 @@ public class Usuario implements Serializable {
         this.correo = correo;
     }
 
-    @XmlTransient
-    public List<Evento> getEventoList() {
-        return eventoCollection;
-    }
 
     public void setEventoCollection(List<Evento> eventoCollection) {
         this.eventoCollection = eventoCollection;
