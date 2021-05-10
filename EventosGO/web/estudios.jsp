@@ -74,6 +74,18 @@
                         <%
                             }
                         %>
+                        <%
+                            if (rol == 0) {
+                        %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Lista Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Lista Eventos</a>
+                        </li>
+                        <%
+                            }
+                        %>
                     </ul>
                     <%
                         if (rol < 0) {
@@ -92,7 +104,7 @@
                 </div>
             </div>
         </nav>
-        <!-- END Navbar de paginación de los estudios -->
+        <!-- END Navbar -->
 
         <!-- Sección con la tabla de los estudios -->
         <section class="container rounded shadow-sm w3-padding">
