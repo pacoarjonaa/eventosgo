@@ -74,6 +74,7 @@ create table ETIQUETA
 	MAXIMO_ENTRADAS_USUARIO se tendrá que tener en cuenta que se pueden únicamente compar
 		como máximo este número de entradas por usuario
 	AFORO es un entero que según su valor nos dirá si tiene aforo: NO (0) y SI (1)
+	CREADOR es una foreign key de USUARIO de rol tipo 1
 */
 create table EVENTO
 (
@@ -85,6 +86,7 @@ create table EVENTO
 	COSTE DOUBLE not null,
 	MAXIMO_ENTRADAS_USUARIO INTEGER not null,
 	AFORO INTEGER not null,
+	ID_CREADOR INTEGER not null,
 	primary key (ID)
 );
 
@@ -202,3 +204,6 @@ alter table MENSAJE
 
 alter table MENSAJE
 	add foreign key (ID_USUARIO) references USUARIO;
+
+alter table EVENTO
+	add foreign key (ID_CREADOR) references USUARIO;

@@ -66,8 +66,7 @@ public class ServletInicioSesion extends HttpServlet {
                     break;
                     
                 case 1:         // Creador
-                    rd = request.getRequestDispatcher("ServletCreadorPrincipal?id="+user.getId());
-                    rd.forward(request, response);
+                    response.sendRedirect("ServletCreadorPrincipal");
                     break;
                 
                 case 2:         // Teleoperador

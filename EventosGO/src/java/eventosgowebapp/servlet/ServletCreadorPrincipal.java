@@ -41,6 +41,8 @@ public class ServletCreadorPrincipal extends HttpServlet {
         Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
         
         
+        
+        
         RequestDispatcher rd = request.getRequestDispatcher("CreadorInicio.jsp");
         rd.forward(request, response);
         
