@@ -109,7 +109,7 @@ public class Entrada implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.Entrada[ id=" + id + " ]";
+        return "eventosgowebapp.entities.Entrada[ id=" + id + " ]";
     }
     
 }

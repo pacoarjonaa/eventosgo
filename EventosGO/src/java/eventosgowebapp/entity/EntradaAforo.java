@@ -117,7 +117,7 @@ public class EntradaAforo implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.EntradaAforo[ id=" + id + " ]";
+        return "eventosgowebapp.entities.EntradaAforo[ id=" + id + " ]";
     }
     
 }

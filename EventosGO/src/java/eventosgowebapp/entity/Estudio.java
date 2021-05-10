@@ -123,7 +123,7 @@ public class Estudio implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.Estudio[ id=" + id + " ]";
+        return "eventosgowebapp.entities.Estudio[ id=" + id + " ]";
     }
     
 }

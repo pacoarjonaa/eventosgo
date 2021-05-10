@@ -4,6 +4,7 @@
     Author     : juanm
 --%>
 
+<%@page import="eventosgowebapp.entity.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page import="eventosgowebapp.entity.Estudio"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -24,6 +25,13 @@
         <%
             List<Estudio> estudios = (List) request.getAttribute("listaEstudios");
             int pagina = (Integer) request.getAttribute("pagina");
+            int rol;
+            if (request.getSession().getAttribute("usuario") != null) {
+                rol = ((Usuario) request.getSession().getAttribute("usuario")).getRol();
+            } else {
+                rol = -1;
+            }
+
         %>
     </head>
     <body>
@@ -40,26 +48,47 @@
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="paginaInicioWeb.jsp">Inicio</a>
                         </li>
+                        <%                            if (rol == 1) {
+                        %>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Eventos</a>
+                            <a class="nav-link" href="ServletCreadorPrincipal">Mis Eventos</a>
                         </li>
+                        <%
+                            }
+                        %>
+                        <%
+                            if (rol == 3) {
+                        %>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Estudios</a>
-                            <!--             Deshabilitar enlaces del navbar       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
                         </li>
+                        <%
+                            }
+                        %>
+                        <%
+                            if (rol == 2 || rol == 4 || rol == 1) {
+                        %>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Chat</a>
                         </li>
-
-
-
+                        <%
+                            }
+                        %>
                     </ul>
+                    <%
+                        if (rol < 0) {
+                    %>
+                    <a class="btn btn-outline-light m-4" href="#" role="button">Registrarse</a>
+                    <a class="btn btn-outline-light" href="inicioSesion.jsp" role="button">Iniciar Sesi&oacute;n</a>
+                    <%
+                    } else {
+                    %>
+                    <a class="btn btn-outline-light m-4" href="#" role="button">Perfil</a>
+                    <a class="btn btn-outline-light" href="ServletCerrarSesion" role="button">Cerrar Sesi&oacute;n</a>
+                    <%
+                        }
+                    %>
 
-                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                        <input type="search" class="form-control form-control-dark" placeholder="Search...">
-                    </form>
-                    <button class="btn btn-outline-light m-4" type="buttom">Perfil</button>
-                    <button class="btn btn-outline-light" type="buttom">Cerrar Sesion</button>
                 </div>
             </div>
         </nav>
@@ -69,10 +98,10 @@
         <section class="container rounded shadow-sm w3-padding">
             <header class="container">
                 <h1 class="display-1">Estudios Estad&iacute;sticos</h1>
-                    <a class="btn" href="crearEstudio.jsp" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                        </svg></a>
+                <a class="btn" href="crearEstudio.jsp" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg></a>
             </header>
             <article>
                 <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de estudios">
