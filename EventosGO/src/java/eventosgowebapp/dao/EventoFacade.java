@@ -6,7 +6,6 @@
 package eventosgowebapp.dao;
 
 import eventosgowebapp.entity.Evento;
-import eventosgowebapp.entity.UsuarioEvento;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,7 +18,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class EventoFacade extends AbstractFacade<Evento> {
-
+    
     @PersistenceContext(unitName = "eventosgoPU")
     private EntityManager em;
 
