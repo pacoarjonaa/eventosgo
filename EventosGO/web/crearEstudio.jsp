@@ -4,6 +4,7 @@
     Author     : juanm
 --%>
 
+<%@page import="eventosgowebapp.entity.Usuario"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -21,10 +22,16 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <%
             SimpleDateFormat anio = new SimpleDateFormat("YYYY");
+            int rol;
+            if (request.getSession().getAttribute("usuario") != null) {
+                rol = ((Usuario) request.getSession().getAttribute("usuario")).getRol();
+            } else {
+                rol = -1;
+            }
         %>
     </head>
     <body>
-        
+
         <!-- Navbar de navegación -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-5 text" style="margin-bottom: 20px">
             <div class="container-fluid">
@@ -37,28 +44,63 @@
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="paginaInicioWeb.jsp">Inicio</a>
                         </li>
+                        <%                            if (rol == 1) {
+                        %>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Eventos</a>
+                            <a class="nav-link" href="ServletCreadorPrincipal">Mis Eventos</a>
                         </li>
+                        <%
+                            }
+                        %>
+                        <%
+                            if (rol == 3) {
+                        %>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Estudios</a>
-                            <!--             Deshabilitar enlaces del navbar       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
                         </li>
+                        <%
+                            }
+                        %>
+                        <%
+                            if (rol == 2 || rol == 4 || rol == 1) {
+                        %>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Chat</a>
                         </li>
-
+                        <%
+                            }
+                        %>
+                        <%
+                            if (rol == 0) {
+                        %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Lista Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Lista Eventos</a>
+                        </li>
+                        <%
+                            }
+                        %>
                     </ul>
+                    <%
+                        if (rol < 0) {
+                    %>
+                    <a class="btn btn-outline-light m-4" href="#" role="button">Registrarse</a>
+                    <a class="btn btn-outline-light" href="inicioSesion.jsp" role="button">Iniciar Sesi&oacute;n</a>
+                    <%
+                    } else {
+                    %>
+                    <a class="btn btn-outline-light m-4" href="#" role="button">Perfil</a>
+                    <a class="btn btn-outline-light" href="ServletCerrarSesion" role="button">Cerrar Sesi&oacute;n</a>
+                    <%
+                        }
+                    %>
 
-                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                        <input type="search" class="form-control form-control-dark" placeholder="Search...">
-                    </form>
-                    <button class="btn btn-outline-light m-4" type="buttom">Perfil</button>
-                    <button class="btn btn-outline-light" type="buttom">Cerrar Sesion</button>
                 </div>
             </div>
         </nav>
-        <!-- END Navbar de paginación de los estudios -->
+        <!-- END Navbar -->
 
         <!-- Formulario de crear un Estudio -->
 
@@ -113,7 +155,7 @@
                 document.getElementById(inp).value = val;
             }
         </script>
-        
+
         <!-- END Formulario de crear un Estudio -->
 
     </body>

@@ -238,7 +238,6 @@ public class Usuario implements Serializable {
         this.correo = correo;
     }
 
-
     public void setEventoCollection(List<Evento> eventoCollection) {
         this.eventoCollection = eventoCollection;
     }

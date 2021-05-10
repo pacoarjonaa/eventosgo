@@ -47,7 +47,7 @@ public class ServletEstudioCargar extends HttpServlet {
             pagina = Integer.parseInt(request.getParameter("paginaActual"));
         }
         
-        Usuario u = usuarioFacade.find(1);
+        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
         request.setAttribute("listaEstudios", u.getEstudioList());
         request.setAttribute("pagina", pagina);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("estudios.jsp");
