@@ -45,7 +45,7 @@ public class ServletCreadorPrincipal extends HttpServlet {
         
         request.setAttribute("eventos", eventos);
         
-        RequestDispatcher rd = request.getRequestDispatcher("CreadorInicio.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("creadorInicio.jsp");
         rd.forward(request, response);
         
     }
