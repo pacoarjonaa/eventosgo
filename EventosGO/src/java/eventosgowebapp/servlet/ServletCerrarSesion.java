@@ -5,31 +5,20 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EstudioFacade;
-import eventosgowebapp.dao.UsuarioFacade;
-import eventosgowebapp.entity.Estudio;
-import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author juanm
  */
-@WebServlet(name = "ServletEstudioCargar", urlPatterns = {"/ServletEstudioCargar"})
-public class ServletEstudioCargar extends HttpServlet {
-   
-    @EJB
-    private UsuarioFacade usuarioFacade;
+@WebServlet(name = "ServletCerrarSesion", urlPatterns = {"/ServletCerrarSesion"})
+public class ServletCerrarSesion extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,16 +31,7 @@ public class ServletEstudioCargar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int pagina = 1;
-        if(request.getParameter("paginaActual") != null) {
-            pagina = Integer.parseInt(request.getParameter("paginaActual"));
-        }
         
-        Usuario u = usuarioFacade.find(1);
-        request.setAttribute("listaEstudios", u.getEstudioList());
-        request.setAttribute("pagina", pagina);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("estudios.jsp");
-        requestDispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

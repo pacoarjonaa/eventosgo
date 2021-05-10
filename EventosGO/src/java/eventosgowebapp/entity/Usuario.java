@@ -73,6 +73,8 @@ public class Usuario implements Serializable {
     private UsuarioEvento usuarioEvento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAnalista")
     private List<Estudio> estudioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCreador")
+    private List<Evento> eventoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Mensaje> mensajeList;
 
@@ -167,6 +169,15 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
+    public List<Evento> getEventoList() {
+        return eventoList;
+    }
+
+    public void setEventoList(List<Evento> eventoList) {
+        this.eventoList = eventoList;
+    }
+
+    @XmlTransient
     public List<Mensaje> getMensajeList() {
         return mensajeList;
     }
@@ -197,7 +208,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.Usuario[ id=" + id + " ]";
+        return "eventosgowebapp.entities.Usuario[ id=" + id + " ]";
     }
     
 }
