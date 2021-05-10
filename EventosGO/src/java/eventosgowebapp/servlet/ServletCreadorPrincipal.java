@@ -9,7 +9,6 @@ import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,14 +16,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author pacoa
+ * @author Kiko BM
  */
-@WebServlet(name = "ServletAdminCrudUsuario", urlPatterns = {"/ServletAdminCrudUsuario"})
-public class ServletAdminCrudUsuario extends HttpServlet {
+@WebServlet(name = "ServletCreadorPrincipal", urlPatterns = {"/ServletCreadorPrincipal"})
+public class ServletCreadorPrincipal extends HttpServlet {
+
+    @EJB
+    private UsuarioFacade usuarioFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,23 +36,16 @@ public class ServletAdminCrudUsuario extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    @EJB
-    private UsuarioFacade usuarioFacade;
-    
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-      
-        // Como lo ha seleccionado de los usuarios que hay, es imposible que sea un Usuario null
+        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
         
-        String Id = request.getParameter("id");
-        Usuario usuario = this.usuarioFacade.find(new Integer(Id));
         
-        request.setAttribute("usuario", usuario);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("adminCrudUsuario.jsp");
-        requestDispatcher.forward(request, response);
+        
+        
+        RequestDispatcher rd = request.getRequestDispatcher("CreadorInicio.jsp");
+        rd.forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

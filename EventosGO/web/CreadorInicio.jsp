@@ -1,17 +1,15 @@
 <%-- 
-    Document   : adminCrudUsuario
-    Created on : Apr 26, 2021, 12:25:17 PM
-    Author     : pacoa
+    Document   : CreadorInicio
+    Created on : 10-may-2021, 17:41:50
+    Author     : Kiko BM
 --%>
 
-<%@page import="eventosgowebapp.entity.Usuario"%>
-<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Administrador</title>
+        <title>Pagina principal del creador de eventos</title>
         
         <!--        Boostrap -->
         
@@ -20,14 +18,9 @@
         
         <!--        W3 CSS -->
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        
-        <%
-        Usuario usuario = (Usuario)request.getAttribute("usuario");
-        %>
-        
     </head>
     <body>
-        <!-- Navbar de navegación -->
+                <!-- Navbar de navegación -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-5 text" style="margin-bottom: 20px">
             <div class="container-fluid">
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +30,7 @@
               <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Inicio</a>
+                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="ServletEventosCargar">Eventos</a>
@@ -46,63 +39,29 @@
                       <a class="nav-link" href="ServletAdminUsuarioCargar">Usuarios</a>
 <!--             Deshabilitar enlaces del navbar       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
                   </li>
+                  
                  
                 </ul>
-                
+              
                   <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                       <input type="search" class="form-control form-control-dark" placeholder="Search...">
                   </form>
                   
                   <button class="btn btn-outline-light m-4" type="buttom">Perfil</button>
                   <button class="btn btn-outline-light" type="buttom">Cerrar Sesion</button>
-                 
               </div>
             </div>
         </nav>
-        <!-- END Navbar de paginación de los estudios -->
+                
+                
+        <h1>Esto tiene que ser la pagina principal del creador de eventos</h1>
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="ServletFiltroEventos" method="POST">
+            <input type="search" name="filtro" class="form-control form-control-dark" placeholder="Filtrar..."><input type="submit" value="buscar" />
+        </form>
         
-         <!-- Aqui ya mostrariamos todos los datos del usuario seleccionado, donde tambien podremos modificarlos o borrarlos -->
-        
-         
-            <div class="card-body">
-                <blockquote class="blockquote">
-                 <p>Perfil del usuario</p>
-                 </blockquote>
-                 <figcaption class="blockquote-footer">
-                     Aqui podra editar la información que desee acerca del usuario
-                 </figcaption>
-                   
-            </div>
-         
-         
-        <div class="card" style="width: 18rem;">
-            <div class="card-header">
-               Datos
-            </div>
-            <ul class="list-group list-group-flush">
-           <li class="list-group-item"><%= usuario.getNombre() %></li>
-           <li class="list-group-item"><%= usuario.getCorreo() %></li>
-           <li class="list-group-item"><%= usuario.getContrasena() %></li>
-           <li class="list-group-item"><%= usuario.getRol() %></li>
-             </ul>
-       </div>
-             
-             <div>
-                <form action="ServletAdminUsuarioCargar">
-                    <input type="submit" value="Volver"/>
-                </form>
-                 
-                <form action="ServletAdminCrudUsuarioCrearEditar">
-                    <input type ="hidden" name = "id" value = "<%=usuario.getId()%>" />
-                    <input type="submit" value="Modificar"/>
-                </form>
-                 
-                 <form method = "get" action="ServletAdminCrudUsuarioBorrar">
-                    <input type ="hidden" name = "id" value = "<%=usuario.getId()%>" />
-                    <input type="submit" value="Borrar"/>
-                </form>
-             </div>
-     
+       
+        lista de eventos:<br/>
+
         
     </body>
 </html>

@@ -7,7 +7,6 @@ package eventosgowebapp.dao;
 
 import eventosgowebapp.entity.Estudio;
 import eventosgowebapp.entity.Usuario;
-import eventosgowebapp.entity.UsuarioEvento;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,6 +30,22 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
     public UsuarioFacade() {
         super(Usuario.class);
+    }
+    
+    public Usuario findByCorreo(String email){
+        Query q;
+        
+        q = em.createNamedQuery("Usuario.findByCorreo");
+        q.setParameter("correo", email);
+        List<Usuario> res = q.getResultList();
+        Usuario u;
+        
+        if(res == null || res.isEmpty()){
+            u=null;
+        } else{
+            u = res.get(0);
+        }
+        return u;
     }
     
 }

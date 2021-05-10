@@ -25,7 +25,7 @@
 
     <body>     
         <h1>Datos del usuario</h1>
-        <form action="ServletUsuarioCrear">
+        <form method='POST' action="ServletUsuarioCrear">
             <table>
                 <input type="hidden" name="id" value=""/>
                 <tr>
@@ -38,7 +38,7 @@
                 </tr>
                 <tr>
                     <td>Correo:</td>
-                    <td><input type="text" name="correo"/></td>
+                    <td><input type="email" name="correo"/></td>
                 </tr>
                 <tr>
                     <td>Contraseña</td>

@@ -69,6 +69,7 @@
                      <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                      <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
                  </form>
+                 <a href="ServletAdminCrudUsuarioCrearEditar">Nuevo usuario</a>
             </header>
             <article>
                 <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de usuarios">
@@ -91,7 +92,7 @@
                                     <th scope="row"><%= (i+1) %></th>
                                     <td><a href = "ServletAdminCrudUsuario?id=<%=listaUsuarios.get(i).getId()%>"><%= listaUsuarios.get(i).getNombre() %></a></td>
                                     <td><%= listaUsuarios.get(i).getCorreo()%></td>
-                                    <td><%= listaUsuarios.get(i).getRol()%></td>
+                                    <td><%= listaUsuarios.get(i).getRolDescripcion()%></td>
                             </tr>
                        
                         <%
@@ -109,8 +110,8 @@
                     </tbody>
                 </table>
             </article>
-            <!-- Navbar de paginación de los estudios-->
-            <nav aria-label="Paginación de eventos">
+            <!-- Navbar de paginación de los usuarios-->
+            <nav aria-label="Paginación de usuarios">
                 <ul class="pagination justify-content-center">
                   <li class="page-item">
                     <a class="page-link" href="#" aria-label="Previous">
@@ -127,9 +128,9 @@
                   </li>
                 </ul>
             </nav>
-            <!-- END Navbar de paginación de los estudios-->
+            <!-- END Navbar de paginación de los usuarios-->
         </section>
-        <!-- END Sección con la tabla de los estudios -->
+        <!-- END Sección con la tabla de los usuarios -->
         
         
     </body>

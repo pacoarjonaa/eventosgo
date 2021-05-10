@@ -5,27 +5,28 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.UsuarioFacade;
+import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import eventosgowebapp.dao.UsuarioFacade;
-import eventosgowebapp.entity.Usuario;
-import javax.ejb.EJB;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author x Cristhian x
  */
-@WebServlet(name = "ServletUsuarioCrear", urlPatterns = {"/ServletUsuarioCrear"})
-public class ServletUsuarioCrear extends HttpServlet {
+@WebServlet(name = "ServletInicioSesion", urlPatterns = {"/ServletInicioSesion"})
+public class ServletInicioSesion extends HttpServlet {
     
     @EJB
-    private UsuarioFacade userFacade;
-
+    private UsuarioFacade usuarioFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,40 +39,56 @@ public class ServletUsuarioCrear extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String id, correo, password, nombre, sexo, ciudad;
-        Integer edad, rol=4;
-        Usuario nuevoUsuario;
+        String strError = "", strTo = "inicioSesion.jsp";
+        String email = (String) request.getParameter("correo");
+        String pass = (String) request.getParameter("password");
+        RequestDispatcher rd = request.getRequestDispatcher(strTo);
         
-        id = request.getParameter("id");
-        correo = request.getParameter("correo");
-        password = request.getParameter("pass1");
-        nombre = request.getParameter("nombre");
-        sexo = request.getParameter("Sexo");
-        ciudad = request.getParameter("ciudad");
-        edad = new Integer(request.getParameter("edad"));
+        Usuario user = this.usuarioFacade.findByCorreo(email);
         
-        if (id == null || id.isEmpty()){
-            nuevoUsuario = new Usuario();       // Crea un usuario nuevo
-            nuevoUsuario.setRol(rol);
+        if(user == null){
+            strError = "ERROR: Usuario con email introducido no registrado";
+            request.setAttribute("error", strError);
+            rd.forward(request, response);
+        } else if(!user.getContrasena().equals(pass)){
+            strError = "ERROR: La contraseña introducida es incorrecta";
+            request.setAttribute("error", strError);
+            rd.forward(request, response);
         } else{
-            nuevoUsuario = this.userFacade.find(new Integer(id));      // Editar el cliente seleccionado
+            HttpSession sesion = request.getSession();
+            sesion.setAttribute("usuario", user);
+            
+            
+            switch (user.getRol()){
+                case 0:         // Admin
+                    rd = request.getRequestDispatcher("adminPrincipal.jsp");
+                    rd.forward(request, response);
+                    break;
+                    
+                case 1:         // Creador
+                    response.sendRedirect("ServletCreadorPrincipal");
+                    break;
+                
+                case 2:         // Teleoperador
+                    rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
+                    rd.forward(request, response);
+                    break;
+                   
+                case 3:         // Analista
+                    rd = request.getRequestDispatcher("estudios.jsp");
+                    request.setAttribute("listaEstudios", user.getEstudioList());
+                    rd.forward(request, response);
+                    break;
+                
+                case 4:         // Usuario evento
+                    rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
+                    rd.forward(request, response);
+                    break;
+            }
         }
         
-        nuevoUsuario.setNombre(nombre);
-        nuevoUsuario.setCorreo(correo);
-        nuevoUsuario.setContrasena(password);
-    
-        // nuevoUsuario.setSexo(sexo);
-        // nuevoUsuario.setCiudad(ciudad)
-        // nuevoUsuario.setEdad(edad);
         
-        if(id==null || id.isEmpty()){
-            this.userFacade.create(nuevoUsuario);
-        } else{
-            this.userFacade.edit(nuevoUsuario);
-        }
-        
-        response.sendRedirect("ServletAdminUsuarioCargar");
+                
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
