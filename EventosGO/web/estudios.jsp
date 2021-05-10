@@ -25,86 +25,11 @@
         <%
             List<Estudio> estudios = (List) request.getAttribute("listaEstudios");
             int pagina = (Integer) request.getAttribute("pagina");
-            int rol;
-            if (request.getSession().getAttribute("usuario") != null) {
-                rol = ((Usuario) request.getSession().getAttribute("usuario")).getRol();
-            } else {
-                rol = -1;
-            }
-
         %>
     </head>
     <body>
 
-        <!-- Navbar de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-5 text" style="margin-bottom: 20px">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="navbar-brand fs-2" href="#">EventosGO</a>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="paginaInicioWeb.jsp">Inicio</a>
-                        </li>
-                        <%                            if (rol == 1) {
-                        %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ServletCreadorPrincipal">Mis Eventos</a>
-                        </li>
-                        <%
-                            }
-                        %>
-                        <%
-                            if (rol == 3) {
-                        %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Estudios</a>
-                        </li>
-                        <%
-                            }
-                        %>
-                        <%
-                            if (rol == 2 || rol == 4 || rol == 1) {
-                        %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Chat</a>
-                        </li>
-                        <%
-                            }
-                        %>
-                        <%
-                            if (rol == 0) {
-                        %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Lista Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Lista Eventos</a>
-                        </li>
-                        <%
-                            }
-                        %>
-                    </ul>
-                    <%
-                        if (rol < 0) {
-                    %>
-                    <a class="btn btn-outline-light m-4" href="#" role="button">Registrarse</a>
-                    <a class="btn btn-outline-light" href="inicioSesion.jsp" role="button">Iniciar Sesi&oacute;n</a>
-                    <%
-                    } else {
-                    %>
-                    <a class="btn btn-outline-light m-4" href="#" role="button">Perfil</a>
-                    <a class="btn btn-outline-light" href="ServletCerrarSesion" role="button">Cerrar Sesi&oacute;n</a>
-                    <%
-                        }
-                    %>
-
-                </div>
-            </div>
-        </nav>
-        <!-- END Navbar -->
+        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
         <!-- Sección con la tabla de los estudios -->
         <section class="container rounded shadow-sm w3-padding">
@@ -125,9 +50,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%
-                            int i;
-                            for (i = (pagina - 1) * 10; i < estudios.size(); i++) {
+                        <%                            int i;
+                            for (i = (pagina - 1) * 10; i < estudios.size() && i < (pagina * 10); i++) {
                         %>
                         <tr>
                             <th scope="row"><%= (i + 1)%></th>
@@ -136,10 +60,10 @@
                         </tr>
                         <%
                             }
-                            for (int j = 10; j > i; j--) {
+                            for (i = i; i < 10*pagina; i++) {
                         %>
                         <tr>
-                            <th scope="row"><%= (12 - j)%></th>
+                            <th scope="row"><%= (i + 1)%></th>
                             <td>*</td>
                             <td>*</td>
                         </tr>
@@ -155,7 +79,7 @@
                 <ul class="pagination justify-content-center">
                     <%
                         int totalPaginas = (Integer) (estudios.size() / 10) + 1;
-                        if (pagina > totalPaginas) {
+                        if (pagina > 1) {
                     %>
                     <li class="page-item">
 
@@ -167,20 +91,23 @@
                         }
                     %>
                     <%
-                        if (pagina > 1) {
+                        if (pagina == totalPaginas && totalPaginas > 2) {
                     %>
-
-                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>"><%= pagina - 1%></a></li>
-                        <%
-                            }
-                            if (pagina == totalPaginas && totalPaginas > 2) {
-                        %>
                     <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 2%>"><%= pagina - 2%></a></li>
                         <%
                             }
                         %>
+                        <%
+                            if (pagina > 1) {
+                        %>
 
-                    <li class="page-item"><a class="page-link active" href="ServletEstudioCargar?paginaActual=<%= pagina%>"><%= pagina%></a></li>
+                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>"><%= pagina - 1%></a></li>
+                        <%
+                            }
+                        %>
+
+
+                    <li class="page-item active"><a class="page-link active" href="ServletEstudioCargar?paginaActual=<%= pagina%>"><%= pagina%></a></li>
                         <%
                             if (pagina < totalPaginas) {
                         %>
@@ -197,7 +124,7 @@
                             if (pagina < totalPaginas) {
                         %>
                     <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
+                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina + 1%>" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
