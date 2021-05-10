@@ -92,7 +92,7 @@
                                     <th scope="row"><%= (i+1) %></th>
                                     <td><a href = "ServletAdminCrudUsuario?id=<%=listaUsuarios.get(i).getId()%>"><%= listaUsuarios.get(i).getNombre() %></a></td>
                                     <td><%= listaUsuarios.get(i).getCorreo()%></td>
-                                    <td><%= listaUsuarios.get(i).getRol()%></td>
+                                    <td><%= listaUsuarios.get(i).getRolDescripcion()%></td>
                             </tr>
                        
                         <%

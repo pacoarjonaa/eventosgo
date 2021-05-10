@@ -183,6 +183,33 @@ public class Usuario implements Serializable {
     public int getRol() {
         return rol;
     }
+    
+    public String getRolDescripcion(){
+        String rol = null;
+        
+        switch (this.getRol()){
+                case 0:         // Admin
+                    rol = "Administrador";
+                    break;
+                    
+                case 1:         // Creador
+                    rol = "Creador";
+                    break;
+                
+                case 2:         // Teleoperador
+                    rol = "Teleoperador";
+                    break;
+                   
+                case 3:         // Analista
+                    rol = "Analista";
+                    break;
+                
+                case 4:         // Usuario evento
+                    rol = "Usuario";
+                    break;
+        }
+        return rol;
+    }
 
     public void setRol(int rol) {
         this.rol = rol;
