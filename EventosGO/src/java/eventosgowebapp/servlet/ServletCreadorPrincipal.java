@@ -6,9 +6,11 @@
 package eventosgowebapp.servlet;
 
 import eventosgowebapp.dao.UsuarioFacade;
+import eventosgowebapp.entity.Evento;
 import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,9 +41,9 @@ public class ServletCreadorPrincipal extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
+        List<Evento> eventos = usuario.getEventoList();
         
-        
-        
+        request.setAttribute("eventos", eventos);
         
         RequestDispatcher rd = request.getRequestDispatcher("CreadorInicio.jsp");
         rd.forward(request, response);

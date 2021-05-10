@@ -4,6 +4,9 @@
     Author     : Kiko BM
 --%>
 
+<%@page import="eventosgowebapp.entity.Usuario"%>
+<%@page import="java.util.List"%>
+<%@page import="eventosgowebapp.entity.Evento"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,6 +22,13 @@
         <!--        W3 CSS -->
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
+    <%
+        List<Evento> eventos = (List)request.getAttribute("eventos");
+        int rol = ((Usuario) request.getSession().getAttribute("usuario")).getRol();
+    %>
+    
+    
+    
     <body>
                 <!-- Navbar de navegación -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-5 text" style="margin-bottom: 20px">
@@ -54,13 +64,75 @@
         </nav>
                 
                 
-        <h1>Esto tiene que ser la pagina principal del creador de eventos</h1>
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="ServletFiltroEventos" method="POST">
-            <input type="search" name="filtro" class="form-control form-control-dark" placeholder="Filtrar..."><input type="submit" value="buscar" />
-        </form>
         
-       
-        lista de eventos:<br/>
+         <!-- Sección con la tabla de los eventos -->
+        <section class="container rounded shadow-sm w3-padding">
+            <header class="container">
+                <h1 class="display-1">Mis eventos</h1>
+                <form class="d-flex">
+                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
+                 </form>
+            </header>
+            <article>
+                <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de eventos">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                        int i; 
+                        for(i = 0; i<eventos.size();i++) {
+                        %>
+                          
+                            <tr>
+                                     
+                                    <th scope="row"><%= (i+1) %></th>
+                                    <td> <a href="ServletEstudioCargar"> <%= eventos.get(i).getTitulo() %> </a></td>
+                                    <td><a href="ServletEstudioCargar"> <%= eventos.get(i).getFechaEvento()%> </a></td>
+                                     
+                            </tr>
+                        
+                        <%
+                        }
+                        for(int j=10;j>i;j--) {
+                            %>
+                            <tr>
+                                <th scope="row"><%= (11-j) %></th>
+                                <td>*</td>
+                                <td>*</td>
+                            </tr>
+                            <%
+                        }
+                        %>
+                    </tbody>
+                </table>
+            </article>
+            <!-- Navbar de paginación de los eventos-->
+            <nav aria-label="Paginación de eventos">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+            </nav>
+            <!-- END Navbar de paginación de los eventos-->
+        </section>
+        <!-- END Sección con la tabla de los eventos -->
 
         
     </body>

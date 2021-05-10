@@ -15,7 +15,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -30,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author juanm
+ * @author Kiko BM
  */
 @Entity
 @Table(name = "EVENTO")
@@ -47,41 +49,53 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Evento implements Serializable {
 
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "TITULO")
     private String titulo;
     @Basic(optional = false)
+    @NotNull()
     @Lob()
+    @Size(min = 1, max = 32700)
     @Column(name = "DESCRIPCION")
     private String descripcion;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "FECHA_EVENTO")
     @Temporal(TemporalType.DATE)
     private Date fechaEvento;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "FECHA_FIN_RESERVAS")
     @Temporal(TemporalType.DATE)
     private Date fechaFinReservas;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "COSTE")
     private double coste;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "MAXIMO_ENTRADAS_USUARIO")
     private int maximoEntradasUsuario;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "AFORO")
     private int aforo;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ID")
-    private Integer id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvento")
     private List<EventoEtiqueta> eventoEtiquetaList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "evento")
     private EventoAforo eventoAforo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvento")
     private List<Entrada> entradaList;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
+    private Integer id;
+    @JoinColumn(name = "ID_CREADOR", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Usuario idCreador;
 
     public Evento() {
     }
@@ -136,30 +150,12 @@ public class Evento implements Serializable {
     }
 
 
-    @XmlTransient
-    public List<EventoEtiqueta> getEventoEtiquetaList() {
-        return eventoEtiquetaList;
+    public Usuario getIdCreador() {
+        return idCreador;
     }
 
-    public void setEventoEtiquetaList(List<EventoEtiqueta> eventoEtiquetaList) {
-        this.eventoEtiquetaList = eventoEtiquetaList;
-    }
-
-    public EventoAforo getEventoAforo() {
-        return eventoAforo;
-    }
-
-    public void setEventoAforo(EventoAforo eventoAforo) {
-        this.eventoAforo = eventoAforo;
-    }
-
-    @XmlTransient
-    public List<Entrada> getEntradaList() {
-        return entradaList;
-    }
-
-    public void setEntradaList(List<Entrada> entradaList) {
-        this.entradaList = entradaList;
+    public void setIdCreador(Usuario idCreador) {
+        this.idCreador = idCreador;
     }
 
     @Override
@@ -203,6 +199,8 @@ public class Evento implements Serializable {
         this.descripcion = descripcion;
     }
 
+   
+
     public double getCoste() {
         return coste;
     }
@@ -211,12 +209,39 @@ public class Evento implements Serializable {
         this.coste = coste;
     }
 
+
     public int getAforo() {
         return aforo;
     }
 
     public void setAforo(int aforo) {
         this.aforo = aforo;
+    }
+
+    @XmlTransient
+    public List<EventoEtiqueta> getEventoEtiquetaList() {
+        return eventoEtiquetaList;
+    }
+
+    public void setEventoEtiquetaList(List<EventoEtiqueta> eventoEtiquetaList) {
+        this.eventoEtiquetaList = eventoEtiquetaList;
+    }
+
+    public EventoAforo getEventoAforo() {
+        return eventoAforo;
+    }
+
+    public void setEventoAforo(EventoAforo eventoAforo) {
+        this.eventoAforo = eventoAforo;
+    }
+
+    @XmlTransient
+    public List<Entrada> getEntradaList() {
+        return entradaList;
+    }
+
+    public void setEntradaList(List<Entrada> entradaList) {
+        this.entradaList = entradaList;
     }
     
 }

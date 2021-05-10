@@ -6,6 +6,7 @@
 package eventosgowebapp.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -39,6 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
     , @NamedQuery(name = "Usuario.findByRol", query = "SELECT u FROM Usuario u WHERE u.rol = :rol")})
 public class Usuario implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCreador")
+    private List<Evento> eventoCollection;
 
     @Basic (optional = false)
     @Column(name = "CORREO")
@@ -221,6 +225,15 @@ public class Usuario implements Serializable {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    @XmlTransient
+    public List<Evento> getEventoList() {
+        return eventoCollection;
+    }
+
+    public void setEventoCollection(List<Evento> eventoCollection) {
+        this.eventoCollection = eventoCollection;
     }
     
 }
