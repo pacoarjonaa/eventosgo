@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Pablo
  */
 @WebServlet(name = "ServletGuardarEstudio", urlPatterns = {"/ServletGuardarEstudio"})
-public class ServletGuardarEstudio extends HttpServlet {
+public class ServletCalcularEstudio extends HttpServlet {
 
     @EJB
     private EstudioFacade estudioFacade;

@@ -32,16 +32,24 @@
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
         <!-- Sección con la tabla de los estudios -->
-        <section class="container rounded shadow-sm w3-padding">
+        <section class="container rounded shadow-sm py-3 align-middle">
             <header class="container">
-                <h1 class="display-1">Estudios Estad&iacute;sticos</h1>
-                <a class="btn" href="crearEstudio.jsp" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg></a>
+                <div class="d-flex">
+                    <div class="me-auto">
+                        <h1 class="display-1">Estudios Estad&iacute;sticos</h1>
+                    </div>
+                    <div class="mt-auto">
+                        <a class="btn" href="crearEstudio.jsp" role="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </header>
             <article>
-                <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de estudios">
+                <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de estudios" id="tabla">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -60,7 +68,7 @@
                         </tr>
                         <%
                             }
-                            for (i = i; i < 10*pagina; i++) {
+                            for (i = i; i < 10 * pagina; i++) {
                         %>
                         <tr>
                             <th scope="row"><%= (i + 1)%></th>
@@ -79,17 +87,13 @@
                 <ul class="pagination justify-content-center">
                     <%
                         int totalPaginas = (Integer) (estudios.size() / 10) + 1;
-                        if (pagina > 1) {
                     %>
-                    <li class="page-item">
+                    <li class="page-item <%= (pagina > 1) ? "" : "disabled"%>">
 
-                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>" aria-label="Previous">
+                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <%
-                        }
-                    %>
                     <%
                         if (pagina == totalPaginas && totalPaginas > 2) {
                     %>
@@ -120,17 +124,11 @@
                                 }
                             }
                         %>
-                        <%
-                            if (pagina < totalPaginas) {
-                        %>
-                    <li class="page-item">
-                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina + 1%>" aria-label="Next">
+                    <li class="page-item <%= (pagina < totalPaginas) ? "" : "disabled"%>">
+                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina + 1%>">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
-                    <%
-                        }
-                    %>
 
                 </ul>
             </nav>
