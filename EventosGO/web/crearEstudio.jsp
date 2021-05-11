@@ -30,7 +30,7 @@
 
         <!-- Formulario de crear un Estudio -->
 
-        <form class="container shadow-lg p-3 mb-5 bg-body rounded" action="ServletGuardarEstudio">
+        <form class="container shadow-lg p-3 mb-5 bg-body rounded" action="ServletCalcularEstudio">
             <div class="alert alert-info mb-3">Todos los estudios estadísticos que eres capaz de crear serán vinculados a los usuarios que han asistido a eventos, restringido a los filtros que t&uacute; como analista has considerado de estudio.</div>
             <div class="mb-3">
                 <label for="title" class="form-label">T&iacute;tulo</label>
