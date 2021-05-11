@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -41,8 +42,14 @@ public class ServletEstudioCargar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Usuario u = usuarioFacade.find(1);
+        int pagina = 1;
+        if(request.getParameter("paginaActual") != null) {
+            pagina = Integer.parseInt(request.getParameter("paginaActual"));
+        }
+        
+        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
         request.setAttribute("listaEstudios", u.getEstudioList());
+        request.setAttribute("pagina", pagina);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("estudios.jsp");
         requestDispatcher.forward(request, response);
     }

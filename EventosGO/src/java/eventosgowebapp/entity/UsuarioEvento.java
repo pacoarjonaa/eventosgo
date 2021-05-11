@@ -153,7 +153,7 @@ public class UsuarioEvento implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.UsuarioEvento[ id=" + id + " ]";
+        return "eventosgowebapp.entities.UsuarioEvento[ id=" + id + " ]";
     }
 
     public String getApellidos() {

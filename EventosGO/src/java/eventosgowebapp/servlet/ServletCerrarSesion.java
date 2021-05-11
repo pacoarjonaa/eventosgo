@@ -5,16 +5,8 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EtiquetaFacade;
-import eventosgowebapp.dao.EventoFacade;
-import eventosgowebapp.entity.Etiqueta;
-import eventosgowebapp.entity.Evento;
-import eventosgowebapp.entity.EventoEtiqueta;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,16 +17,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author x Cristhian x
+ * @author juanm
  */
-@WebServlet(name = "ServletEventoCrearEditar", urlPatterns = {"/ServletEventoCrearEditar"})
-public class ServletEventoCrearEditar extends HttpServlet {
-    
-    @EJB
-    private EventoFacade eventoFacade;
-    
-    @EJB
-    private EtiquetaFacade etiquetaFacade;
+@WebServlet(name = "ServletCerrarSesion", urlPatterns = {"/ServletCerrarSesion"})
+public class ServletCerrarSesion extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,26 +33,10 @@ public class ServletEventoCrearEditar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-    
-        String strTo = "crearEvento.jsp";                    
-        String strId = request.getParameter("id");
-         List<Etiqueta> listEtiquetas = new ArrayList<>();
-
-        if (strId != null) { // Es editar evento
-  
-            Evento evento = this.eventoFacade.find(new Integer(strId));
-            request.setAttribute("evento", evento);       
-           
-            for(EventoEtiqueta evet : evento.getEventoEtiquetaList()){
-                listEtiquetas.add(this.etiquetaFacade.find(evet.getIdEtiqueta()));
-            }
-            request.setAttribute("listaEtiquetas", listEtiquetas);
-        } 
-        
-        RequestDispatcher rd = request.getRequestDispatcher(strTo);
-        rd.forward(request, response);  
-        
+        HttpSession httpSession = request.getSession();
+        httpSession.invalidate();
+        RequestDispatcher rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

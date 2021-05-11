@@ -6,6 +6,7 @@
 package eventosgowebapp.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -40,6 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByRol", query = "SELECT u FROM Usuario u WHERE u.rol = :rol")})
 public class Usuario implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCreador")
+    private List<Evento> eventoCollection;
+
     @Basic (optional = false)
     @Column(name = "CORREO")
     private String correo;
@@ -67,6 +71,8 @@ public class Usuario implements Serializable {
     private UsuarioEvento usuarioEvento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAnalista")
     private List<Estudio> estudioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCreador")
+    private List<Evento> eventoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Mensaje> mensajeList;
 
@@ -130,6 +136,15 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
+    public List<Evento> getEventoList() {
+        return eventoList;
+    }
+
+    public void setEventoList(List<Evento> eventoList) {
+        this.eventoList = eventoList;
+    }
+
+    @XmlTransient
     public List<Mensaje> getMensajeList() {
         return mensajeList;
     }
@@ -160,7 +175,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.Usuario[ id=" + id + " ]";
+        return "eventosgowebapp.entities.Usuario[ id=" + id + " ]";
     }
 
 
@@ -183,6 +198,33 @@ public class Usuario implements Serializable {
     public int getRol() {
         return rol;
     }
+    
+    public String getRolDescripcion(){
+        String rol = null;
+        
+        switch (this.getRol()){
+                case 0:         // Admin
+                    rol = "Administrador";
+                    break;
+                    
+                case 1:         // Creador
+                    rol = "Creador";
+                    break;
+                
+                case 2:         // Teleoperador
+                    rol = "Teleoperador";
+                    break;
+                   
+                case 3:         // Analista
+                    rol = "Analista";
+                    break;
+                
+                case 4:         // Usuario evento
+                    rol = "Usuario";
+                    break;
+        }
+        return rol;
+    }
 
     public void setRol(int rol) {
         this.rol = rol;
@@ -194,6 +236,10 @@ public class Usuario implements Serializable {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public void setEventoCollection(List<Evento> eventoCollection) {
+        this.eventoCollection = eventoCollection;
     }
     
 }

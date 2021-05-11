@@ -101,7 +101,7 @@ public class Etiqueta implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.Etiqueta[ id=" + id + " ]";
+        return "eventosgowebapp.entities.Etiqueta[ id=" + id + " ]";
     }
 
     public String getNombre() {

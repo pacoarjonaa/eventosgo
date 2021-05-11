@@ -66,8 +66,7 @@ public class ServletInicioSesion extends HttpServlet {
                     break;
                     
                 case 1:         // Creador
-                    rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
-                    rd.forward(request, response);
+                    response.sendRedirect("ServletCreadorPrincipal");
                     break;
                 
                 case 2:         // Teleoperador
@@ -76,7 +75,7 @@ public class ServletInicioSesion extends HttpServlet {
                     break;
                    
                 case 3:         // Analista
-                    rd = request.getRequestDispatcher("estudios.jsp");
+                    rd = request.getRequestDispatcher("ServletEstudioCargar");
                     request.setAttribute("listaEstudios", user.getEstudioList());
                     rd.forward(request, response);
                     break;

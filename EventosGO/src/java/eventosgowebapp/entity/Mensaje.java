@@ -130,7 +130,7 @@ public class Mensaje implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.Mensaje[ id=" + id + " ]";
+        return "eventosgowebapp.entities.Mensaje[ id=" + id + " ]";
     }
 
     public Date getFecha() {

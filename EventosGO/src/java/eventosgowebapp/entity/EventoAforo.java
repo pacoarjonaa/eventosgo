@@ -103,7 +103,7 @@ public class EventoAforo implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.EventoAforo[ id=" + id + " ]";
+        return "eventosgowebapp.entities.EventoAforo[ id=" + id + " ]";
     }
 
     public int getFilas() {

@@ -5,6 +5,7 @@
  */
 package eventosgowebapp.dao;
 
+import eventosgowebapp.entity.Estudio;
 import eventosgowebapp.entity.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;

@@ -97,7 +97,7 @@ public class EventoEtiqueta implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.EventoEtiqueta[ id=" + id + " ]";
+        return "eventosgowebapp.entities.EventoEtiqueta[ id=" + id + " ]";
     }
     
 }
