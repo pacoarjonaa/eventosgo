@@ -46,8 +46,13 @@
                 <h1>Datos del evento</h1>
             </header>
 
-            <form method='POST' action="ServletEventoCrear">
+            <form method='POST' action="ServletEventoGuardar">
                 <div class="container">
+                    <div class="row">
+                        <div class="col-8">
+                            <input type="text" name="idCreador" value="<%= creador.getId() %>" hidden/>
+                        </div> 
+                    </div>
                     <div class="row">
                         <div class="col">
                             T&iacute;tulo:

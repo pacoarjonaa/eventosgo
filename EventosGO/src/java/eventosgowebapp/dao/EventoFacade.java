@@ -57,6 +57,35 @@ public class EventoFacade extends AbstractFacade<Evento> {
                 res.add(e);
             }
         }
+    public List<Evento> findByIdCreador(Integer id){
+        Query q;
+        
+        q = em.createQuery("select e from Evento e where e.idCreador.id = :idCreador ");
+        q.setParameter("idCreador", id);
+        List<Evento> res = q.getResultList();
+        return res;
+    }
+    
+     public List<Evento> findBySimiliarName(String name){
+        Query q;
+        
+        q = em.createQuery("select e from Evento e where e.titulo like :titulo ");
+         q.setParameter("titulo", "%" + name + "%");
+        List<Evento> res = q.getResultList();
+        return res;
+    }
+     
+    public List<Evento> findBySimiliarNameAndIdCreador(String name, Integer id){
+        Query q;
+        
+        q = em.createQuery("select e from Evento e where e.titulo like :titulo and e.idCreador.id = :idCreador ");
+        q.setParameter("titulo", "%" + name + "%");
+        q.setParameter("idCreador", id);
+        List<Evento> res = q.getResultList();
+        return res;
+    }
+    
+    
         if (res == null || res.isEmpty()) {
             return null;
         } else {
