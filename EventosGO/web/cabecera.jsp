@@ -67,7 +67,7 @@
                             <a class="nav-link" href="ServletAdminUsuarioCargar">Lista Usuarios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="ServletEventosCargar">Lista Eventos</a>
+                            <a class="nav-link" href="ServletAdminEventoCargar">Lista Eventos</a>
                         </li>
                         <%
                             }
