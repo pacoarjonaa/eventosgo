@@ -43,12 +43,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "UsuarioEvento.findBySexo", query = "SELECT u FROM UsuarioEvento u WHERE u.sexo = :sexo")})
 public class UsuarioEvento implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -73,6 +67,13 @@ public class UsuarioEvento implements Serializable {
     @NotNull
     @Column(name = "SEXO")
     private int sexo;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID")
+    private Integer id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Entrada> entradaList;
     @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
@@ -103,29 +104,6 @@ public class UsuarioEvento implements Serializable {
         this.id = id;
     }
 
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getDomicilio() {
-        return domicilio;
-    }
-
-    public void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
 
     public Date getFechaNacimiento() {
         return fechaNacimiento;
@@ -135,13 +113,6 @@ public class UsuarioEvento implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public int getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(int sexo) {
-        this.sexo = sexo;
-    }
 
     @XmlTransient
     public List<Entrada> getEntradaList() {
@@ -182,7 +153,39 @@ public class UsuarioEvento implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.UsuarioEvento[ id=" + id + " ]";
+        return "eventosgowebapp.entities.UsuarioEvento[ id=" + id + " ]";
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public int getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(int sexo) {
+        this.sexo = sexo;
     }
     
 }

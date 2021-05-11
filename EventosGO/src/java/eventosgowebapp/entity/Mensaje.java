@@ -39,12 +39,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Mensaje.findByHora", query = "SELECT m FROM Mensaje m WHERE m.hora = :hora")})
 public class Mensaje implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ID")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "FECHA")
@@ -61,6 +55,13 @@ public class Mensaje implements Serializable {
     @Size(min = 1, max = 32700)
     @Column(name = "TEXTO")
     private String texto;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
+    private Integer id;
     @JoinColumn(name = "ID_CONVERSACION", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Conversacion idConversacion;
@@ -90,29 +91,6 @@ public class Mensaje implements Serializable {
         this.id = id;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public Date getHora() {
-        return hora;
-    }
-
-    public void setHora(Date hora) {
-        this.hora = hora;
-    }
-
-    public String getTexto() {
-        return texto;
-    }
-
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
 
     public Conversacion getIdConversacion() {
         return idConversacion;
@@ -152,7 +130,31 @@ public class Mensaje implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.Mensaje[ id=" + id + " ]";
+        return "eventosgowebapp.entities.Mensaje[ id=" + id + " ]";
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public Date getHora() {
+        return hora;
+    }
+
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
     
 }

@@ -6,6 +6,7 @@
 package eventosgowebapp.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -40,24 +41,28 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByRol", query = "SELECT u FROM Usuario u WHERE u.rol = :rol")})
 public class Usuario implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCreador")
+    private List<Evento> eventoCollection;
+
+    @Basic (optional = false)
+    @Column(name = "CORREO")
+    private String correo;
+    @Basic (optional = false)
+    @Column(name = "CONTRASENA")
+    private String contrasena;
+    @Basic (optional = false)
+    @Column(name = "NOMBRE")
+    private String nombre;
+    @Basic (optional = false)
+    @Column(name = "ROL")
+    private int rol;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Basic(optional = false)
-    @Column(name = "CORREO",length=50,nullable=false)
-    private String correo;
-    @Basic(optional = false)
-    @Column(name = "CONTRASENA",length=30,nullable=false)
-    private String contrasena;
-    @Basic(optional = false)
-    @Column(name = "NOMBRE",length=50,nullable=false)
-    private String nombre;
-    @Basic(optional = false)
-    @Column(name = "ROL",nullable = false)
-    private int rol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Conversacion> conversacionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTeleoperador")
@@ -66,6 +71,8 @@ public class Usuario implements Serializable {
     private UsuarioEvento usuarioEvento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAnalista")
     private List<Estudio> estudioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCreador")
+    private List<Evento> eventoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Mensaje> mensajeList;
 
@@ -92,37 +99,6 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getRol() {
-        return rol;
-    }
-
-    public void setRol(int rol) {
-        this.rol = rol;
-    }
 
     @XmlTransient
     public List<Conversacion> getConversacionList() {
@@ -160,6 +136,15 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
+    public List<Evento> getEventoList() {
+        return eventoList;
+    }
+
+    public void setEventoList(List<Evento> eventoList) {
+        this.eventoList = eventoList;
+    }
+
+    @XmlTransient
     public List<Mensaje> getMensajeList() {
         return mensajeList;
     }
@@ -190,7 +175,71 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.Usuario[ id=" + id + " ]";
+        return "eventosgowebapp.entities.Usuario[ id=" + id + " ]";
+    }
+
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getRol() {
+        return rol;
+    }
+    
+    public String getRolDescripcion(){
+        String rol = null;
+        
+        switch (this.getRol()){
+                case 0:         // Admin
+                    rol = "Administrador";
+                    break;
+                    
+                case 1:         // Creador
+                    rol = "Creador";
+                    break;
+                
+                case 2:         // Teleoperador
+                    rol = "Teleoperador";
+                    break;
+                   
+                case 3:         // Analista
+                    rol = "Analista";
+                    break;
+                
+                case 4:         // Usuario evento
+                    rol = "Usuario";
+                    break;
+        }
+        return rol;
+    }
+
+    public void setRol(int rol) {
+        this.rol = rol;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public void setEventoCollection(List<Evento> eventoCollection) {
+        this.eventoCollection = eventoCollection;
     }
     
 }

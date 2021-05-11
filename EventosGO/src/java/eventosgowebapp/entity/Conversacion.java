@@ -112,7 +112,7 @@ public class Conversacion implements Serializable {
 
     @Override
     public String toString() {
-        return "eventosgowebapp.entity.Conversacion[ id=" + id + " ]";
+        return "eventosgowebapp.entities.Conversacion[ id=" + id + " ]";
     }
     
 }
