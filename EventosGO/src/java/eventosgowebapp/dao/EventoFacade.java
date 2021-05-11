@@ -6,11 +6,15 @@
 package eventosgowebapp.dao;
 
 import eventosgowebapp.entity.Evento;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Expression;
 
 /**
  *
@@ -45,13 +49,14 @@ public class EventoFacade extends AbstractFacade<Evento> {
         }
     }
     
-    public List<Evento> filtroAnio(int anio) {
-        Query q;
-        List<Evento> res;
-        q = this.em.createQuery("SELECT e FROM EVENTO e WHERE YEAR(e.FECHA_EVENTO) = :anio");
-        q.setParameter("anio", anio);
-        res = q.getResultList();
-        
+    public List<Evento> filtroAnio(int anio, List<Evento> eventos) {
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+        List<Evento> res = new ArrayList<>();
+        for(Evento e : eventos) {
+            if(Integer.parseInt(sdf.format(e.getFechaEvento()))==anio) {
+                res.add(e);
+            }
+        }
         if (res == null || res.isEmpty()) {
             return null;
         } else {

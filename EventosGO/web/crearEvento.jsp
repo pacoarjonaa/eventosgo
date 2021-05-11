@@ -35,7 +35,6 @@
         }
 
         Usuario creador = (Usuario) request.getSession().getAttribute("usuario");
-        int rol = creador.getRol();
     %>
 
     <body>     
