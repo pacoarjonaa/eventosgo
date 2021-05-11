@@ -63,8 +63,8 @@ public class EventoFacade extends AbstractFacade<Evento> {
             return res;
         }
     }
-
-    public List<Evento> findByIdCreador(Integer id) {
+    
+    public List<Evento> findByIdCreador(Integer id){
         Query q;
 
         q = em.createQuery("select e from Evento e where e.idCreador.id = :idCreador ");
@@ -91,5 +91,4 @@ public class EventoFacade extends AbstractFacade<Evento> {
         List<Evento> res = q.getResultList();
         return res;
     }
-
 }
