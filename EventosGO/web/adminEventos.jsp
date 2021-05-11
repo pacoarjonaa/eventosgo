@@ -4,6 +4,7 @@
     Author     : Kiko BM
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="eventosgowebapp.entity.Usuario"%>
 <%@page import="eventosgowebapp.entity.Evento"%>
 <%@page import="java.util.List"%>
@@ -39,13 +40,18 @@
                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
                 </form>
             </header>
+            <a href="crearEvento.jsp">Nuevo evento</a>
             <article>
                 <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de eventos">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nombre</th>
+                            <th scope="col">Titulo</th>
                             <th scope="col">Fecha</th>
+                            <th scope="col">Fecha Fin Resrervas</th>
+                            <th scope="col">Aforo</th>
+                            <th scope="col">Coste</th>
+                            <th scope="col">Maximo entradas/usuario</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,8 +63,12 @@
                         <tr>
 
                             <th scope="row"><%= (i + 1)%></th>
-                            <td> <a href="ServletEstudioCargar"> <%= listaEventos.get(i).getTitulo()%> </a></td>
-                            <td><a href="ServletEstudioCargar"> <%= listaEventos.get(i).getFechaEvento()%> </a></td>
+                            <td> <a href="ServletAdminCrudEvento?id=<%= listaEventos.get(i).getId() %>"> <%= listaEventos.get(i).getTitulo()%> </a></td>
+                            <td> <%= new SimpleDateFormat("dd/MM/yyyy").format(listaEventos.get(i).getFechaEvento())%> </a></td>
+                            <td> <%= new SimpleDateFormat("dd/MM/yyyy").format(listaEventos.get(i).getFechaFinReservas())%> </a></td>
+                            <td> <%= listaEventos.get(i).getAforo() %> </a></td>
+                            <td> <%= listaEventos.get(i).getCoste()%> </a></td>
+                            <td> <%= listaEventos.get(i).getMaximoEntradasUsuario() %> </a></td>
 
                         </tr>
 
@@ -68,6 +78,10 @@
                         %>
                         <tr>
                             <th scope="row"><%= (12 - j)%></th>
+                            <td>*</td>
+                            <td>*</td>
+                            <td>*</td>
+                            <td>*</td>
                             <td>*</td>
                             <td>*</td>
                         </tr>

@@ -63,6 +63,7 @@ public class ServletEventoGuardar extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        
         String id, titulo, descripcion, strEtiquetas;
         Usuario creador;
         String[] etiquetas;
@@ -101,10 +102,16 @@ public class ServletEventoGuardar extends HttpServlet {
             fechaEntradas = formato.parse(request.getParameter("fechaEntradas"));
         } catch (ParseException ex) {
             Logger.getLogger(ServletEventoGuardar.class.getName()).log(Level.SEVERE, null, ex);
+            if(creador.getRol() == 0){
+                String strTo = "AdminEventos";
+                RequestDispatcher rd = request.getRequestDispatcher(strTo);
+                rd.forward(request, response);
+            }else{
             String strTo = "crearEvento.jsp";
             request.setAttribute("error", "Formato de fecha no válido. Prueba con (yyyy-MM-dd)");
             RequestDispatcher rd = request.getRequestDispatcher(strTo);
-            rd.forward(request, response);  
+            rd.forward(request, response);   
+            }
         }
         
         if (id == null || id.isEmpty()){
@@ -142,8 +149,13 @@ public class ServletEventoGuardar extends HttpServlet {
             listaEventoEtiqueta.add(evet);
         }
         
+        if(creador.getRol() == 0){
+            response.sendRedirect("ServletAdminEventoCargar");
+        }else{
+            response.sendRedirect("ServletCreadorPrincipal");
+        }
         
-        response.sendRedirect("ServletCreadorPrincipal");
+        
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
