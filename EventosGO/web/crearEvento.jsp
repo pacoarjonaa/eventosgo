@@ -11,7 +11,7 @@
 <%@page import="eventosgowebapp.entity.Etiqueta"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Date"%>
-<%@page import="eventosgowebapp.entity.Evento"%>"
+<%@page import="eventosgowebapp.entity.Evento"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -25,7 +25,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
         <!--        W3 CSS -->
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" >
 
     </head>
     <%
@@ -33,67 +33,99 @@
         if (strError == null) {
             strError = "";
         }
-        Evento evento = (Evento) request.getAttribute("evento");
-        String strId = "", titulo = "", descripcion = "", strFechaEvento = "", strFechaEntradas = "", strCoste = "", strAforo = "", strEntradasPorUsuario = "";
-        List<Etiqueta> listaEtiquetas = (List<Etiqueta>) request.getAttribute("listaEtiquetas");
-        if (evento != null) {
-            strId = evento.getId().toString();
-            titulo = evento.getTitulo();
-            descripcion = evento.getDescripcion();
-            strFechaEvento = evento.getFechaEvento().toString();
-            strFechaEntradas = evento.getFechaFinReservas().toString();
-            strCoste = Double.toString(evento.getCoste());
-            strEntradasPorUsuario = Integer.toString(evento.getMaximoEntradasUsuario());
-        }
+
+        Usuario creador = (Usuario) request.getSession().getAttribute("usuario");
+        int rol = creador.getRol();
     %>
 
     <body>     
         
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
-        <h1>Datos del evento</h1>
-        <form method='POST' action="ServletEventoCrear">
-            <%= strError%><br/>
-            <table>
-                <input type="hidden" name="id" value="<%= strId%>"/>
-                <tr>
-                    <td>T&iacute;tulo:</td>
-                    <td><input type="text" name="titulo" value="<%= titulo%>"/></td>
-                </tr>
-                <tr>
-                    <td>Descripci&oacute;n:</td>
-                    <td><input type="text" name="descripcion" size="300" value="<%= descripcion%>"/></td>
-                </tr>
-                <tr>
-                    <td>Fecha del evento:</td>
-                    <td><input type="date" name="fechaEvento" value="<%= strFechaEvento%>"/></td>
-                </tr>
-                <tr>
-                    <td>Fecha de máxima para comprar entradas:</td>
-                    <td><input type="date" name="fechaEntradas" value="<%= strFechaEntradas%>"/></td>
-                </tr>
-                <tr>
-                    <td>Coste de la entrada:</td>
-                    <td><input id="coste" type="number" name="coste" step="0.01" value="<%= strCoste%>"/>  &euro;</td>               
-                </tr>
-                <tr>
-                    <td>Aforo del evento</td>
-                    <td><input type="number" name="aforo" value="<%= strAforo%>"/></td>
-                </tr>
-                <tr>
-                    <td>N&uacute;mero m&aacute;ximo posible de entradas a adquirir por el usuario</td>
-                    <td><input type="number" name="entradas" value="<%= strEntradasPorUsuario%>"/></td>
-                </tr>
-                <tr>
-                    <td>Etiquetas:</td>
-                    <td><textarea name="etiquetas"  value="<%= listaEtiquetas%>"></textarea></td>
-                </tr>
-                <tr></tr>
-                <tr>
-                    <td colspan="10"><input type="submit" value="Guardar"></td>
-                </tr>
+        <section class="container rounded shadow-sm w3-padding">
+            <header class="container">
+                <h1>Datos del evento</h1>
+            </header>
 
-            </table>
-        </form>
+            <form method='POST' action="ServletEventoCrear">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            T&iacute;tulo:
+                        </div>
+                        <div class="col-8">
+                            <input type="text" name="titulo" />
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Descripci&oacute;n:
+                        </div>
+                        <div class="col-8">
+                            <textarea name="descripcion" rows="4" cols="20"></textarea>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Fecha del evento:
+                        </div>
+                        <div class="col-8">
+                            <input type="date" name="fechaEvento" />
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Fecha de máxima para comprar entradas:
+                        </div>
+                        <div class="col-8">
+                            <input type="date" name="fechaEntradas" />
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Coste de la entrada:
+                        </div>
+                        <div class="col-8">
+                            <input id="coste" type="number" name="coste" step="1.00" />  &euro;
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Aforo del evento:
+                        </div>
+                        <div class="col-8">
+                            <input type="number" name="aforo" />
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Nº m&aacute;ximo de entradas por usuario:
+                        </div>
+                        <div class="col-8">
+                            <input type="number" name="entradas" />
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Etiquetas:
+                        </div>
+                        <div class="col-8">
+                            <textarea name="etiquetas"  ></textarea>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="submit" value="Crear evento">
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </section>
+
+
+
     </body>
 </html>

@@ -37,7 +37,13 @@
         <!-- Sección con la tabla de los eventos -->
         <section class="container rounded shadow-sm w3-padding">
             <header class="container">
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end"">
+                    <a class="btn btn-primary" href="crearEvento.jsp" role="button">Crear evento</a>
+                </div>
+                
                 <h1 class="display-1">Mis eventos</h1>
+                
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
