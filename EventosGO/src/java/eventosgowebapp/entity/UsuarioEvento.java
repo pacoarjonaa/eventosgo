@@ -44,34 +44,25 @@ import javax.xml.bind.annotation.XmlTransient;
 public class UsuarioEvento implements Serializable {
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "APELLIDOS")
+    @Column(name = "APELLIDOS", length=50)
     private String apellidos;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "DOMICILIO")
+    @Column(name = "DOMICILIO", length=100)
     private String domicilio;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "CIUDAD")
+    @Column(name = "CIUDAD", length=50)
     private String ciudad;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "FECHA_NACIMIENTO")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "SEXO")
     private int sexo;
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     private Integer id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
