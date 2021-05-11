@@ -18,9 +18,11 @@ import java.util.Arrays;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.dao.EtiquetaFacade;
 import eventosgowebapp.dao.EventoEtiquetaFacade;
+import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Etiqueta;
 import eventosgowebapp.entity.Evento;
 import eventosgowebapp.entity.EventoEtiqueta;
+import eventosgowebapp.entity.Usuario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ import javax.servlet.RequestDispatcher;
  *
  * @author x Cristhian x
  */
-@WebServlet(name = "ServletEventoCrear", urlPatterns = {"/ServletEventoCrear"})
+@WebServlet(name = "ServletEventoGuardar", urlPatterns = {"/ServletEventoGuardar"})
 public class ServletEventoGuardar extends HttpServlet {
 
     @EJB
@@ -44,6 +46,9 @@ public class ServletEventoGuardar extends HttpServlet {
     
     @EJB 
     private EventoEtiquetaFacade evetFacade;
+    
+    @EJB
+    private UsuarioFacade userFacade;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -59,15 +64,17 @@ public class ServletEventoGuardar extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String id, titulo, descripcion, strEtiquetas;
+        Usuario creador;
         String[] etiquetas;
         Double coste;
         Integer aforo, entradasPorUsuario;
         List<Etiqueta> listaEtiquetas = new ArrayList<>();
         Date fechaEvento=null, fechaEntradas=null;
         Evento nuevoEvento;
-        String strTo = "paginaInicioWeb.jsp";
+        
         
         id = request.getParameter("id");
+        creador = this.userFacade.find(new Integer(request.getParameter("idCreador")));
         titulo = request.getParameter("titulo");
         descripcion = request.getParameter("descripcion");
         coste = new Double(request.getParameter("coste"));
@@ -94,14 +101,14 @@ public class ServletEventoGuardar extends HttpServlet {
             fechaEntradas = formato.parse(request.getParameter("fechaEntradas"));
         } catch (ParseException ex) {
             Logger.getLogger(ServletEventoGuardar.class.getName()).log(Level.SEVERE, null, ex);
-            strTo = "crearEvento.jsp";
+            String strTo = "crearEvento.jsp";
             request.setAttribute("error", "Formato de fecha no válido. Prueba con (yyyy-MM-dd)");
             RequestDispatcher rd = request.getRequestDispatcher(strTo);
             rd.forward(request, response);  
         }
         
         if (id == null || id.isEmpty()){
-            nuevoEvento = new Evento();                 // Nuevo evento
+            nuevoEvento = new Evento();                             // Nuevo evento
         } else{
             nuevoEvento = this.eventoFacade.find(new Integer(id));  // Editar evento existente
         }
@@ -113,9 +120,15 @@ public class ServletEventoGuardar extends HttpServlet {
         nuevoEvento.setMaximoEntradasUsuario(entradasPorUsuario);
         nuevoEvento.setFechaEvento(fechaEvento);
         nuevoEvento.setFechaFinReservas(fechaEntradas);
+        nuevoEvento.setIdCreador(creador);
+        
         
         if(id == null || id.isEmpty()){
             this.eventoFacade.create(nuevoEvento);
+            List<Evento> listaEventos = creador.getEventoList();
+            listaEventos.add(nuevoEvento);
+            creador.setEventoList(listaEventos);
+            this.userFacade.edit(creador);
         } else{
             this.eventoFacade.edit(nuevoEvento);
         }
@@ -130,8 +143,7 @@ public class ServletEventoGuardar extends HttpServlet {
         }
         
         
-        RequestDispatcher rd = request.getRequestDispatcher(strTo);
-        rd.forward(request, response);
+        response.sendRedirect("ServletCreadorPrincipal");
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -157,6 +169,7 @@ public class ServletEventoGuardar extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

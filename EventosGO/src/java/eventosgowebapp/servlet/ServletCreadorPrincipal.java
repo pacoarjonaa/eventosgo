@@ -5,6 +5,7 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Evento;
 import eventosgowebapp.entity.Usuario;
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletCreadorPrincipal extends HttpServlet {
 
     @EJB
-    private UsuarioFacade usuarioFacade;
+    private EventoFacade eventoFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,9 +41,17 @@ public class ServletCreadorPrincipal extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
-        List<Evento> eventos = usuario.getEventoList();
         
+        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
+        String filtroEvento = request.getParameter("filtroEvento");
+        List<Evento> eventos;
+        
+        if(filtroEvento==null || filtroEvento.isEmpty()){
+            eventos = this.eventoFacade.findByIdCreador(usuario.getId());
+        } else{
+            eventos = this.eventoFacade.findBySimiliarNameAndIdCreador(filtroEvento, usuario.getId());
+        }
+         
         request.setAttribute("eventos", eventos);
         
         RequestDispatcher rd = request.getRequestDispatcher("creadorInicio.jsp");
