@@ -5,6 +5,7 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.UsuarioEventoFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,7 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Usuario;
+import eventosgowebapp.entity.UsuarioEvento;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 
 /**
  *
@@ -25,6 +33,9 @@ public class ServletUsuarioCrear extends HttpServlet {
     
     @EJB
     private UsuarioFacade userFacade;
+    
+    @EJB
+    private UsuarioEventoFacade usereventFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,40 +49,71 @@ public class ServletUsuarioCrear extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String id, correo, password, nombre, sexo, ciudad;
-        Integer edad, rol=4;
+        String strError = "";
+        String id, correo, password, password2, nombre, apellidos, ciudad, domicilio;
+        Integer edad, rol=4, sexo;
+        Date fechaNacimiento = null;
         Usuario nuevoUsuario;
+        UsuarioEvento nuevoUsuarioEvento;
         
         id = request.getParameter("id");
         correo = request.getParameter("correo");
         password = request.getParameter("pass1");
+        password2 = request.getParameter("pass2");
         nombre = request.getParameter("nombre");
-        sexo = request.getParameter("Sexo");
+        apellidos = request.getParameter("apellidos");
+        sexo = new Integer(request.getParameter("Sexo"));
         ciudad = request.getParameter("ciudad");
-        edad = new Integer(request.getParameter("edad"));
+        domicilio = request.getParameter("domicilio");
+        
+        try {
+            fechaNacimiento = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("fechaNacimiento"));
+        } catch (ParseException ex) {
+            Logger.getLogger(ServletUsuarioCrear.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(!password.equals(password2)){
+            strError = "Las contraseñas no coinciden";
+            request.setAttribute("error", strError);
+            RequestDispatcher rd = request.getRequestDispatcher("registroUsuario.jsp");
+            rd.forward(request, response);
+        }
         
         if (id == null || id.isEmpty()){
-            nuevoUsuario = new Usuario();       // Crea un usuario nuevo
+            nuevoUsuario = new Usuario();    
+            nuevoUsuarioEvento = new UsuarioEvento();                  // Crea un usuario nuevo
             nuevoUsuario.setRol(rol);
         } else{
             nuevoUsuario = this.userFacade.find(new Integer(id));      // Editar el cliente seleccionado
+            nuevoUsuarioEvento = this.usereventFacade.find(new Integer(id));
         }
-        
+
         nuevoUsuario.setNombre(nombre);
         nuevoUsuario.setCorreo(correo);
         nuevoUsuario.setContrasena(password);
     
-        // nuevoUsuario.setSexo(sexo);
-        // nuevoUsuario.setCiudad(ciudad)
-        // nuevoUsuario.setEdad(edad);
-        
-        if(id==null || id.isEmpty()){
+         if(id==null || id.isEmpty()){
             this.userFacade.create(nuevoUsuario);
         } else{
             this.userFacade.edit(nuevoUsuario);
         }
         
-        response.sendRedirect("ServletAdminUsuarioCargar");
+        nuevoUsuarioEvento.setId(nuevoUsuario.getId());
+        nuevoUsuarioEvento.setSexo(sexo);
+        nuevoUsuarioEvento.setCiudad(ciudad);
+        nuevoUsuarioEvento.setFechaNacimiento(fechaNacimiento);
+        nuevoUsuarioEvento.setDomicilio(domicilio);
+        nuevoUsuarioEvento.setApellidos(apellidos);
+        
+        if(id==null || id.isEmpty()){
+            this.usereventFacade.create(nuevoUsuarioEvento);
+        } else{
+            this.usereventFacade.edit(nuevoUsuarioEvento);
+        }
+        
+       
+        RequestDispatcher rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
