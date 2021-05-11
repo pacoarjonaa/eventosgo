@@ -39,8 +39,17 @@ public class ServletEventosCargar extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        List<Evento> lista =  eventoFacade.findAll();
+        List<Evento> lista;
+        String filtroEvento = request.getParameter("filtroEvento");
+        
+        if(filtroEvento==null || filtroEvento.isEmpty()){
+            lista =  eventoFacade.findAll();
+        } else{
+            lista = eventoFacade.findBySimiliarName(filtroEvento);
+        }
+       
         request.setAttribute("listaEventos", lista);
+        
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("adminEventos.jsp");
         requestDispatcher.forward(request, response);
         

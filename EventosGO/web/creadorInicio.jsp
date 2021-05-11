@@ -4,6 +4,7 @@
     Author     : Kiko BM
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="eventosgowebapp.entity.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page import="eventosgowebapp.entity.Evento"%>
@@ -25,9 +26,6 @@
     <%
         List<Evento> eventos = (List) request.getAttribute("eventos");
     %>
-
-
-
     <body>
         
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
@@ -45,7 +43,7 @@
                 <h1 class="display-1">Mis eventos</h1>
                 
                 <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                    <input class="form-control me-2" type="search" name="filtroEvento" placeholder="Buscar" aria-label="Search">
                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
                 </form>
             </header>
@@ -68,7 +66,7 @@
 
                             <th scope="row"><%= (i + 1)%></th>
                             <td> <a href="ServletEstudioCargar"> <%= eventos.get(i).getTitulo()%> </a></td>
-                            <td><a href="ServletEstudioCargar"> <%= eventos.get(i).getFechaEvento()%> </a></td>
+                            <td><a href="ServletEstudioCargar"> <%= new SimpleDateFormat("dd/MM/yyyy").format(eventos.get(i).getFechaEvento())%> </a></td>
 
                         </tr>
 
