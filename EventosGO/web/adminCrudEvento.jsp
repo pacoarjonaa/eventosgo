@@ -1,10 +1,11 @@
 <%-- 
-    Document   : adminCrudUsuario
-    Created on : Apr 26, 2021, 12:25:17 PM
+    Document   : adminCrudEvento
+    Created on : 11-may-2021, 15:18:46
     Author     : pacoa
 --%>
 
-<%@page import="eventosgowebapp.entity.Usuario"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="eventosgowebapp.entity.Evento"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -22,7 +23,7 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
         <%
-            Usuario usuario = (Usuario) request.getAttribute("usuario");            
+            Evento evento = (Evento) request.getAttribute("evento");            
         %>
 
     </head>
@@ -35,10 +36,10 @@
 
         <div class="card-body">
             <blockquote class="blockquote">
-                <p>Perfil del usuario</p>
+                <p>Detalles del evento</p>
             </blockquote>
             <figcaption class="blockquote-footer">
-                Aqui podra editar la información que desee acerca del usuario
+                Aqui podra editar la información que desee acerca del evento
             </figcaption>
 
         </div>
@@ -46,28 +47,31 @@
 
         <div class="card" style="width: 18rem;">
             <div class="card-header">
-                Datos
+                Datos del Evento
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Nombre: <%= usuario.getNombre()%></li>
-                <li class="list-group-item">Correo: <%= usuario.getCorreo()%></li>
-                <li class="list-group-item">Contrasena: <%= usuario.getContrasena()%></li>
-                <li class="list-group-item">Rol: <%= usuario.getRol()%></li>
+                <li class="list-group-item">Titulo: <%= evento.getTitulo() %></li>
+                <li class="list-group-item">Descripcion: <%= evento.getDescripcion() %></li>
+                <li class="list-group-item">Fecha: <%= new SimpleDateFormat("dd/MM/yyyy").format(evento.getFechaEvento()) %></li>
+                <li class="list-group-item">Fecha fin reservas: <%= new SimpleDateFormat("dd/MM/yyyy").format(evento.getFechaFinReservas()) %></li>
+                <li class="list-group-item">Aforo: <%= evento.getAforo()%></li>
+                <li class="list-group-item">Coste: <%= evento.getCoste()%></li>
+                <li class="list-group-item">Maximo entradas/usuario: <%= evento.getMaximoEntradasUsuario()%></li>
             </ul>
         </div>
 
         <div>
-            <form action="ServletAdminUsuarioCargar">
+            <form action="ServletAdminEventoCargar">
                 <input type="submit" value="Volver"/>
             </form>
 
-            <form action="ServletAdminCrudUsuarioCrearEditar">
-                <input type ="hidden" name = "id" value = "<%=usuario.getId()%>" />
+            <form action="ServletAdminCrudEventoEditar">
+                <input type ="hidden" name = "id" value = "<%=evento.getId() %>" />
                 <input type="submit" value="Modificar"/>
             </form>
 
-            <form method = "get" action="ServletAdminCrudUsuarioBorrar">
-                <input type ="hidden" name = "id" value = "<%=usuario.getId()%>" />
+            <form method = "get" action="ServletAdminCrudEventoBorrar">
+                <input type ="hidden" name = "id" value = "<%=evento.getId()%>" />
                 <input type="submit" value="Borrar"/>
             </form>
         </div>

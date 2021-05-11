@@ -51,19 +51,19 @@
                     <input type="hidden" name="id" value="<%= strId%>" />
                     <tr>
                         <td>Nombre:</td>
-                        <td><input type="text" name="nombre" maxlength="30" size="30" value="<%= strNombre%>" /></td>
+                        <td><input type="text" name="nombre" maxlength="30" size="30" placeholder="<%= strNombre%>" /></td>
                     </tr>
                     <tr>
                         <td>Email:</td>
-                        <td><input type="text" name="email"  maxlength="40" size="40" value="<%= strEmail%>" /></td>
+                        <td><input type="text" name="email"  maxlength="40" size="40" placeholder="<%= strEmail%>" /></td>
                     </tr>
                     <tr>
                         <td>Password</td>
-                        <td><input type="text" name="password" maxlength="30" size="30"  value="<%= strPassword%>"/> 
+                        <td><input type="text" name="password" maxlength="30" size="30"  placeholder="<%= strPassword%>"/> 
                     </tr>
                     <tr>
                         <td>Rol</td>
-                        <td><input type="text" name="rol"  maxlength="40" size="40" value="<%= rol2%>" /></td>
+                        <td><input type="text" name="rol"  maxlength="40" size="40" placeholder="<%= rol2%>" /></td>
                     </tr>
                     <tr>            
                         <td colspan="2">
