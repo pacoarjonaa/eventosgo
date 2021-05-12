@@ -5,8 +5,20 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EstudioFacade;
+import eventosgowebapp.dao.EventoFacade;
+import eventosgowebapp.dao.UsuarioEventoFacade;
+import eventosgowebapp.entity.Entrada;
+import eventosgowebapp.entity.Estudio;
+import eventosgowebapp.entity.Evento;
+import eventosgowebapp.entity.UsuarioEvento;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +31,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ServletEstudioVer", urlPatterns = {"/ServletEstudioVer"})
 public class ServletEstudioVer extends HttpServlet {
+    
+    @EJB
+    private EstudioFacade estudioFacade;
+    
+    @EJB
+    private UsuarioEventoFacade usuarioEventoFacade;
+    
+    @EJB
+    private EventoFacade eventoFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +52,74 @@ public class ServletEstudioVer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletEstudioVer</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletEstudioVer at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        Estudio e = this.estudioFacade.find(new Integer(request.getParameter("estudio")));
+        String s = e.getResultado();
+            int edadMinima;
+            int edadMaxima;
+            String ciudad;
+            int anio;
+            int masculino;
+            int femenino;
+            int otro;
+            try (Scanner sc = new Scanner(s)) {
+                sc.useDelimiter(";");
+                edadMinima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                edadMaxima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                String aux = sc.next();
+                ciudad = (sc.hasNext() && !aux.isEmpty()) ? aux : null;
+                anio = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                masculino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                femenino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+                otro = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            }
+
+            List<UsuarioEvento> res = this.usuarioEventoFacade.findAll();
+
+            if (edadMinima <= edadMaxima) {
+
+                res = this.usuarioEventoFacade.filtroEdad(edadMinima, edadMaxima, res);
+
+                if (masculino != -1 || femenino != -1 || otro != -1) {
+
+                    int[] genero = {masculino, femenino, otro};
+                    res = this.usuarioEventoFacade.filtroSexo(genero, res);
+
+                    if (ciudad != null) {
+                        res = this.usuarioEventoFacade.filtroCiudad(ciudad, res);
+                    }
+
+                    if (anio > 0) {
+
+                        List<Evento> listEventos = this.eventoFacade.filtroAnio(anio, this.eventoFacade.findAll());
+                        List<UsuarioEvento> aux = new ArrayList<>();
+
+                        if (listEventos != null) {
+                            for (UsuarioEvento u1 : res) {
+
+                                List<Entrada> entradas = u1.getEntradaList();
+
+                                for (Entrada e1 : entradas) {
+
+                                    if (listEventos.contains(e1.getIdEvento())) {
+                                        aux.add(u1);
+                                    }
+
+                                }
+                            }
+
+                            res = aux;
+                        }
+
+                    }
+
+                }
+
+            }
+            
+            request.setAttribute("estudio", e);
+            request.setAttribute("resultado", res);
+            RequestDispatcher rd = request.getRequestDispatcher("verEstudio.jsp");
+            rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
