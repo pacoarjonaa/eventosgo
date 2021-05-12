@@ -51,7 +51,7 @@
             <header class="container">
                 <h1 class="display-1"><%= e.getTitulo()%></h1>
                 <p class="fs-4">Total de usuarios: <%= lista.size()%></p>
-                <a href="ServletAlmacenarEstudio?estudio=<%= e%>" class="btn btn-primary" role="button">Crear Estudio</a>
+                <a href="ServletAlmacenarEstudio?titulo=<%= e.getTitulo() %>&resultado=<%= e.getResultado() %>" class="btn btn-primary" role="button">Crear Estudio</a>
                 <a href="ServletEstudioCargar" class="btn btn-secondary btn-sm" role="button">Cancelar</a>
             </header>
             <article>

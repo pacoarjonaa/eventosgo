@@ -5,14 +5,8 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EstudioFacade;
-import eventosgowebapp.dao.UsuarioFacade;
-import eventosgowebapp.entity.Estudio;
-import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,14 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author juanm
  */
-@WebServlet(name = "ServletAlmacenarEstudio", urlPatterns = {"/ServletAlmacenarEstudio"})
-public class ServletAlmacenarEstudio extends HttpServlet {
-
-    @EJB
-    private EstudioFacade estudioFacade;
-
-    @EJB
-    private UsuarioFacade usuarioFacade;
+@WebServlet(name = "ServletEstudioEditar", urlPatterns = {"/ServletEstudioEditar"})
+public class ServletEstudioEditar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,19 +31,19 @@ public class ServletAlmacenarEstudio extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String titulo = new String (request.getParameter("titulo").getBytes("ISO-8859-1"), "UTF-8");
-        String resultado = request.getParameter("resultado");
-        Estudio e = new Estudio();
-        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-        e.setIdAnalista(u);
-        e.setTitulo(titulo);
-        e.setResultado(resultado);
-        this.estudioFacade.create(e);
-        List<Estudio> lista = u.getEstudioList();
-        lista.add(e);
-        u.setEstudioList(lista);
-        this.usuarioFacade.edit(u);
-        response.sendRedirect("ServletEstudioCargar");
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ServletEstudioEditar</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ServletEstudioEditar at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
