@@ -5,8 +5,13 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EstudioFacade;
+import eventosgowebapp.entity.Estudio;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Scanner;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ServletEstudioEditar", urlPatterns = {"/ServletEstudioEditar"})
 public class ServletEstudioEditar extends HttpServlet {
+    
+    @EJB
+    private EstudioFacade estudioFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +39,44 @@ public class ServletEstudioEditar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletEstudioEditar</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletEstudioEditar at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        int idEstudio = Integer.parseInt(request.getParameter("estudio"));
+        
+        Estudio estudio = estudioFacade.findByID(idEstudio);
+        String resultado = estudio.getResultado();
+        
+        int edadMinima;
+        int edadMaxima;
+        String ciudad;
+        int anio;
+        int masculino;
+        int femenino;
+        int otro;
+        
+        
+        try (Scanner sc = new Scanner(resultado)) {
+            sc.useDelimiter(";");
+            edadMinima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            edadMaxima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            String aux = sc.next();
+            ciudad = (sc.hasNext() && !aux.isEmpty()) ? aux : null;
+            anio = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            masculino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            femenino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            otro = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
         }
+        
+        request.setAttribute("idEstudio", estudio.getId());
+        request.setAttribute("titulo", estudio.getTitulo());
+        request.setAttribute("eMin", edadMinima);
+        request.setAttribute("eMax", edadMaxima);
+        request.setAttribute("ciudad", ciudad);
+        request.setAttribute("anio", anio);
+        request.setAttribute("masculino", masculino);
+        request.setAttribute("femenino", femenino);
+        request.setAttribute("otro", otro);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("editarEstudio.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

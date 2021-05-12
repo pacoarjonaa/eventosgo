@@ -43,18 +43,33 @@ public class ServletAlmacenarEstudio extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String titulo = new String (request.getParameter("titulo").getBytes("ISO-8859-1"), "UTF-8");
+        String titulo = new String(request.getParameter("titulo").getBytes("ISO-8859-1"), "UTF-8");
         String resultado = request.getParameter("resultado");
-        Estudio e = new Estudio();
-        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-        e.setIdAnalista(u);
-        e.setTitulo(titulo);
-        e.setResultado(resultado);
-        this.estudioFacade.create(e);
-        List<Estudio> lista = u.getEstudioList();
-        lista.add(e);
-        u.setEstudioList(lista);
-        this.usuarioFacade.edit(u);
+
+        if (request.getParameter("estudio") != null) {
+            Estudio e = this.estudioFacade.findByID(Integer.parseInt(request.getParameter("estudio")));
+            Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+            List<Estudio> lista = u.getEstudioList();
+            lista.remove(e);
+            e.setTitulo(titulo);
+            e.setResultado(resultado);
+            lista.add(e);
+            u.setEstudioList(lista);
+            this.estudioFacade.edit(e);
+            this.usuarioFacade.edit(u);
+        } else {
+            Estudio e = new Estudio();
+            Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+            e.setIdAnalista(u);
+            e.setTitulo(titulo);
+            e.setResultado(resultado);
+            this.estudioFacade.create(e);
+            List<Estudio> lista = u.getEstudioList();
+            lista.add(e);
+            u.setEstudioList(lista);
+            this.usuarioFacade.edit(u);
+        }
+
         response.sendRedirect("ServletEstudioCargar");
     }
 
