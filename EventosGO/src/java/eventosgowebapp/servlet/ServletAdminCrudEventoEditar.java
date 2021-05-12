@@ -11,7 +11,6 @@ import eventosgowebapp.entity.Evento;
 import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,10 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Kiko BM
+ * @author pacoa
  */
-@WebServlet(name = "ServletCreadorPrincipal", urlPatterns = {"/ServletCreadorPrincipal"})
-public class ServletCreadorPrincipal extends HttpServlet {
+@WebServlet(name = "ServletAdminCrudEventoEditar", urlPatterns = {"/ServletAdminCrudEventoEditar"})
+public class ServletAdminCrudEventoEditar extends HttpServlet {
+
+    @EJB
+    private UsuarioFacade usuarioFacade;
 
     @EJB
     private EventoFacade eventoFacade;
@@ -41,22 +43,15 @@ public class ServletCreadorPrincipal extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+     
+        String strId = request.getParameter("id");
+        Evento evento = this.eventoFacade.find(new Integer(strId));
         
-        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
-        String filtroEvento = request.getParameter("filtroEvento");
-        List<Evento> eventos;
+        request.setAttribute("evento", evento);
         
-        if(filtroEvento==null || filtroEvento.isEmpty()){
-            eventos = this.eventoFacade.findByIdCreador(usuario.getId());
-        } else{
-            eventos = this.eventoFacade.findBySimiliarNameAndIdCreador(filtroEvento, usuario.getId());
-        }
-         
-        request.setAttribute("eventos", eventos);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("creadorInicio.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("AdminCrudFormularioEvento.jsp");
         rd.forward(request, response);
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

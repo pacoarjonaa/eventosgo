@@ -6,9 +6,7 @@
 package eventosgowebapp.servlet;
 
 import eventosgowebapp.dao.EventoFacade;
-import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Evento;
-import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -22,10 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Kiko BM
+ * @author pacoa
  */
-@WebServlet(name = "ServletCreadorPrincipal", urlPatterns = {"/ServletCreadorPrincipal"})
-public class ServletCreadorPrincipal extends HttpServlet {
+@WebServlet(name = "ServletAdminEventoCargar", urlPatterns = {"/ServletAdminEventoCargar"})
+public class ServletAdminEventoCargar extends HttpServlet {
 
     @EJB
     private EventoFacade eventoFacade;
@@ -41,22 +39,12 @@ public class ServletCreadorPrincipal extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         
-        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
-        String filtroEvento = request.getParameter("filtroEvento");
-        List<Evento> eventos;
-        
-        if(filtroEvento==null || filtroEvento.isEmpty()){
-            eventos = this.eventoFacade.findByIdCreador(usuario.getId());
-        } else{
-            eventos = this.eventoFacade.findBySimiliarNameAndIdCreador(filtroEvento, usuario.getId());
-        }
-         
-        request.setAttribute("eventos", eventos);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("creadorInicio.jsp");
+        List<Evento> lista =  this.eventoFacade.findAll();
+        request.setAttribute("listaEventos", lista);
+        RequestDispatcher rd = request.getRequestDispatcher("adminEventos.jsp");
         rd.forward(request, response);
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

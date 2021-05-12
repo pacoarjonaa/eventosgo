@@ -23,7 +23,9 @@
 
 
     </head>
-
+    <%
+        String error = (String) request.getAttribute("error");
+    %>
     <body>     
 
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
@@ -32,43 +34,54 @@
         <form method='POST' action="ServletUsuarioCrear">
             <table>
                 <input type="hidden" name="id" value=""/>
+                <%
+                    if(error!= null && !error.isEmpty()){
+                       
+                %>
+                        <%= error %> <br/> 
+                <%
+                    }
+                %>
                 <tr>
                     <td>Nombre:</td>
-                    <td><input type="text" name="nombre"/></td>
+                    <td><input type="text" name="nombre" required title="Debes rellenar el campo Nombre"/></td>
                 </tr>
                 <tr>
                     <td>Apellidos:</td>
-                    <td><input type="text" name="apellidos"/></td>
+                    <td><input type="text" name="apellidos" required title="Debes rellenar el campo Apellidos"/></td>
                 </tr>
                 <tr>
                     <td>Correo:</td>
-                    <td><input type="email" name="correo"/></td>
+                    <td><input type="email" name="correo" required title="Debes rellenar el campo Correo"/></td>
                 </tr>
                 <tr>
                     <td>Contraseña</td>
-                    <td><input type="password" name="pass1"/></td>
+                    <td><input type="password" name="pass1" required title="Debes rellenar el campo Contraseña"/></td>
                 </tr>
                 <tr>
                     <td>Confirmar contraseña</td>
-                    <td><input type="password" name="pass2"</td>
+                    <td><input type="password" name="pass2" required title="Debes rellenar el campo Confirmar Contraseña"</td>
                 </tr>
                 <tr></tr>
                 <tr>
                     <td>Sexo:</td>
-                    <td><select name="Sexo">
-                            <option value="">
-                            <option value="hombre">Hombre</option>
-                            <option value="mujer">Mujer</option>
-                            <option value="otro">Otro</option>
+                    <td><select name="Sexo" required title="Debes rellenar el campo Sexo">
+                            <option value="0">Hombre</option>
+                            <option value="1">Mujer</option>
+                            <option value="2">Otro</option>
                         </select></td>
                 </tr>
                 <tr>
                     <td>Ciudad de residencia:</td>
-                    <td><input type="text" name="ciudad"/></td>
+                    <td><input type="text" name="ciudad" required title="Debes rellenar el campo Ciudad"/></td>
                 </tr>
                 <tr>
-                    <td>Edad:</td>
-                    <td><input type="text" name="edad" maxlength="2" size="2"/></td>
+                    <td>Domicilio:</td>
+                    <td><input type="text" name="domicilio" required title="Debes rellenar el campo Domicilio"/></td>
+                </tr>
+                <tr>
+                    <td>Fecha de nacimiento: </td>
+                    <td><input type="date" name="fechaNacimiento" required title="Debes rellenar el campo Fecha de Nacimiento"/></td>
                 </tr>
                 <tr></tr>
                 <tr>
