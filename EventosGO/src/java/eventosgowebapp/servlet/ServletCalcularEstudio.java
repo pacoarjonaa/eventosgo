@@ -112,7 +112,7 @@ public class ServletCalcularEstudio extends HttpServlet {
         Estudio est = null;
         
         if (request.getParameter("idEstudio") != null) {
-            est = this.estudioFacade.findByID(Integer.parseInt(request.getParameter("idEstudio")));
+            est = this.estudioFacade.find(Integer.parseInt(request.getParameter("idEstudio")));
         } else {
             est = new Estudio();
             est.setIdAnalista((Usuario) request.getSession().getAttribute("usuario"));

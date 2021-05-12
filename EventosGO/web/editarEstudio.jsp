@@ -19,17 +19,18 @@
 
         <!--        W3 CSS -->
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
         <%
-            SimpleDateFormat anio = new SimpleDateFormat("YYYY");
-            
+            SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
             int idEstudio = (Integer) request.getAttribute("idEstudio");
             String titulo = String.valueOf(request.getAttribute("titulo"));
             int eMin = (Integer) request.getAttribute("eMin");
             int eMax = (Integer) request.getAttribute("eMax");
+            int anio = (request.getAttribute("anio") != null) ? (Integer) request.getAttribute("anio") : -1;
             String ciudad = (request.getAttribute("ciudad") != null) ? String.valueOf(request.getAttribute("ciudad")) : "";
-            int masculino = ((request.getAttribute("masculino") != null) && ((Integer) request.getAttribute("masculino")) == 0) ? 1 : 0;
-            int femenino = ((request.getAttribute("femenino") != null) && ((Integer) request.getAttribute("femenino")) == 0) ? 1 : 0;
-            int otro = ((request.getAttribute("otro") != null) && ((Integer) request.getAttribute("otro")) == 0) ? 1 : 0;
+            int masculino = ((request.getAttribute("masculino") != null) && ((Integer) request.getAttribute("masculino")) > -1) ? 1 : 0;
+            int femenino = ((request.getAttribute("femenino") != null) && ((Integer) request.getAttribute("femenino")) > -1) ? 1 : 0;
+            int otro = ((request.getAttribute("otro") != null) && ((Integer) request.getAttribute("otro")) > -1) ? 1 : 0;
         %>
     </head>
     <body>
@@ -55,45 +56,46 @@
             <div class="alert alert-info mb-3">Todos los estudios estadísticos que eres capaz de crear serán vinculados a los usuarios que han asistido a eventos, restringido a los filtros que t&uacute; como analista has considerado de estudio.</div>
             <div class="mb-3">
                 <label for="title" class="form-label">T&iacute;tulo</label>
-                <input type="text" name="titulo" class="form-control" id="titulo" value="<%= titulo %>"/>
+                <input type="text" name="titulo" class="form-control" id="titulo" value="<%= titulo%>"/>
             </div>
             <div class="mb-3">
                 <label for="year" class="form-label">A&ntilde;o evento</label>
-                <input type="number" class="form-control" name="anio" min="2000" max="<%= anio.format(new Date())%>" value="<%= anio %>"/>
+                <input type="number" class="form-control" name="anio" min="2000" max="<%= sdf.format(new Date())%>" value="<%= anio%>"/>
+
             </div>
             <div class="mb-3">
                 <label class="form-label">Edad m&iacute;nima</label>
-                <input type="range" class="form-range" name="edad_min" onchange="updateTextInput(this.value, 'emin');" value="<%= eMin %>"/>
-                <input type="text" readonly class="form-control-plaintext text-center" value="<%= eMin %>" id="emin"/>
+                <input type="range" class="form-range" name="edad_min" onchange="updateTextInput(this.value, 'emin');" value="<%= eMin%>"/>
+                <input type="text" readonly class="form-control-plaintext text-center" value="<%= eMin%>" id="emin"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">Edad m&aacute;xima</label>
-                <input type="range" class="form-range" name="edad_max" onchange="updateTextInput(this.value, 'emax');" value="<%= eMax %>"/>
-                <input type="text" readonly class="form-control-plaintext text-center" value="<%= eMax %>" id="emax"/>
+                <input type="range" class="form-range" name="edad_max" onchange="updateTextInput(this.value, 'emax');" value="<%= eMax%>"/>
+                <input type="text" readonly class="form-control-plaintext text-center" value="<%= eMax%>" id="emax"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">Sexo</label>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" value="0" name="masculino" <%= (masculino == 1) ? "checked=\"\"" : "" %>>
+                    <input class="form-check-input" type="checkbox" value="0" name="masculino" <%= (masculino == 1) ? "checked=\"\"" : ""%>>
                     <label class="form-check-label" for="masculino">Masculino</label>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" value="1" name="femenino" <%= (femenino == 1) ? "checked=\"\"" : "" %>>
+                    <input class="form-check-input" type="checkbox" value="1" name="femenino" <%= (femenino == 1) ? "checked=\"\"" : ""%>>
                     <label class="form-check-label" for="femenino">Femenino</label>
                 </div>
                 <div class="mb-3 form-check form-switch">
-                    <input class="form-check-input" type="checkbox" value="2" name="otro" <%= (otro == 1) ? "checked=\"\"" : "" %>>
+                    <input class="form-check-input" type="checkbox" value="2" name="otro" <%= (otro == 1) ? "checked=\"\"" : ""%>>
                     <label class="form-check-label" for="otro">Otro</label>
                 </div>
             </div>
 
             <div class="mb-3">
                 <label for="city" class="form-label">Ciudad</label>
-                <input type="text" class="form-control" name="ciudad" value="<%= ciudad %>"/>
+                <input type="text" class="form-control" name="ciudad" value="<%= ciudad%>"/>
             </div>
-            
-            <input type="text" class="form-control" hidden="" name="idEstudio" value="<%= idEstudio %>"/>
-            
+
+            <input type="text" class="form-control" hidden="" name="idEstudio" value="<%= idEstudio%>"/>
+
             <div class="pt-3">
                 <button type="submit" class="btn btn-primary btn-lg">Siguiente</button>
                 <button type="reset" class="btn btn-secondary btn-sm">Reset</button>

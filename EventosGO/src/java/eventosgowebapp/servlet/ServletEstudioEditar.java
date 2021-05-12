@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ServletEstudioEditar", urlPatterns = {"/ServletEstudioEditar"})
 public class ServletEstudioEditar extends HttpServlet {
-    
+
     @EJB
     private EstudioFacade estudioFacade;
 
@@ -39,11 +39,10 @@ public class ServletEstudioEditar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int idEstudio = Integer.parseInt(request.getParameter("estudio"));
-        
-        Estudio estudio = estudioFacade.findByID(idEstudio);
+
+        Estudio estudio = estudioFacade.find(Integer.parseInt(request.getParameter("estudio")));
         String resultado = estudio.getResultado();
-        
+
         int edadMinima;
         int edadMaxima;
         String ciudad;
@@ -51,20 +50,18 @@ public class ServletEstudioEditar extends HttpServlet {
         int masculino;
         int femenino;
         int otro;
-        
-        
+
         try (Scanner sc = new Scanner(resultado)) {
             sc.useDelimiter(";");
             edadMinima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
             edadMaxima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
-            String aux = sc.next();
-            ciudad = (sc.hasNext() && !aux.isEmpty()) ? aux : null;
+            String aux = (sc.hasNext())? sc.next():null;
+            ciudad = (aux!=null && !aux.isEmpty()) ? aux : null;
             anio = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
             masculino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
             femenino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
             otro = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
         }
-        
         request.setAttribute("idEstudio", estudio.getId());
         request.setAttribute("titulo", estudio.getTitulo());
         request.setAttribute("eMin", edadMinima);
@@ -74,7 +71,7 @@ public class ServletEstudioEditar extends HttpServlet {
         request.setAttribute("masculino", masculino);
         request.setAttribute("femenino", femenino);
         request.setAttribute("otro", otro);
-        
+
         RequestDispatcher rd = request.getRequestDispatcher("editarEstudio.jsp");
         rd.forward(request, response);
     }
