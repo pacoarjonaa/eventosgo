@@ -56,7 +56,7 @@ public class ServletCalcularEstudio extends HttpServlet {
             throws ServletException, IOException {
         List<UsuarioEvento> lista = new ArrayList<>();
         String titulo = (request.getParameter("titulo") != null) ? new String(request.getParameter("titulo").getBytes("ISO-8859-1"), "UTF-8") : null;
-
+        
         // Filtros estudio: ciudad, rango edad
         int edadMinima = Integer.parseInt(request.getParameter("edad_min"));
         int edadMaxima = Integer.parseInt(request.getParameter("edad_max"));
@@ -108,10 +108,17 @@ public class ServletCalcularEstudio extends HttpServlet {
             }
 
         }
+        
+        Estudio est = null;
+        
+        if (request.getParameter("idEstudio") != null) {
+            est = this.estudioFacade.findByID(Integer.parseInt(request.getParameter("idEstudio")));
+        } else {
+            est = new Estudio();
+            est.setIdAnalista((Usuario) request.getSession().getAttribute("usuario"));
+        }
 
         //Objeto estudio en local
-        Estudio est = new Estudio();
-        est.setIdAnalista((Usuario) request.getSession().getAttribute("usuario"));
         est.setTitulo(titulo);
         StringJoiner resultado = new StringJoiner(";");
         resultado.add(Integer.toString(edadMinima));
