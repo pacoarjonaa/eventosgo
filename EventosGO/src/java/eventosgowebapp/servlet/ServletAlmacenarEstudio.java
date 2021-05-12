@@ -45,7 +45,7 @@ public class ServletAlmacenarEstudio extends HttpServlet {
             throws ServletException, IOException {
 
         String titulo = new String(request.getParameter("titulo").getBytes("ISO-8859-1"), "UTF-8");
-        String resultado = request.getParameter("resultado");
+        String resultado = new String (request.getParameter("resultado").getBytes("ISO-8859-1"), "UTF-8");;
         Usuario u = (Usuario) request.getSession().getAttribute("usuario");
         List<Estudio> lista = u.getEstudioList();
         Estudio e;

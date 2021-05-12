@@ -56,11 +56,11 @@
             <div class="alert alert-info mb-3">Todos los estudios estadísticos que eres capaz de crear serán vinculados a los usuarios que han asistido a eventos, restringido a los filtros que t&uacute; como analista has considerado de estudio.</div>
             <div class="mb-3">
                 <label for="title" class="form-label">T&iacute;tulo</label>
-                <input type="text" name="titulo" class="form-control" id="titulo" value="<%= titulo%>"/>
+                <input type="text" name="titulo" class="form-control" id="titulo" value="<%= titulo %>"/>
             </div>
             <div class="mb-3">
                 <label for="year" class="form-label">A&ntilde;o evento</label>
-                <input type="number" class="form-control" name="anio" min="2000" max="<%= sdf.format(new Date())%>" value="<%= anio%>"/>
+                <input type="number" class="form-control" name="anio" min="2000" max="<%= sdf.format(new Date())%>" value="<%= anio %>"/>
 
             </div>
             <div class="mb-3">
