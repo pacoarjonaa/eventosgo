@@ -6,9 +6,12 @@
 package eventosgowebapp.servlet;
 
 import eventosgowebapp.dao.EstudioFacade;
+import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Estudio;
+import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,9 +26,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ServletEstudioEliminar", urlPatterns = {"/ServletEstudioEliminar"})
 public class ServletEstudioEliminar extends HttpServlet {
-    
+
     @EJB
     private EstudioFacade estudioFacade;
+
+    @EJB
+    private UsuarioFacade usuarioFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,11 +44,15 @@ public class ServletEstudioEliminar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("idEstudio"));
-        
-        Estudio estudio = estudioFacade.findByID(id);
-        estudioFacade.remove(estudio);
-        
+        Estudio e = this.estudioFacade.find(new Integer(request.getParameter("estudio")));
+        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+        List<Estudio> lista = u.getEstudioList();
+        lista.remove(e);
+        u.setEstudioList(lista);
+
+        this.estudioFacade.remove(e);
+        this.usuarioFacade.edit(u);
+
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletEstudioCargar");
         requestDispatcher.forward(request, response);
     }
