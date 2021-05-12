@@ -35,12 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Estudio.findByTitulo", query = "SELECT e FROM Estudio e WHERE e.titulo = :titulo")})
 public class Estudio implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ID")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -52,6 +46,13 @@ public class Estudio implements Serializable {
     @Size(min = 1, max = 32700)
     @Column(name = "RESULTADO")
     private String resultado;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
+    private Integer id;
     @JoinColumn(name = "ID_ANALISTA", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Usuario idAnalista;
@@ -77,21 +78,6 @@ public class Estudio implements Serializable {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getResultado() {
-        return resultado;
-    }
-
-    public void setResultado(String resultado) {
-        this.resultado = resultado;
-    }
 
     public Usuario getIdAnalista() {
         return idAnalista;
@@ -124,6 +110,22 @@ public class Estudio implements Serializable {
     @Override
     public String toString() {
         return "eventosgowebapp.entities.Estudio[ id=" + id + " ]";
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getResultado() {
+        return resultado;
+    }
+
+    public void setResultado(String resultado) {
+        this.resultado = resultado;
     }
     
 }

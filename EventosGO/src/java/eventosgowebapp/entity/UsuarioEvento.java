@@ -43,36 +43,28 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "UsuarioEvento.findBySexo", query = "SELECT u FROM UsuarioEvento u WHERE u.sexo = :sexo")})
 public class UsuarioEvento implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID")
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "APELLIDOS")
+    @Column(name = "APELLIDOS", length=50)
     private String apellidos;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "DOMICILIO")
+    @Column(name = "DOMICILIO", length=100)
     private String domicilio;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "CIUDAD")
+    @Column(name = "CIUDAD", length=50)
     private String ciudad;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "FECHA_NACIMIENTO")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "SEXO")
     private int sexo;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @Column(name = "ID")
+    private Integer id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Entrada> entradaList;
     @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
@@ -103,29 +95,6 @@ public class UsuarioEvento implements Serializable {
         this.id = id;
     }
 
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getDomicilio() {
-        return domicilio;
-    }
-
-    public void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
 
     public Date getFechaNacimiento() {
         return fechaNacimiento;
@@ -135,13 +104,6 @@ public class UsuarioEvento implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public int getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(int sexo) {
-        this.sexo = sexo;
-    }
 
     @XmlTransient
     public List<Entrada> getEntradaList() {
@@ -183,6 +145,38 @@ public class UsuarioEvento implements Serializable {
     @Override
     public String toString() {
         return "eventosgowebapp.entities.UsuarioEvento[ id=" + id + " ]";
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public int getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(int sexo) {
+        this.sexo = sexo;
     }
     
 }

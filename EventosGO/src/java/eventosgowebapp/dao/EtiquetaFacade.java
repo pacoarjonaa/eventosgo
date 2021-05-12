@@ -6,9 +6,11 @@
 package eventosgowebapp.dao;
 
 import eventosgowebapp.entity.Etiqueta;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,21 @@ public class EtiquetaFacade extends AbstractFacade<Etiqueta> {
 
     public EtiquetaFacade() {
         super(Etiqueta.class);
+    }
+    
+    public Etiqueta findByName(String filtro){
+        Query q;
+        List<Etiqueta> lst;
+        Etiqueta et = null;
+        
+        q = em.createQuery("SELECT e FROM Etiqueta e WHERE e.nombre=:nombre");
+        q.setParameter("nombre", filtro);
+        lst = q.getResultList();
+        
+        if(!lst.isEmpty()){
+             et = lst.get(0);
+        }
+        return et;
     }
     
 }

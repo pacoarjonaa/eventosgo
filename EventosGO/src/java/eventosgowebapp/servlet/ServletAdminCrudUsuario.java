@@ -47,14 +47,7 @@ public class ServletAdminCrudUsuario extends HttpServlet {
         // Como lo ha seleccionado de los usuarios que hay, es imposible que sea un Usuario null
         
         String Id = request.getParameter("id");
-        Usuario usuario = null;
-        List<Usuario> lista =  usuarioFacade.findAll();
-        
-        for(Usuario cont : lista){  
-            if(cont.getId().toString().equals(Id)){
-                usuario = cont;     
-            }
-        }
+        Usuario usuario = this.usuarioFacade.find(new Integer(Id));
         
         request.setAttribute("usuario", usuario);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("adminCrudUsuario.jsp");

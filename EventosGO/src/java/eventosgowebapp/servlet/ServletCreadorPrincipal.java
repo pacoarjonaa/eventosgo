@@ -6,8 +6,11 @@
 package eventosgowebapp.servlet;
 
 import eventosgowebapp.dao.EventoFacade;
+import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Evento;
+import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -21,12 +24,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Kiko BM
  */
-@WebServlet(name = "ServletEventosCargar", urlPatterns = {"/ServletEventosCargar"})
-public class ServletEventosCargar extends HttpServlet {
-    
-     @EJB
+@WebServlet(name = "ServletCreadorPrincipal", urlPatterns = {"/ServletCreadorPrincipal"})
+public class ServletCreadorPrincipal extends HttpServlet {
+
+    @EJB
     private EventoFacade eventoFacade;
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,24 +42,24 @@ public class ServletEventosCargar extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        List<Evento> lista;
+        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
         String filtroEvento = request.getParameter("filtroEvento");
+        List<Evento> eventos;
         
         if(filtroEvento==null || filtroEvento.isEmpty()){
-            lista =  eventoFacade.findAll();
+            eventos = this.eventoFacade.findByIdCreador(usuario.getId());
         } else{
-            lista = eventoFacade.findBySimiliarName(filtroEvento);
+            eventos = this.eventoFacade.findBySimiliarNameAndIdCreador(filtroEvento, usuario.getId());
         }
-       
-        request.setAttribute("listaEventos", lista);
+         
+        request.setAttribute("eventos", eventos);
         
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("adminEventos.jsp");
-        requestDispatcher.forward(request, response);
-        
+        RequestDispatcher rd = request.getRequestDispatcher("creadorInicio.jsp");
+        rd.forward(request, response);
         
     }
 
-     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

@@ -41,8 +41,8 @@ public class UsuarioEventoFacade extends AbstractFacade<UsuarioEvento> {
         Query q;
         List<UsuarioEvento> res = new LinkedList<>();
         if (l == null) {
-            q = this.em.createQuery("SELECT u FROM USUARIO_EVENTO u WHERE u.CIUDAD = :ciudad");
-            q.setParameter("ciudad", c);
+            q = this.em.createQuery("SELECT u FROM UsuarioEvento u WHERE u.ciudad = :ciudad");
+            q.setParameter("ciudad", c.toUpperCase());
             res = q.getResultList();
         } else {
             for (UsuarioEvento u : l) {
@@ -56,17 +56,21 @@ public class UsuarioEventoFacade extends AbstractFacade<UsuarioEvento> {
 
     }
 
-    public List<UsuarioEvento> filtroSexo(int s, List<UsuarioEvento> l) {
+    public List<UsuarioEvento> filtroSexo(int[] s, List<UsuarioEvento> l) {
         Query q;
         List<UsuarioEvento> res = new LinkedList<>();
         if (l == null) {
-            q = this.em.createQuery("SELECT u FROM USUARIO_EVENTO u WHERE u.SEXO = :sexo");
-            q.setParameter("sexo", s);
+            q = this.em.createQuery("SELECT u FROM UsuarioEvento u WHERE u.sexo = :sexo1 OR u.sexo = :sexo2 OR u.sexo = :sexo3");
+            q.setParameter("sexo1", s[0]);
+            q.setParameter("sexo2", s[1]);
+            q.setParameter("sexo3", s[2]);
             res = q.getResultList();
         } else {
             for (UsuarioEvento u : l) {
-                if (s == u.getSexo()) {
-                    res.add(u);
+                for (int i = 0; i < s.length; i++) {
+                    if (s[i] == u.getSexo()) {
+                        res.add(u);
+                    }
                 }
             }
         }
@@ -78,12 +82,12 @@ public class UsuarioEventoFacade extends AbstractFacade<UsuarioEvento> {
     public List<UsuarioEvento> filtroEdad(int min, int max, List<UsuarioEvento> l) {
         Query q;
         List<UsuarioEvento> res = new LinkedList<>();
-        if (l == null) {
-            q = this.em.createQuery("SELECT u FROM USUARIO_EVENTO u WHERE TRUNC(MONTHS_BETWEEN(SYSDATE, u.FECHA_NACIMIENTO)/12) >= :min AND TRUNC(MONTHS_BETWEEN(SYSDATE, u.FECHA_NACIMIENTO)/12) <= :max");
-            q.setParameter("min", min);
-            q.setParameter("max", max);
-            res = q.getResultList();
-        } else {
+//        if (l == null) {
+//            q = this.em.createQuery("SELECT u FROM UsuarioEvento u WHERE (CURRENT_DATE-u.fechaNacimiento) >= :min");
+//            q.setParameter("min", min);
+//            q.setParameter("max", max);
+//            res = q.getResultList();
+//        } else {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/YYYY");
             SimpleDateFormat sdt = new SimpleDateFormat("DD/MM/YYYY");
 
@@ -94,7 +98,7 @@ public class UsuarioEventoFacade extends AbstractFacade<UsuarioEvento> {
                 if (min <= x && x <= max) {
                     res.add(u);
                 }
-            }
+//            }
         }
 
         return res;

@@ -25,86 +25,31 @@
         <%
             List<Estudio> estudios = (List) request.getAttribute("listaEstudios");
             int pagina = (Integer) request.getAttribute("pagina");
-            int rol;
-            if (request.getSession().getAttribute("usuario") != null) {
-                rol = ((Usuario) request.getSession().getAttribute("usuario")).getRol();
-            } else {
-                rol = -1;
-            }
-
         %>
     </head>
     <body>
 
-        <!-- Navbar de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-5 text" style="margin-bottom: 20px">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="navbar-brand fs-2" href="#">EventosGO</a>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="paginaInicioWeb.jsp">Inicio</a>
-                        </li>
-                        <%                            if (rol == 1) {
-                        %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ServletCreadorPrincipal">Mis Eventos</a>
-                        </li>
-                        <%
-                            }
-                        %>
-                        <%
-                            if (rol == 3) {
-                        %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Estudios</a>
-                        </li>
-                        <%
-                            }
-                        %>
-                        <%
-                            if (rol == 2 || rol == 4 || rol == 1) {
-                        %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Chat</a>
-                        </li>
-                        <%
-                            }
-                        %>
-                    </ul>
-                    <%
-                        if (rol < 0) {
-                    %>
-                    <a class="btn btn-outline-light m-4" href="#" role="button">Registrarse</a>
-                    <a class="btn btn-outline-light" href="inicioSesion.jsp" role="button">Iniciar Sesi&oacute;n</a>
-                    <%
-                    } else {
-                    %>
-                    <a class="btn btn-outline-light m-4" href="#" role="button">Perfil</a>
-                    <a class="btn btn-outline-light" href="ServletCerrarSesion" role="button">Cerrar Sesi&oacute;n</a>
-                    <%
-                        }
-                    %>
-
-                </div>
-            </div>
-        </nav>
-        <!-- END Navbar de paginación de los estudios -->
+        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
         <!-- Sección con la tabla de los estudios -->
-        <section class="container rounded shadow-sm w3-padding">
+        <section class="container rounded shadow-sm py-3 align-middle">
             <header class="container">
-                <h1 class="display-1">Estudios Estad&iacute;sticos</h1>
-                <a class="btn" href="crearEstudio.jsp" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg></a>
+                <div class="d-flex">
+                    <div class="me-auto">
+                        <h1 class="display-1">Estudios Estad&iacute;sticos</h1>
+                    </div>
+                    <div class="mt-auto">
+                        <a class="btn" href="crearEstudio.jsp" role="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </header>
             <article>
-                <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de estudios">
+                <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de estudios" id="tabla">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -113,9 +58,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%
-                            int i;
-                            for (i = (pagina - 1) * 10; i < estudios.size(); i++) {
+                        <%                            int i;
+                            for (i = (pagina - 1) * 10; i < estudios.size() && i < (pagina * 10); i++) {
                         %>
                         <tr>
                             <th scope="row"><%= (i + 1)%></th>
@@ -124,10 +68,10 @@
                         </tr>
                         <%
                             }
-                            for (int j = 10; j > i; j--) {
+                            for (i = i; i < 10 * pagina; i++) {
                         %>
                         <tr>
-                            <th scope="row"><%= (12 - j)%></th>
+                            <th scope="row"><%= (i + 1)%></th>
                             <td>*</td>
                             <td>*</td>
                         </tr>
@@ -143,32 +87,31 @@
                 <ul class="pagination justify-content-center">
                     <%
                         int totalPaginas = (Integer) (estudios.size() / 10) + 1;
-                        if (pagina > totalPaginas) {
                     %>
-                    <li class="page-item">
+                    <li class="page-item <%= (pagina > 1) ? "" : "disabled"%>">
 
-                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>" aria-label="Previous">
+                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <%
-                        }
+                        if (pagina == totalPaginas && totalPaginas > 2) {
                     %>
-                    <%
-                        if (pagina > 1) {
-                    %>
-
-                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>"><%= pagina - 1%></a></li>
-                        <%
-                            }
-                            if (pagina == totalPaginas && totalPaginas > 2) {
-                        %>
                     <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 2%>"><%= pagina - 2%></a></li>
                         <%
                             }
                         %>
+                        <%
+                            if (pagina > 1) {
+                        %>
 
-                    <li class="page-item"><a class="page-link active" href="ServletEstudioCargar?paginaActual=<%= pagina%>"><%= pagina%></a></li>
+                    <li class="page-item"><a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina - 1%>"><%= pagina - 1%></a></li>
+                        <%
+                            }
+                        %>
+
+
+                    <li class="page-item active"><a class="page-link active" href="ServletEstudioCargar?paginaActual=<%= pagina%>"><%= pagina%></a></li>
                         <%
                             if (pagina < totalPaginas) {
                         %>
@@ -181,17 +124,11 @@
                                 }
                             }
                         %>
-                        <%
-                            if (pagina < totalPaginas) {
-                        %>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
+                    <li class="page-item <%= (pagina < totalPaginas) ? "" : "disabled"%>">
+                        <a class="page-link" href="ServletEstudioCargar?paginaActual=<%= pagina + 1%>">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
-                    <%
-                        }
-                    %>
 
                 </ul>
             </nav>

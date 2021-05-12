@@ -4,6 +4,7 @@
     Author     : juanm
 --%>
 
+<%@page import="eventosgowebapp.entity.Usuario"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -24,49 +25,29 @@
         %>
     </head>
     <body>
-        
-        <!-- Navbar de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fs-5 text" style="margin-bottom: 20px">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="navbar-brand fs-2" href="#">EventosGO</a>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="paginaInicioWeb.jsp">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Eventos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Estudios</a>
-                            <!--             Deshabilitar enlaces del navbar       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Chat</a>
-                        </li>
 
-                    </ul>
+        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
-                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                        <input type="search" class="form-control form-control-dark" placeholder="Search...">
-                    </form>
-                    <button class="btn btn-outline-light m-4" type="buttom">Perfil</button>
-                    <button class="btn btn-outline-light" type="buttom">Cerrar Sesion</button>
+        <!-- Indicador de progreso -->
+        <div class="container py-4">
+            <div class="position-relative m-4">
+                <div class="progress" style="height: 3px;">
+                    <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
+                <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-lg btn-primary rounded-pill" style="width: 3rem; height:3rem;">1</button>
+                <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-lg btn-secondary rounded-pill" style="width: 3rem; height:3rem;">2</button>
             </div>
-        </nav>
-        <!-- END Navbar de paginación de los estudios -->
+        </div>
+        <!-- END Indicador de progreso -->
 
         <!-- Formulario de crear un Estudio -->
 
-        <form class="container shadow-lg p-3 mb-5 bg-body rounded" action="ServletGuardarEstudio">
+        <form class="container shadow-lg p-3 mb-5 bg-body rounded" action="ServletCalcularEstudio">
+
             <div class="alert alert-info mb-3">Todos los estudios estadísticos que eres capaz de crear serán vinculados a los usuarios que han asistido a eventos, restringido a los filtros que t&uacute; como analista has considerado de estudio.</div>
             <div class="mb-3">
                 <label for="title" class="form-label">T&iacute;tulo</label>
-                <input type="text" class="form-control" id="titulo"/>
+                <input type="text" name="titulo" class="form-control" id="titulo"/>
             </div>
             <div class="mb-3">
                 <label for="year" class="form-label">A&ntilde;o evento</label>
@@ -75,12 +56,12 @@
             <div class="mb-3">
                 <label class="form-label">Edad m&iacute;nima</label>
                 <input type="range" class="form-range" name="edad_min" onchange="updateTextInput(this.value, 'emin');" value="0"/>
-                <input type="text" readonly class="form-control-plaintext text-center" value="" id="emin"/>
+                <input type="text" readonly class="form-control-plaintext text-center" value="0" id="emin"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">Edad m&aacute;xima</label>
                 <input type="range" class="form-range" name="edad_max" onchange="updateTextInput(this.value, 'emax');" value="100"/>
-                <input type="text" readonly class="form-control-plaintext text-center" value="" id="emax"/>
+                <input type="text" readonly class="form-control-plaintext text-center" value="100" id="emax"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">Sexo</label>
@@ -113,7 +94,7 @@
                 document.getElementById(inp).value = val;
             }
         </script>
-        
+
         <!-- END Formulario de crear un Estudio -->
 
     </body>

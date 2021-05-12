@@ -5,12 +5,11 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EventoFacade;
-import eventosgowebapp.entity.Evento;
+import eventosgowebapp.dao.UsuarioFacade;
+import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,14 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Kiko BM
+ * @author pacoa
  */
-@WebServlet(name = "ServletEventosCargar", urlPatterns = {"/ServletEventosCargar"})
-public class ServletEventosCargar extends HttpServlet {
-    
-     @EJB
-    private EventoFacade eventoFacade;
-    
+@WebServlet(name = "ServletAdminCrudUsuarioBorrar", urlPatterns = {"/ServletAdminCrudUsuarioBorrar"})
+public class ServletAdminCrudUsuarioBorrar extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,27 +32,23 @@ public class ServletEventosCargar extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    @EJB
+    private UsuarioFacade UsuarioFacade;   
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        List<Evento> lista;
-        String filtroEvento = request.getParameter("filtroEvento");
-        
-        if(filtroEvento==null || filtroEvento.isEmpty()){
-            lista =  eventoFacade.findAll();
-        } else{
-            lista = eventoFacade.findBySimiliarName(filtroEvento);
-        }
+        response.setContentType("text/html;charset=UTF-8");
        
-        request.setAttribute("listaEventos", lista);
-        
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("adminEventos.jsp");
-        requestDispatcher.forward(request, response);
-        
-        
+        String strId = request.getParameter("id");
+
+        Usuario usuario = this.UsuarioFacade.find(new Integer(strId));        
+        this.UsuarioFacade.remove(usuario);
+
+        response.sendRedirect("ServletAdminUsuarioCargar"); 
     }
 
-     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

@@ -5,14 +5,11 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EstudioFacade;
-import eventosgowebapp.entity.UsuarioEvento;
+import eventosgowebapp.dao.EventoFacade;
+import eventosgowebapp.entity.Evento;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,13 +18,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Pablo
+ * @author pacoa
  */
-@WebServlet(name = "ServletGuardarEstudio", urlPatterns = {"/ServletGuardarEstudio"})
-public class ServletGuardarEstudio extends HttpServlet {
+@WebServlet(name = "ServletAdminCrudEventoBorrar", urlPatterns = {"/ServletAdminCrudEventoBorrar"})
+public class ServletAdminCrudEventoBorrar extends HttpServlet {
 
     @EJB
-    private EstudioFacade estudioFacade;
+    private EventoFacade eventoFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,55 +37,14 @@ public class ServletGuardarEstudio extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<UsuarioEvento> lista = new ArrayList<>();
-        String titulo = request.getParameter("titulo");
+        response.setContentType("text/html;charset=UTF-8");
+        
+        String strId = request.getParameter("id");
 
-        // Filtros estudio: ciudad, rango edad
-        int edadMinima = Integer.parseInt(request.getParameter("edadMinima"));
-        int edadMaxima = Integer.parseInt(request.getParameter("edadMaxima"));
-        String ciudad = request.getParameter("ciudad");
-        int anio = Integer.parseInt(request.getParameter("anio"));
-        int masculino = -1;
-        int femenino = -1;
-        int otro = -1;
+        Evento evento = this.eventoFacade.find(new Integer(strId));        
+        this.eventoFacade.remove(evento);
 
-        if (request.getParameter("masculino") != null) {
-            masculino = Integer.parseInt(request.getParameter("masculino"));
-        }
-
-        if (request.getParameter("femenino") != null) {
-            femenino = Integer.parseInt(request.getParameter("femenino"));
-        }
-
-        if (request.getParameter("otro") != null) {
-            otro = Integer.parseInt(request.getParameter("otro"));
-        }
-
-        if (edadMinima <= edadMaxima) {
-
-            if (masculino != -1 || femenino != -1 || otro != -1) {
-                if (masculino != -1 && femenino != -1 && otro != -1) {
-
-                } else if (masculino != -1 && femenino != -1) {
-
-                } else if (femenino != -1 && otro != -1) {
-
-                } else if (otro != -1 && masculino != -1) {
-
-                } else if (masculino != -1) {
-
-                } else if (femenino != -1) {
-
-                } else if (otro != -1) {
-
-                }
-            }
-
-        }
-
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("");
-        requestDispatcher.forward(request, response);
-
+        response.sendRedirect("ServletAdminEventoCargar"); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

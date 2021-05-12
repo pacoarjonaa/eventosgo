@@ -1,19 +1,19 @@
 <%-- 
-    Document   : adminEventos
-    Created on : 23-abr-2021, 20:00:28
+    Document   : CreadorInicio
+    Created on : 10-may-2021, 17:41:50
     Author     : Kiko BM
 --%>
 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="eventosgowebapp.entity.Usuario"%>
-<%@page import="eventosgowebapp.entity.Evento"%>
 <%@page import="java.util.List"%>
+<%@page import="eventosgowebapp.entity.Evento"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Administrador Eventos</title>
+        <title>Pagina principal del creador de eventos</title>
 
         <!--        Boostrap -->
 
@@ -22,53 +22,51 @@
 
         <!--        W3 CSS -->
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-        <%
-            List<Evento> listaEventos = (List) request.getAttribute("listaEventos");
-        %>
     </head>
+    <%
+        List<Evento> eventos = (List) request.getAttribute("eventos");
+    %>
     <body>
-       
+        
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
-        <!-- Sección con la tabla de los estudios -->
+
+
+        <!-- Sección con la tabla de los eventos -->
         <section class="container rounded shadow-sm w3-padding">
             <header class="container">
-                <h1 class="display-1">Lista de eventos</h1>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end"">
+                    <a class="btn btn-primary" href="crearEvento.jsp" role="button">Crear evento</a>
+                </div>
+                
+                <h1 class="display-1">Mis eventos</h1>
+                
                 <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                    <input class="form-control me-2" type="search" name="filtroEvento" placeholder="Buscar" aria-label="Search">
                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
                 </form>
             </header>
-            <a href="crearEvento.jsp">Nuevo evento</a>
             <article>
                 <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de eventos">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Titulo</th>
+                            <th scope="col">Nombre</th>
                             <th scope="col">Fecha</th>
-                            <th scope="col">Fecha Fin Resrervas</th>
-                            <th scope="col">Aforo</th>
-                            <th scope="col">Coste</th>
-                            <th scope="col">Maximo entradas/usuario</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%
                             int i;
-                            for (i = 0; i < listaEventos.size(); i++) {
+                            for (i = 0; i < eventos.size(); i++) {
                         %>
 
                         <tr>
 
                             <th scope="row"><%= (i + 1)%></th>
-                            <td> <a href="ServletAdminCrudEvento?id=<%= listaEventos.get(i).getId() %>"> <%= listaEventos.get(i).getTitulo()%> </a></td>
-                            <td> <%= new SimpleDateFormat("dd/MM/yyyy").format(listaEventos.get(i).getFechaEvento())%> </a></td>
-                            <td> <%= new SimpleDateFormat("dd/MM/yyyy").format(listaEventos.get(i).getFechaFinReservas())%> </a></td>
-                            <td> <%= listaEventos.get(i).getAforo() %> </a></td>
-                            <td> <%= listaEventos.get(i).getCoste()%> </a></td>
-                            <td> <%= listaEventos.get(i).getMaximoEntradasUsuario() %> </a></td>
+                            <td> <a href="ServletEstudioCargar"> <%= eventos.get(i).getTitulo()%> </a></td>
+                            <td><a href="ServletEstudioCargar"> <%= new SimpleDateFormat("dd/MM/yyyy").format(eventos.get(i).getFechaEvento())%> </a></td>
 
                         </tr>
 
@@ -77,11 +75,7 @@
                             for (int j = 10; j > i; j--) {
                         %>
                         <tr>
-                            <th scope="row"><%= (12 - j)%></th>
-                            <td>*</td>
-                            <td>*</td>
-                            <td>*</td>
-                            <td>*</td>
+                            <th scope="row"><%= (11 - j)%></th>
                             <td>*</td>
                             <td>*</td>
                         </tr>
@@ -91,7 +85,7 @@
                     </tbody>
                 </table>
             </article>
-            <!-- Navbar de paginación de los estudios-->
+            <!-- Navbar de paginación de los eventos-->
             <nav aria-label="Paginación de eventos">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
@@ -109,9 +103,9 @@
                     </li>
                 </ul>
             </nav>
-            <!-- END Navbar de paginación de los estudios-->
+            <!-- END Navbar de paginación de los eventos-->
         </section>
-        <!-- END Sección con la tabla de los estudios -->
+        <!-- END Sección con la tabla de los eventos -->
 
 
     </body>

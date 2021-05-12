@@ -5,13 +5,10 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EstudioFacade;
 import eventosgowebapp.dao.UsuarioFacade;
-import eventosgowebapp.entity.Estudio;
 import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,14 +20,13 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author juanm
+ * @author x Cristhian x
  */
-@WebServlet(name = "ServletEstudioCargar", urlPatterns = {"/ServletEstudioCargar"})
-public class ServletEstudioCargar extends HttpServlet {
-   
+@WebServlet(name = "ServletInicioSesion", urlPatterns = {"/ServletInicioSesion"})
+public class ServletInicioSesion extends HttpServlet {
+    
     @EJB
     private UsuarioFacade usuarioFacade;
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,16 +38,57 @@ public class ServletEstudioCargar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int pagina = 1;
-        if(request.getParameter("paginaActual") != null) {
-            pagina = Integer.parseInt(request.getParameter("paginaActual"));
+        
+        String strError = "", strTo = "inicioSesion.jsp";
+        String email = (String) request.getParameter("correo");
+        String pass = (String) request.getParameter("password");
+        RequestDispatcher rd = request.getRequestDispatcher(strTo);
+        
+        Usuario user = this.usuarioFacade.findByCorreo(email);
+        
+        if(user == null){
+            strError = "ERROR: Usuario con email introducido no registrado";
+            request.setAttribute("error", strError);
+            rd.forward(request, response);
+        } else if(!user.getContrasena().equals(pass)){
+            strError = "ERROR: La contraseña introducida es incorrecta";
+            request.setAttribute("error", strError);
+            rd.forward(request, response);
+        } else{
+            HttpSession sesion = request.getSession();
+            sesion.setAttribute("usuario", user);
+            
+            
+            switch (user.getRol()){
+                case 0:         // Admin
+                    rd = request.getRequestDispatcher("adminPrincipal.jsp");
+                    rd.forward(request, response);
+                    break;
+                    
+                case 1:         // Creador
+                    response.sendRedirect("ServletCreadorPrincipal");
+                    break;
+                
+                case 2:         // Teleoperador
+                    rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
+                    rd.forward(request, response);
+                    break;
+                   
+                case 3:         // Analista
+                    rd = request.getRequestDispatcher("ServletEstudioCargar");
+                    request.setAttribute("listaEstudios", user.getEstudioList());
+                    rd.forward(request, response);
+                    break;
+                
+                case 4:         // Usuario evento
+                    rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
+                    rd.forward(request, response);
+                    break;
+            }
         }
         
-        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-        request.setAttribute("listaEstudios", u.getEstudioList());
-        request.setAttribute("pagina", pagina);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("estudios.jsp");
-        requestDispatcher.forward(request, response);
+        
+                
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
