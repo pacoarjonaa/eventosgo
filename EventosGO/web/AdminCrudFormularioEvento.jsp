@@ -1,23 +1,30 @@
 <%-- 
-    Document   : crearEvento
-    Created on : Apr 28, 2021, 6:54:40 PM
-    Author     : x Cristhian x
+    Document   : AdminCrudFormularioEvento
+    Created on : 11-may-2021, 21:19:37
+    Author     : pacoa
 --%>
 
-<%@page import="eventosgowebapp.entity.Usuario"%>
-<%@page import="javax.ejb.EJB"%>
 <%@page import="eventosgowebapp.entity.EventoEtiqueta"%>
-<%@page import="eventosgowebapp.dao.EtiquetaFacade"%>
-<%@page import="eventosgowebapp.entity.Etiqueta"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.Date"%>
 <%@page import="eventosgowebapp.entity.Evento"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html>
     <head>
+        <% 
+            Evento evento = (Evento)request.getAttribute("evento"); 
+            String strError = (String) request.getAttribute("error");
+            
+        if (strError == null) {
+            strError = "";
+        }
+
+        Usuario creador = (Usuario) request.getSession().getAttribute("usuario");
+        %>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Nuevo Evento</title>
+        <title>MOdificar el Evento <%= evento.getTitulo() %></title>
 
         <!--        Boostrap -->
 
@@ -28,27 +35,22 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" >
 
     </head>
-    <%
-        
-        String strError = (String) request.getAttribute("error");
-        if (strError == null) {
-            strError = "";
-        }
-
-        Usuario creador = (Usuario) request.getSession().getAttribute("usuario");
-    %>
-
     <body>     
         
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
         <section class="container rounded shadow-sm w3-padding">
             <header class="container">
-                <h1>Datos del evento</h1>
+                <h1>Datos del evento a modificar</h1>
             </header>
 
             <form method='POST' action="ServletEventoGuardar">
                 <div class="container">
+                    <div class="row">
+                        <div class="col-8">
+                            <input type="text" name="id" value="<%= evento.getId() %>" hidden/>
+                        </div> 
+                    </div>
                     <div class="row">
                         <div class="col-8">
                             <input type="text" name="idCreador" value="<%= creador.getId() %>" hidden/>
@@ -59,7 +61,7 @@
                             T&iacute;tulo:
                         </div>
                         <div class="col-8">
-                            <input type="text" name="titulo" />
+                            <input type="text" name="titulo" placeholder="<%= evento.getTitulo() %>" />
                         </div> 
                     </div>
                     <div class="row">
@@ -67,7 +69,7 @@
                             Descripci&oacute;n:
                         </div>
                         <div class="col-8">
-                            <textarea name="descripcion" rows="4" cols="20"></textarea>
+                            <textarea name="descripcion" rows="4" cols="20" placeholder="<%= evento.getDescripcion() %>"></textarea>
                         </div> 
                     </div>
                     <div class="row">
@@ -75,7 +77,7 @@
                             Fecha del evento:
                         </div>
                         <div class="col-8">
-                            <input type="date" name="fechaEvento" />
+                            <input type="date" name="fechaEvento" placeholder="<%= new SimpleDateFormat("dd/MM/yyyy").format(evento.getFechaEvento()) %>"/>
                         </div> 
                     </div>
                     <div class="row">
@@ -83,7 +85,7 @@
                             Fecha de máxima para comprar entradas:
                         </div>
                         <div class="col-8">
-                            <input type="date" name="fechaEntradas" />
+                            <input type="date" name="fechaEntradas" placeholder="<%= new SimpleDateFormat("dd/MM/yyyy").format(evento.getFechaFinReservas()) %>"/>
                         </div> 
                     </div>
                     <div class="row">
@@ -91,7 +93,7 @@
                             Coste de la entrada:
                         </div>
                         <div class="col-8">
-                            <input id="coste" type="number" name="coste" step="1.00" />  &euro;
+                            <input id="coste" type="number" name="coste" step="1.00" placeholder="<%= evento.getCoste() %>"/>  &euro;
                         </div> 
                     </div>
                     <div class="row">
@@ -99,7 +101,7 @@
                             Aforo del evento:
                         </div>
                         <div class="col-8">
-                            <input type="number" name="aforo" />
+                            <input type="number" name="aforo" placeholder="<%= evento.getAforo() %>"/>
                         </div> 
                     </div>
                     <div class="row">
@@ -107,7 +109,7 @@
                             Nº m&aacute;ximo de entradas por usuario:
                         </div>
                         <div class="col-8">
-                            <input type="number" name="entradas" />
+                            <input type="number" name="entradas" placeholder="<%= evento.getMaximoEntradasUsuario() %>"/>
                         </div> 
                     </div>
                     <div class="row">
@@ -115,12 +117,12 @@
                             Etiquetas:
                         </div>
                         <div class="col-8">
-                            <textarea name="etiquetas"  ></textarea>
+                            <textarea name="etiquetas"  placeholder="..."></textarea>
                         </div> 
                     </div>
                     <div class="row">
                         <div class="col">
-                            <input type="submit" value="Crear evento">
+                            <input type="submit" value="Modificar evento">
                         </div>
                     </div>
                 </div>
@@ -134,3 +136,4 @@
 
     </body>
 </html>
+
