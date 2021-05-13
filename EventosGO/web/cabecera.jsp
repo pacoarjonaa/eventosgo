@@ -52,6 +52,15 @@
                             }
                         %>
                         <%
+                            if (rol == 4) {
+                        %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Mis Eventos</a>
+                        </li>
+                        <%
+                            }
+                        %>
+                        <%
                             if (rol == 2 || rol == 4 || rol == 1) {
                         %>
                         <li class="nav-item">
