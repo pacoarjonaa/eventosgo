@@ -4,6 +4,8 @@
     Author     : pacoa
 --%>
 
+<%@page import="eventosgowebapp.entity.Evento"%>
+<%@page import="java.util.List"%>
 <%@page import="eventosgowebapp.entity.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,6 +27,8 @@
 
     </head>
     <body>
+        <%
+        %>
         
        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
@@ -57,6 +61,8 @@
             </button>
         </div>
         <!-- END SLIDES -->
+        <%
+        %>
 
             <div class="card" style="width: 18rem;">
                 <img src="Imagenes/eventoEjemplo1.jpg" class="card-img-top" alt="...">
