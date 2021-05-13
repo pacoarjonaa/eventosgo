@@ -55,7 +55,7 @@
                             if (rol == 4) {
                         %>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Mis Eventos</a>
+                            <a class="nav-link" href="ServletUsuarioEventosCargar">Mis Eventos</a>
                         </li>
                         <%
                             }
