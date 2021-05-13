@@ -28,6 +28,7 @@
     </head>
     <body>
         <%
+            List<Evento> listaEventosDisponibles = (List)request.getAttribute("listaEventosDisponibles");
         %>
         
        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
@@ -62,15 +63,19 @@
         </div>
         <!-- END SLIDES -->
         <%
+            for(Evento evento : listaEventosDisponibles){
         %>
 
             <div class="card" style="width: 18rem;">
                 <img src="Imagenes/eventoEjemplo1.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Titulo Evento</h5>
-                    <p class="card-text">Aqui iria una breve descripcion del evento en cuestion</p>
+                    <h5 class="card-title"><%= evento.getTitulo() %></h5>
+                    <p class="card-text"><%= evento.getDescripcion()%></p>
                     <a href="#" class="btn btn-primary">Ir al evento</a>
                 </div>
             </div>
+        <%
+            }
+        %>
     </body>
 </html>

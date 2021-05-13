@@ -232,4 +232,5 @@ public class Evento implements Serializable {
         this.aforo = aforo;
     }
     
+    
 }
