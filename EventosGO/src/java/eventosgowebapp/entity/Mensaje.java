@@ -55,6 +55,10 @@ public class Mensaje implements Serializable {
     @Size(min = 1, max = 32700)
     @Column(name = "TEXTO")
     private String texto;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "VISTO")
+    private int visto;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -155,6 +159,14 @@ public class Mensaje implements Serializable {
 
     public void setTexto(String texto) {
         this.texto = texto;
+    }
+
+    public int getVisto() {
+        return visto;
+    }
+
+    public void setVisto(int visto) {
+        this.visto = visto;
     }
     
 }
