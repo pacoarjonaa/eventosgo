@@ -54,70 +54,41 @@ public class ServletUsuarioEventosCargar extends HttpServlet {
         UsuarioEvento userEvento = (UsuarioEvento) request.getSession().getAttribute("usuarioEvento");
         String filtroEvento = request.getParameter("filtroEvento");
         Map<Evento, Integer> eventosMap = new HashMap();
-        List<Integer> idEventosToRemove = (List) request.getAttribute("remove");
-      
-        /*
-        
-       
-        if(idEventosToRemove != null){
-            for(Entrada e : this.entradaFacade.findByIdUsuario(userEvento.getId())){
-                Evento evento = this.eventoFacade.find(e.getIdEvento());
-                if(!eventosMap.containsKey(evento) && !idEventosToRemove.contains(evento.getId())) {
-                    if(filtroEvento==null || filtroEvento.isEmpty()){
+        List<Integer> idEventosToRemove = (List) request.getSession().getAttribute("remove");
+    
+        if (idEventosToRemove != null && !idEventosToRemove.isEmpty()){
+            for(Entrada e: this.entradaFacade.findByIdUsuario(userEvento.getId())){
+                Evento evento;
+                if(filtroEvento==null || filtroEvento.isEmpty()){
+                    evento = eventoFacade.find(e.getIdEvento().getId());
+                } else{
+                    evento = eventoFacade.findBySimiliarNameAndId(filtroEvento, e.getIdEvento().getId());
+                }
+                if(evento!=null){
+                    if(!eventosMap.containsKey(evento) && !idEventosToRemove.contains(evento.getId())){
                         eventosMap.put(evento, 1);
-                    } else{
-                        Evento ev = this.eventoFacade.findBySimiliarNameAndId(filtroEvento, evento.getId());
-                        eventosMap.put(evento, 1);
-                    }    
-                } else if(!idEventosToRemove.contains(evento.getId())){
-                    if(filtroEvento==null || filtroEvento.isEmpty()){
+                    } else if(!idEventosToRemove.contains(evento.getId())){
                         eventosMap.put(evento, eventosMap.get(evento)+1);
-                    } else{
-                        Evento ev = this.eventoFacade.findBySimiliarNameAndId(filtroEvento, evento.getId());
-                        eventosMap.put(ev, eventosMap.get(ev)+1);
-                    } 
+                    }
                 }
             }
         } else{
-            for(Entrada e : this.entradaFacade.findByIdUsuario(userEvento.getId())){
-                Evento evento = this.eventoFacade.find(e.getIdEvento().getId());
-                if(!eventosMap.containsKey(evento)) {
-                    if(filtroEvento==null || filtroEvento.isEmpty()){
+            for(Entrada e: this.entradaFacade.findByIdUsuario(userEvento.getId())){
+                Evento evento;
+                if(filtroEvento==null || filtroEvento.isEmpty()){
+                    evento = eventoFacade.find(e.getIdEvento().getId());
+                } else{
+                    evento = eventoFacade.findBySimiliarNameAndId(filtroEvento, e.getIdEvento().getId());
+                }
+                if(evento!=null){
+                    if(!eventosMap.containsKey(evento)){
                         eventosMap.put(evento, 1);
                     } else{
-                        Evento ev = this.eventoFacade.findBySimiliarNameAndId(filtroEvento, evento.getId());
-                        
-                        eventosMap.put(ev, 1);
-                    }    
-                } else {
-                    if(filtroEvento==null || filtroEvento.isEmpty()){
                         eventosMap.put(evento, eventosMap.get(evento)+1);
-                    } else{
-                        Evento ev = this.eventoFacade.findBySimiliarNameAndId(filtroEvento, evento.getId());
-                        eventosMap.put(ev, eventosMap.get(ev)+1);
-                    } 
+                    }
                 }
             }
         }
-        
-        */
-        
-        for(Entrada e: this.entradaFacade.findByIdUsuario(userEvento.getId())){
-            Evento evento;
-            if(filtroEvento==null || filtroEvento.isEmpty()){
-                evento = eventoFacade.find(e.getIdEvento().getId());
-            } else{
-                evento = eventoFacade.findBySimiliarNameAndId(filtroEvento, e.getIdEvento().getId());
-            }
-            if(evento!=null){
-                if(!eventosMap.containsKey(evento)){
-                    eventosMap.put(evento, 1);
-                } else{
-                    eventosMap.put(evento, eventosMap.get(evento)+1);
-                }
-            }
-        }
-            
             
         request.setAttribute("eventos", eventosMap);
         RequestDispatcher rd = request.getRequestDispatcher("usuarioEventos.jsp");

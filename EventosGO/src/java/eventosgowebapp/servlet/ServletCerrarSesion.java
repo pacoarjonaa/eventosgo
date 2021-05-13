@@ -35,7 +35,7 @@ public class ServletCerrarSesion extends HttpServlet {
             throws ServletException, IOException {
         HttpSession httpSession = request.getSession();
         httpSession.invalidate();
-        RequestDispatcher rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("ServletEventosDisponiblesCargar");
         rd.forward(request, response);
     }
 

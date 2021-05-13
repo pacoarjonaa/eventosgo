@@ -79,7 +79,7 @@ public class ServletUsuarioEventoEliminar extends HttpServlet {
             request.getSession().setAttribute("remove", idEventosToRemove);
         }
         
-        RequestDispatcher rd = request.getRequestDispatcher("ServletUsuarioEventoCargar");
+        RequestDispatcher rd = request.getRequestDispatcher("ServletUsuarioEventosCargar");
         rd.forward(request, response);
     }
 
