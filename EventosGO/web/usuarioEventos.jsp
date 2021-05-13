@@ -1,19 +1,19 @@
 <%-- 
-    Document   : CreadorInicio
-    Created on : 10-may-2021, 17:41:50
-    Author     : Kiko BM
+    Document   : usuarioEventos
+    Created on : May 13, 2021, 6:28:20 PM
+    Author     : x Cristhian x
 --%>
 
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="eventosgowebapp.entity.Usuario"%>
-<%@page import="java.util.List"%>
 <%@page import="eventosgowebapp.entity.Evento"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Pagina principal del creador de eventos</title>
+        <title>Pagina principal del usuario de eventos</title>
 
         <!--        Boostrap -->
 
@@ -22,7 +22,6 @@
 
         <!-- Iconos de Boostrap -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
         
         <!--        W3 CSS -->
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -39,10 +38,6 @@
         <!-- Sección con la tabla de los eventos -->
         <section class="container rounded shadow-sm w3-padding">
             <header class="container">
-
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end"">
-                    <a class="btn btn-primary" href="crearEvento.jsp" role="button">Crear evento</a>
-                </div>
 
                 <h1 class="display-1">Mis eventos</h1>
 
@@ -67,16 +62,12 @@
                         %>
 
                         <tr>
-
                             <th scope="row"><%= (i + 1)%></th>
                             <td><%= eventos.get(i).getTitulo()%></td>
                             <td><%= new SimpleDateFormat("dd/MM/yyyy").format(eventos.get(i).getFechaEvento())%></td>
                             <td>
                                 <a class="btn btn-outline-info" href="ServletEventoVer?eventoid=<%= eventos.get(i).getId()%>" role="button">
                                     <i class="bi bi-eye"></i>
-                                </a>
-                                <a class="btn btn-outline-success" href="ServletEventoVer?eventoid=<%= eventos.get(i).getId()%>&accion=editar" role="button">
-                                    <i class="bi bi-pencil-square"></i>
                                 </a>
                                 <a class="btn btn-outline-danger" href="ServletEventoBorrar?eventoid=<%= eventos.get(i).getId()%>" role="button">
                                     <i class="bi bi-trash"></i>

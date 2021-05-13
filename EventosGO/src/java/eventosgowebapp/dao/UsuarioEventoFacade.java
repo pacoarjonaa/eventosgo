@@ -88,8 +88,8 @@ public class UsuarioEventoFacade extends AbstractFacade<UsuarioEvento> {
 //            q.setParameter("max", max);
 //            res = q.getResultList();
 //        } else {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/YYYY");
-            SimpleDateFormat sdt = new SimpleDateFormat("DD/MM/YYYY");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            SimpleDateFormat sdt = new SimpleDateFormat("dd/MM/yyyy");
 
             LocalDate ld = LocalDate.now();
             for (UsuarioEvento u : l) {
