@@ -8,11 +8,9 @@ package eventosgowebapp.servlet;
 import eventosgowebapp.dao.EstudioFacade;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.dao.UsuarioEventoFacade;
-import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Entrada;
 import eventosgowebapp.entity.Estudio;
 import eventosgowebapp.entity.Evento;
-import eventosgowebapp.entity.Usuario;
 import eventosgowebapp.entity.UsuarioEvento;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,24 +24,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author juanm
  */
-@WebServlet(name = "ServletEstudioCargar", urlPatterns = {"/ServletEstudioCargar"})
-public class ServletEstudioCargar extends HttpServlet {
-
-    @EJB
-    private UsuarioFacade usuarioFacade;
-
+@WebServlet(name = "ServletEstudioVer", urlPatterns = {"/ServletEstudioVer"})
+public class ServletEstudioVer extends HttpServlet {
+    
     @EJB
     private EstudioFacade estudioFacade;
-
+    
     @EJB
     private UsuarioEventoFacade usuarioEventoFacade;
-
+    
     @EJB
     private EventoFacade eventoFacade;
 
@@ -58,16 +52,8 @@ public class ServletEstudioCargar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int pagina = 1;
-        if (request.getParameter("paginaActual") != null) {
-            pagina = Integer.parseInt(request.getParameter("paginaActual"));
-        }
-        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-        List<Estudio> estudios = u.getEstudioList();
-        List<Integer> resultadoEstudios = new ArrayList<>();
-
-        for (Estudio es : estudios) {
-            String s = es.getResultado();
+        Estudio e = this.estudioFacade.find(new Integer(request.getParameter("estudio")));
+        String s = e.getResultado();
             int edadMinima;
             int edadMaxima;
             String ciudad;
@@ -112,9 +98,9 @@ public class ServletEstudioCargar extends HttpServlet {
 
                                 List<Entrada> entradas = u1.getEntradaList();
 
-                                for (Entrada e : entradas) {
+                                for (Entrada e1 : entradas) {
 
-                                    if (listEventos.contains(e.getIdEvento())) {
+                                    if (listEventos.contains(e1.getIdEvento())) {
                                         aux.add(u1);
                                     }
 
@@ -129,14 +115,11 @@ public class ServletEstudioCargar extends HttpServlet {
                 }
 
             }
-            resultadoEstudios.add(res.size());
-        }
-
-        request.setAttribute("resultadoEstudios", resultadoEstudios);
-        request.setAttribute("listaEstudios", estudios);
-        request.setAttribute("pagina", pagina);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("estudios.jsp");
-        requestDispatcher.forward(request, response);
+            
+            request.setAttribute("estudio", e);
+            request.setAttribute("resultado", res);
+            RequestDispatcher rd = request.getRequestDispatcher("verEstudio.jsp");
+            rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -5,13 +5,10 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EstudioFacade;
-import eventosgowebapp.dao.UsuarioFacade;
-import eventosgowebapp.entity.Estudio;
-import eventosgowebapp.entity.Usuario;
+import eventosgowebapp.dao.EventoFacade;
+import eventosgowebapp.entity.Evento;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,16 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Pablo
+ * @author Kiko BM
  */
-@WebServlet(name = "ServletEstudioEliminar", urlPatterns = {"/ServletEstudioEliminar"})
-public class ServletEstudioEliminar extends HttpServlet {
+@WebServlet(name = "ServletEventoVer", urlPatterns = {"/ServletEventoVer"})
+public class ServletEventoVer extends HttpServlet {
 
     @EJB
-    private EstudioFacade estudioFacade;
-
-    @EJB
-    private UsuarioFacade usuarioFacade;
+    private EventoFacade eventoFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,17 +38,24 @@ public class ServletEstudioEliminar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Estudio e = this.estudioFacade.find(new Integer(request.getParameter("estudio")));
-        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-        List<Estudio> lista = u.getEstudioList();
-        lista.remove(e);
-        u.setEstudioList(lista);
-
-        this.estudioFacade.remove(e);
-        this.usuarioFacade.edit(u);
-
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletEstudioCargar");
-        requestDispatcher.forward(request, response);
+        String strTo = "verEvento.jsp";
+        
+        String id = request.getParameter("eventoid");
+        
+        String accion;
+        accion = (String)request.getParameter("accion");
+        
+        if(accion == null){
+            strTo = "verEvento.jsp";
+        }else if (accion.equalsIgnoreCase("editar")){
+            strTo = "editarEvento.jsp";
+        }
+        
+        Evento elevento = this.eventoFacade.find(new Integer(id));
+        request.setAttribute("evento", elevento);
+        
+        RequestDispatcher rd = request.getRequestDispatcher(strTo);
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

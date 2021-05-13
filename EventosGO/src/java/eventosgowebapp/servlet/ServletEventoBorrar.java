@@ -5,15 +5,11 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EstudioFacade;
-import eventosgowebapp.dao.UsuarioFacade;
-import eventosgowebapp.entity.Estudio;
-import eventosgowebapp.entity.Usuario;
+import eventosgowebapp.dao.EventoFacade;
+import eventosgowebapp.entity.Evento;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,16 +18,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Pablo
+ * @author Kiko BM
  */
-@WebServlet(name = "ServletEstudioEliminar", urlPatterns = {"/ServletEstudioEliminar"})
-public class ServletEstudioEliminar extends HttpServlet {
+@WebServlet(name = "ServletEventoBorrar", urlPatterns = {"/ServletEventoBorrar"})
+public class ServletEventoBorrar extends HttpServlet {
 
     @EJB
-    private EstudioFacade estudioFacade;
-
-    @EJB
-    private UsuarioFacade usuarioFacade;
+    private EventoFacade eventoFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,17 +37,12 @@ public class ServletEstudioEliminar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Estudio e = this.estudioFacade.find(new Integer(request.getParameter("estudio")));
-        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-        List<Estudio> lista = u.getEstudioList();
-        lista.remove(e);
-        u.setEstudioList(lista);
+        String strId = request.getParameter("eventoid");
 
-        this.estudioFacade.remove(e);
-        this.usuarioFacade.edit(u);
+        Evento evento = this.eventoFacade.find(new Integer(strId));        
+        this.eventoFacade.remove(evento);
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletEstudioCargar");
-        requestDispatcher.forward(request, response);
+        response.sendRedirect("ServletCreadorPrincipal"); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

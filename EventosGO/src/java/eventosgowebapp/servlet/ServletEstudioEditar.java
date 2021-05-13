@@ -6,13 +6,12 @@
 package eventosgowebapp.servlet;
 
 import eventosgowebapp.dao.EstudioFacade;
-import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Estudio;
-import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.util.Scanner;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,14 +22,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author juanm
  */
-@WebServlet(name = "ServletAlmacenarEstudio", urlPatterns = {"/ServletAlmacenarEstudio"})
-public class ServletAlmacenarEstudio extends HttpServlet {
+@WebServlet(name = "ServletEstudioEditar", urlPatterns = {"/ServletEstudioEditar"})
+public class ServletEstudioEditar extends HttpServlet {
 
     @EJB
     private EstudioFacade estudioFacade;
-
-    @EJB
-    private UsuarioFacade usuarioFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,32 +40,40 @@ public class ServletAlmacenarEstudio extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String titulo = new String(request.getParameter("titulo").getBytes("ISO-8859-1"), "UTF-8");
-        String resultado = new String (request.getParameter("resultado").getBytes("ISO-8859-1"), "UTF-8");;
-        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-        List<Estudio> lista = u.getEstudioList();
-        Estudio e;
-        
-        if (request.getParameter("estudio") != null) {
-            e = this.estudioFacade.find(Integer.parseInt(request.getParameter("estudio")));
-            lista.remove(e);
-        } else {
-            e = new Estudio();
-            e.setIdAnalista(u);
-        }
-        e.setTitulo(titulo);
-        e.setResultado(resultado);
-        lista.add(e);
-        u.setEstudioList(lista);
-        if (request.getParameter("estudio") != null) {
-            this.estudioFacade.edit(e);
-        } else {
-            this.estudioFacade.create(e);
-        }
+        Estudio estudio = estudioFacade.find(Integer.parseInt(request.getParameter("estudio")));
+        String resultado = estudio.getResultado();
 
-        this.usuarioFacade.edit(u);
+        int edadMinima;
+        int edadMaxima;
+        String ciudad;
+        int anio;
+        int masculino;
+        int femenino;
+        int otro;
 
-        response.sendRedirect("ServletEstudioCargar");
+        try (Scanner sc = new Scanner(resultado)) {
+            sc.useDelimiter(";");
+            edadMinima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            edadMaxima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            String aux = (sc.hasNext())? sc.next():null;
+            ciudad = (aux!=null && !aux.isEmpty()) ? aux : null;
+            anio = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            masculino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            femenino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            otro = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+        }
+        request.setAttribute("idEstudio", estudio.getId());
+        request.setAttribute("titulo", estudio.getTitulo());
+        request.setAttribute("eMin", edadMinima);
+        request.setAttribute("eMax", edadMaxima);
+        request.setAttribute("ciudad", ciudad);
+        request.setAttribute("anio", anio);
+        request.setAttribute("masculino", masculino);
+        request.setAttribute("femenino", femenino);
+        request.setAttribute("otro", otro);
+
+        RequestDispatcher rd = request.getRequestDispatcher("editarEstudio.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
