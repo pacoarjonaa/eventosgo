@@ -4,6 +4,7 @@
     Author     : x Cristhian x
 --%>
 
+<%@page import="java.util.Map"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="eventosgowebapp.entity.Evento"%>
 <%@page import="java.util.List"%>
@@ -27,7 +28,7 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
     <%
-        List<Evento> eventos = (List) request.getAttribute("eventos");
+        Map<Evento, Integer> eventos = (Map) request.getAttribute("eventos");
     %>
     <body>
 
@@ -41,7 +42,7 @@
 
                 <h1 class="display-1">Mis eventos</h1>
 
-                <form class="d-flex">
+                <form class="d-flex" action="ServletUsuarioEventosCargar">
                     <input class="form-control me-2" type="search" name="filtroEvento" placeholder="Buscar" aria-label="Search">
                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
                 </form>
@@ -53,34 +54,39 @@
                             <th scope="col">#</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Fecha</th>
+                            <th scope="col">Entradas</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <%                            int i;
-                            for (i = 0; i < eventos.size(); i++) {
+                        <%                       
+                           int i=0;
+                           for(Evento e : eventos.keySet()){
                         %>
 
                         <tr>
                             <th scope="row"><%= (i + 1)%></th>
-                            <td><%= eventos.get(i).getTitulo()%></td>
-                            <td><%= new SimpleDateFormat("dd/MM/yyyy").format(eventos.get(i).getFechaEvento())%></td>
+                            <td><%= e.getTitulo()%></td>
+                            <td><%= new SimpleDateFormat("dd/MM/yyyy").format(e.getFechaEvento())%></td>
+                            <td> <%= eventos.get(e) %>/<%= e.getMaximoEntradasUsuario() %> </td>
                             <td>
-                                <a class="btn btn-outline-info" href="ServletEventoVer?eventoid=<%= eventos.get(i).getId()%>" role="button">
+                                <a class="btn btn-outline-info" href="ServletEventoVer?eventoid=<%= e.getId()%>" role="button">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a class="btn btn-outline-danger" href="ServletEventoBorrar?eventoid=<%= eventos.get(i).getId()%>" role="button">
+                                <a class="btn btn-outline-danger" href="ServletUsuarioEventoEliminar?eventoid=<%= e.getId()%>" role="button">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>
                         </tr>
 
                         <%
+                            i++;
                             }
                             for (int j = i +1; j <= 10; j++) {
                         %>
                         <tr>
                             <th scope="row"><%= j %></th>
+                            <td>*</td>
                             <td>*</td>
                             <td>*</td>
                             <td>*</td>

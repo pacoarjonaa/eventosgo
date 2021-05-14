@@ -29,9 +29,6 @@ public class ServletEventosDisponiblesCargar extends HttpServlet {
 
     @EJB
     private EventoFacade eventoFacade;
-    
-     @EJB
-    private EntradaFacade entradaFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,7 +47,6 @@ public class ServletEventosDisponiblesCargar extends HttpServlet {
         Date fechaActual = new Date();
         
         for(Evento evento : this.eventoFacade.findAll()){
-            
             if(fechaActual.before(evento.getFechaEvento())){
                 listaEventosDisponibles.add(evento);
             }
@@ -61,7 +57,7 @@ public class ServletEventosDisponiblesCargar extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
         rd.forward(request, response);
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -100,5 +96,6 @@ public class ServletEventosDisponiblesCargar extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }
+  

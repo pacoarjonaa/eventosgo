@@ -5,8 +5,10 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.UsuarioEventoFacade;
 import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Usuario;
+import eventosgowebapp.entity.UsuarioEvento;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -27,6 +29,10 @@ public class ServletInicioSesion extends HttpServlet {
     
     @EJB
     private UsuarioFacade usuarioFacade;
+    
+     @EJB
+    private UsuarioEventoFacade usuarioeventoFacade;
+     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -70,7 +76,7 @@ public class ServletInicioSesion extends HttpServlet {
                     break;
                 
                 case 2:         // Teleoperador
-                    rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
+                    rd = request.getRequestDispatcher("ServletEventosDisponiblesCargar");
                     rd.forward(request, response);
                     break;
                    
@@ -81,7 +87,9 @@ public class ServletInicioSesion extends HttpServlet {
                     break;
                 
                 case 4:         // Usuario evento
-                    rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
+                    UsuarioEvento userEvento = this.usuarioeventoFacade.find(user.getId());
+                    sesion.setAttribute("usuarioEvento", userEvento);
+                    rd = request.getRequestDispatcher("ServletEventosDisponiblesCargar");
                     rd.forward(request, response);
                     break;
             }
