@@ -25,7 +25,17 @@
     <%
         Evento evento = (Evento) request.getAttribute("evento");
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
-         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        
+    %>
+    
+    <% 
+        if(usuario == null){
+    %>
+        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->  
+        <p> Inicie Sesion o Registrese si aun no lo esta</p></br>    
+     <% 
+        }else{
     %>
 
 
@@ -115,4 +125,7 @@
         
                     
     </body>
+    <% 
+        }
+    %>
 </html>
