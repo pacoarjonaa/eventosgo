@@ -39,6 +39,24 @@
         <section class="container shadow-lg p-3 mb-5 bg-body rounded py-3 align-middle">
             <header class="container">
                 <h1 class="display-1">Mis Conversaciones</h1>
+                <%                    if (rol != 2) {
+                %>
+                <div class="mt-auto align-middle">
+                    <a class="btn btn-outline-dark btn-circle btn-circle-sm m-1" href="" role="button">
+                        <i class="bi bi-plus">Solicitar soporte</i>
+                    </a>
+                </div>
+                <%
+                } else {
+                %>
+                <div class="mt-auto align-middle">
+                    <a class="btn btn-outline-dark btn-circle btn-circle-sm m-1" href="" role="button">
+                        <i class="bi bi-plus">Consultar chats</i>
+                    </a>
+                </div>
+                <%
+                    }
+                %>
             </header>
             <article class="container">
                 <div class="list-group">
