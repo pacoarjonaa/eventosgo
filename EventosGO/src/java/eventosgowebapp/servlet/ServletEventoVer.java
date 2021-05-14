@@ -5,9 +5,11 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EntradaFacade;
 import eventosgowebapp.dao.EtiquetaFacade;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.entity.Evento;
+import static eventosgowebapp.entity.EventoAforo_.evento;
 import eventosgowebapp.entity.EventoEtiqueta;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +34,9 @@ public class ServletEventoVer extends HttpServlet {
 
     @EJB
     private EventoFacade eventoFacade;
-
+    
+     @EJB
+    private EntradaFacade entradaFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -49,10 +53,13 @@ public class ServletEventoVer extends HttpServlet {
         String id = request.getParameter("eventoid");
         Evento elevento = this.eventoFacade.find(new Integer(id));
         
+        int numeroEntradas = this.entradaFacade.countEntradas(elevento);
+        
         String accion;
         accion = (String)request.getParameter("accion");
         
         if(accion == null){
+            request.setAttribute("numeroEntradas", numeroEntradas);
             strTo = "verEvento.jsp";
         }else if (accion.equalsIgnoreCase("editar")){
             strTo = "editarEvento.jsp";

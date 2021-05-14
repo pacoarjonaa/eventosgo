@@ -3,6 +3,7 @@
     Created on : 12-may-2021, 20:09:38
     Author     : Kiko BM
 --%>
+ 
 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="eventosgowebapp.entity.Evento"%>
@@ -25,6 +26,7 @@
     <%
         Evento evento = (Evento) request.getAttribute("evento");
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+        int numeroEntradas = (int)request.getAttribute("numeroEntradas");
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         
     %>
@@ -108,13 +110,19 @@
                 </div>
                 <div class="row"><br/></div>
                 <%
-                     if(usuario.getRol() == 4){
+                     if((usuario.getRol() == 4) && (numeroEntradas > 0) && (evento.getAforo() > 0)){
                   %>
                 <div>
-                    <a class="btn btn-link" href="ComrparEntradas?eventoid=<%= evento.getId() %>" role="button"> Comprar entradas</a>
+                    <a class="btn btn-link" href="#" role="button"> Comprar entradas</a>
                 </div> 
                 <%
+                      }else if(usuario.getRol() == 4){
+                      
+                 %>
+                    <p> No hay entradas disponibles para este evento</p>
+                <%
                       }
+                      
                  %>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start"">

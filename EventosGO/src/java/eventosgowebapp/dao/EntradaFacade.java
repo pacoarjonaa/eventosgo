@@ -38,7 +38,7 @@ public class EntradaFacade extends AbstractFacade<Entrada> {
         Query q;
 
         q = this.em.createQuery("SELECT COUNT(E) FROM Entrada E WHERE E.id = :ID");
-        q.setParameter("ID", evento);
+        q.setParameter("ID", evento.getId());
 
         return (Integer) q.getSingleResult();
     }
