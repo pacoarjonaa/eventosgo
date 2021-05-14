@@ -62,7 +62,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%                            int i;
+                        <%                            
+                            int i;
                             for (i = 0; i < eventos.size(); i++) {
                         %>
 

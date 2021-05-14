@@ -21,19 +21,21 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
     </head>
+
+    <%
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+    %>
     <body>
-        
+
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
-
-        <figure class="text-center">
-            <blockquote class="blockquote">
-                <p>¡Bienvenido administrador!</p>
-            </blockquote>
-            <figcaption class="blockquote-footer">
-                Nombre del admin
-            </figcaption>
-        </figure>
-
+        <section class="container rounded shadow-sm w3-padding border border-primary">
+            <figure class="text-center">
+                <blockquote class="blockquote">
+                    <h1><p>¡Bienvenido administrador!</p></h1>
+                </blockquote>
+                    <%= usuario.getNombre()%>
+            </figure>
+        </section>
 
     </body>
 </html>
