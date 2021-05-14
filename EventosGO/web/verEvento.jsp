@@ -25,6 +25,7 @@
     <%
         Evento evento = (Evento) request.getAttribute("evento");
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
     %>
 
 
@@ -96,11 +97,22 @@
                     </div> 
                 </div>
                 <div class="row"><br/></div>
+                <%
+                     if(usuario.getRol() == 4){
+                  %>
+                <div>
+                    <a class="btn btn-link" href="ComrparEntradas?eventoid=<%= evento.getId() %>" role="button"> Comprar entradas</a>
+                </div> 
+                <%
+                      }
+                 %>
+
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start"">
                     <a class="btn btn-primary" href="ServletCreadorPrincipal" role="button">Volver</a>
                 </div>
             </div>
         </section>
-
+        
+                    
     </body>
 </html>
