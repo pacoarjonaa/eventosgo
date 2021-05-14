@@ -5,10 +5,13 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EtiquetaFacade;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.entity.Evento;
+import eventosgowebapp.entity.EventoEtiqueta;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ServletEventoVer", urlPatterns = {"/ServletEventoVer"})
 public class ServletEventoVer extends HttpServlet {
+
+    @EJB
+    private EtiquetaFacade etiquetaFacade;
 
     @EJB
     private EventoFacade eventoFacade;
@@ -41,6 +47,7 @@ public class ServletEventoVer extends HttpServlet {
         String strTo = "verEvento.jsp";
         
         String id = request.getParameter("eventoid");
+        Evento elevento = this.eventoFacade.find(new Integer(id));
         
         String accion;
         accion = (String)request.getParameter("accion");
@@ -51,7 +58,7 @@ public class ServletEventoVer extends HttpServlet {
             strTo = "editarEvento.jsp";
         }
         
-        Evento elevento = this.eventoFacade.find(new Integer(id));
+        
         request.setAttribute("evento", elevento);
         
         RequestDispatcher rd = request.getRequestDispatcher(strTo);

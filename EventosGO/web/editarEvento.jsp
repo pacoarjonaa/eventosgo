@@ -37,9 +37,9 @@
         }
 
         Usuario creador = (Usuario) request.getSession().getAttribute("usuario");
-        
-        Evento evento = (Evento)request.getAttribute("evento");
-        
+
+        Evento evento = (Evento) request.getAttribute("evento");
+
         String titulo = evento.getTitulo();
         String descripccion = evento.getDescripcion();
         Date fechaEvento = evento.getFechaEvento();
@@ -47,9 +47,12 @@
         Double coste = evento.getCoste();
         Integer aforo = evento.getAforo();
         Integer entradas = evento.getMaximoEntradasUsuario();
-        List<EventoEtiqueta> etiquetas = evento.getEventoEtiquetaList();
 
-        
+        String etiquetas = "";
+
+        for (EventoEtiqueta e : evento.getEventoEtiquetaList()) {
+            etiquetas = etiquetas + e.getIdEtiqueta().getNombre() + " ";
+        }
     %>
 
     <body>     
@@ -73,7 +76,7 @@
                             T&iacute;tulo:
                         </div>
                         <div class="col-8">
-                            <input type="text" name="titulo" value="<%= titulo %>"/>
+                            <input type="text" name="titulo" value="<%= titulo%>"/>
                         </div> 
                     </div>
                     <div class="row"><br/></div>
@@ -82,7 +85,7 @@
                             Descripci&oacute;n:
                         </div>
                         <div class="col-8">
-                            <textarea name="descripcion" rows="4" cols="50"  value="<%= evento.getDescripcion() %>"></textarea>
+                            <textarea name="" rows="4" cols="50"><%= evento.getDescripcion()%></textarea>
                         </div> 
                     </div>
                     <div class="row"><br/></div>
@@ -91,7 +94,7 @@
                             Fecha del evento:
                         </div>
                         <div class="col-8">
-                            <input type="date" name="fechaEvento" placeholder="<%= new SimpleDateFormat("dd/MM/yyyy").format(evento.getFechaEvento()) %>"/>
+                            <input type="date" name="fechaEvento" value="<%= new SimpleDateFormat("yyyy-MM-dd").format(evento.getFechaEvento())%>"/>
                         </div> 
                     </div>
                     <div class="row"><br/></div>
@@ -100,7 +103,7 @@
                             Fecha de máxima para comprar entradas:
                         </div>
                         <div class="col-8">
-                            <input type="date" name="fechaEntradas" placeholder="<%= new SimpleDateFormat("dd/MM/yyyy").format(evento.getFechaFinReservas()) %>"/>
+                            <input type="date" name="fechaEntradas" value="<%= new SimpleDateFormat("yyyy-MM-dd").format(evento.getFechaFinReservas())%>"/>
                         </div> 
                     </div>
                     <div class="row"><br/></div>
@@ -109,7 +112,7 @@
                             Coste de la entrada:
                         </div>
                         <div class="col-8">
-                            <input id="coste" type="number" name="coste" step="1.00" value="<%= coste  %>"/>  &euro;
+                            <input id="coste" type="number" name="coste" step="1.00" value="<%= coste%>"/>  &euro;
                         </div> 
                     </div>
                     <div class="row"><br/></div>
@@ -118,7 +121,7 @@
                             Aforo del evento:
                         </div>
                         <div class="col-8">
-                            <input type="number" name="aforo" value="<%= aforo  %>"/>
+                            <input type="number" name="aforo" value="<%= aforo%>"/>
                         </div> 
                     </div>
                     <div class="row"><br/></div>
@@ -127,7 +130,7 @@
                             Nº m&aacute;ximo de entradas por usuario:
                         </div>
                         <div class="col-8">
-                            <input type="number" name="entradas" value="<%= entradas  %>"/>
+                            <input type="number" name="entradas" value="<%= entradas%>"/>
                         </div> 
                     </div>
                     <div class="row"><br/></div>
@@ -136,13 +139,17 @@
                             Etiquetas:
                         </div>
                         <div class="col-8">
-                            <textarea name="etiquetas" rows="4" cols="50" ></textarea>
+                            <textarea name="etiquetas" rows="4" cols="50"><%= etiquetas%></textarea>
                         </div> 
                     </div>
                     <div class="row"><br/></div>
                     <div class="row">
                         <div class="col">
-                            <input type="submit" class="btn btn-outline-success" value="Editar evento">
+                            <input type="submit" class="btn btn-success btn-lg" value="Editar evento">
+                        </div>
+                        <div class="row"><br/></div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-start"">
+                            <a class="btn btn-primary" href="ServletCreadorPrincipal" role="button">Volver</a>
                         </div>
                     </div>
                 </div>

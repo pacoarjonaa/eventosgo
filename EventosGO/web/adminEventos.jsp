@@ -20,6 +20,10 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
+        <!-- Iconos de Boostrap -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+
         <!--        W3 CSS -->
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -28,19 +32,24 @@
         %>
     </head>
     <body>
-       
+
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
         <!-- Sección con la tabla de los estudios -->
         <section class="container rounded shadow-sm w3-padding">
             <header class="container">
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end"">
+                    <a class="btn btn-primary bi bi-hammer" href="crearEvento.jsp" role="button"> Crear evento</a>
+                </div>
+
                 <h1 class="display-1">Lista de eventos</h1>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
                 </form>
             </header>
-            <a href="crearEvento.jsp">Nuevo evento</a>
+
             <article>
                 <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de eventos">
                     <thead>
@@ -52,24 +61,34 @@
                             <th scope="col">Aforo</th>
                             <th scope="col">Coste</th>
                             <th scope="col">Maximo entradas/usuario</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <%
-                            int i;
+                        <%                            int i;
                             for (i = 0; i < listaEventos.size(); i++) {
                         %>
 
                         <tr>
 
                             <th scope="row"><%= (i + 1)%></th>
-                            <td> <a href="ServletAdminCrudEvento?id=<%= listaEventos.get(i).getId() %>"> <%= listaEventos.get(i).getTitulo()%> </a></td>
+                            <td> <a href="ServletAdminCrudEvento?id=<%= listaEventos.get(i).getId()%>"> <%= listaEventos.get(i).getTitulo()%> </a></td>
                             <td> <%= new SimpleDateFormat("dd/MM/yyyy").format(listaEventos.get(i).getFechaEvento())%> </a></td>
                             <td> <%= new SimpleDateFormat("dd/MM/yyyy").format(listaEventos.get(i).getFechaFinReservas())%> </a></td>
-                            <td> <%= listaEventos.get(i).getAforo() %> </a></td>
+                            <td> <%= listaEventos.get(i).getAforo()%> </a></td>
                             <td> <%= listaEventos.get(i).getCoste()%> </a></td>
-                            <td> <%= listaEventos.get(i).getMaximoEntradasUsuario() %> </a></td>
-
+                            <td> <%= listaEventos.get(i).getMaximoEntradasUsuario()%> </a></td>
+                            <td>
+                                <a class="btn btn-outline-info" href="ServletEventoVer?eventoid=<%= listaEventos.get(i).getId()%>" role="button">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a class="btn btn-outline-success" href="ServletAdminCrudEvento?id=<%= listaEventos.get(i).getId()%>&accion=editar" role="button">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="btn btn-outline-danger" href="ServletEventoBorrar?eventoid=<%= listaEventos.get(i).getId()%>" role="button">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
                         </tr>
 
                         <%
@@ -84,6 +103,8 @@
                             <td>*</td>
                             <td>*</td>
                             <td>*</td>
+                            <td>*</td>
+                            
                         </tr>
                         <%
                             }

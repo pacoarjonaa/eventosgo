@@ -4,7 +4,8 @@
 INSERT INTO USUARIO (CORREO, CONTRASENA, NOMBRE, ROL) VALUES ('pablo@gmail.com', '12345', 'Pablo', 3); -- Usuario tipo Analista
 INSERT INTO USUARIO (CORREO, CONTRASENA, NOMBRE, ROL) VALUES ('juanma@gmail.com', '12345', 'Juanma', 3); -- Usuario tipo Analista
 INSERT INTO USUARIO (CORREO, CONTRASENA, NOMBRE, ROL) VALUES ('ruben@gmail.com', '12345', 'Ruben', 3); -- Usuario tipo Analista
-INSERT INTO USUARIO (CORREO, CONTRASENA, NOMBRE, ROL) VALUES ('kiko@gmail.com', 'kiko', 'kiko', 1); -- Usuario tipo Analista
+INSERT INTO USUARIO (CORREO, CONTRASENA, NOMBRE, ROL) VALUES ('kiko@gmail.com', 'kiko', 'kiko', 1); -- Usuario tipo creador
+INSERT INTO USUARIO (CORREO, CONTRASENA, NOMBRE, ROL) VALUES ('admin@gmail.com', 'admin', 'admin', 0); -- Usuario tipo administrador
 
 -- Estudios
 INSERT INTO ESTUDIO (ID_ANALISTA, TITULO, RESULTADO) VALUES (1, 'Prueba metodos estudio', 'Positivo'); -- Borrar

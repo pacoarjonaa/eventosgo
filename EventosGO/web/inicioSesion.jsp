@@ -33,21 +33,23 @@
 
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
-        <h1>Inicio de Sesion</h1>
+        <section class="container rounded shadow-lg w3-padding">
+            <h1>Inicio de Sesion</h1>
 
-        <div class="container"><form action="ServletInicioSesion">
-                <div class="form-group">
-                    <div class="error"><% if (error != null) {%> <%= error%>  <% }%>  </div> <br/>
-                    <label for="exampleInputEmail1">Correo</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" name="correo" aria-describedby="emailHelp">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Contrase&ntilde;a</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
-                </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </form> </div>
-
+            <div class="container"><form action="ServletInicioSesion">
+                    <div class="form-group">
+                        <div class="error"><% if (error != null) {%> <%= error%>  <% }%>  </div> <br/>
+                        <label for="exampleInputEmail1">Correo</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" name="correo" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Contrase&ntilde;a</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                    </div>
+                    <div class="row"><br/></div>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form> </div>
+        </section>
 
     </body>
 </html>
