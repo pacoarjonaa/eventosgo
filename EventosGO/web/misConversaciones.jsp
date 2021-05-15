@@ -65,32 +65,33 @@
                     <div class="alert alert-info d-flex align-items-center" role="alert">
                         <i class="bi bi-info-circle-fill" style="font-size: 1.7em"></i>
                         <div class="ms-3">
-                            Aqu&iacute; puede solicitar una conversaci&oacute;n con un teleoperador.
+                            <div>
+                                Aqu&iacute; puede solicitar una conversaci&oacute;n con un teleoperador.
+                            </div>
                         </div>
+                        <form action="ServletAsignarTeleoperador" class="row g-3">
+                            <div class="col-auto">
+                                <label class="form-label">Asunto</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="text" class="form-control" name="asunto">
+                            </div>
+                            <div class="col-auto">
+                                <input type="submit" class="btn btn-primary mb-3" value="Solicitar">
+                            </div>
+                        </form>
                     </div>
-                    <form action="ServletAsignarTeleoperador" class="row g-3">
-                        <div class="col-auto">
-                            <label class="form-label">Asunto</label>
-                        </div>
-                        <div class="col-auto">
-                            <input type="text" class="form-control" name="asunto">
-                        </div>
-                        <div class="col-auto">
-                            <input type="submit" class="btn btn-primary mb-3" value="Solicitar">
-                        </div>
-                    </form>
-                </div>
-                <%
-                } else {
-                %>
-                <div class="mt-auto align-middle">
-                    <a class="btn btn-outline-dark btn-circle btn-circle-sm m-1" href="" role="button">
-                        <i class="bi bi-plus">Consultar chats</i>
-                    </a>
-                </div>
-                <%
-                    }
-                %>
+                    <%
+                    } else {
+                    %>
+                    <div class="mt-auto align-middle">
+                        <a class="btn btn-outline-dark btn-circle btn-circle-sm m-1" href="" role="button">
+                            <i class="bi bi-plus">Consultar chats</i>
+                        </a>
+                    </div>
+                    <%
+                        }
+                    %>
             </header>
         </section>
         <article class="container">
@@ -104,7 +105,24 @@
                                     cntSinLeer++;
                                 }
                             }
-                        }
+                %>
+                <a href="" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h3 class="mb-1"><%= c.getAsunto()%></h3>
+                        <%
+                            if (cntSinLeer > 0) {
+                        %>
+                        <span class="badge bg-primary fs-5"> <%= cntSinLeer%></span>
+                        <%
+                            }
+                        %>
+
+                    </div>
+                    <p><%= (c.getMensajeList().size() > 0) ? c.getMensajeList().get(c.getMensajeList().size() - 1).getTexto() : ""%></p>
+                    <small><%= (rol == 2) ? c.getIdUsuario().getCorreo() : c.getIdTeleoperador().getNombre()%></small>
+                </a>
+                <%
+                    }
                 %>
                 <a href="" class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
