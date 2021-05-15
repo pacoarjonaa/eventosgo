@@ -5,8 +5,10 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.ConversacionFacade;
 import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Conversacion;
+import eventosgowebapp.entity.Mensaje;
 import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,9 +29,12 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "ServletAsignarTeleoperador", urlPatterns = {"/ServletAsignarTeleoperador"})
 public class ServletAsignarTeleoperador extends HttpServlet {
-
+    
     @EJB
     private UsuarioFacade usuarioFacade;
+    
+    @EJB
+    private ConversacionFacade conversacionFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,17 +49,18 @@ public class ServletAsignarTeleoperador extends HttpServlet {
             throws ServletException, IOException {
         HttpSession httpSession = request.getSession();
         Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
+        String asunto = new String(request.getParameter("asunto").getBytes("ISO-8859-1"), "UTF-8");
         List<Usuario> teleoperadores = usuarioFacade.findByRol(2);
-
+        
         if (teleoperadores == null || teleoperadores.isEmpty()) {
-            // TO DO
+            request.setAttribute("error", "No hay teleoperadores disponibles");
         } else {
             Usuario tlp = teleoperadores.get(0);
             List<Conversacion> conv = new ArrayList<>();
             conv.addAll(teleoperadores.get(0).getConversacionList());
             conv.addAll(teleoperadores.get(0).getConversacionList1());
             int num = conv.size();
-            for (int i = 0; i < teleoperadores.size(); i++) {
+            for (int i = 1; i < teleoperadores.size(); i++) {
                 List<Conversacion> conversaciones = new ArrayList<>();
                 conversaciones.addAll(teleoperadores.get(i).getConversacionList());
                 conversaciones.addAll(teleoperadores.get(i).getConversacionList1());
@@ -63,10 +69,31 @@ public class ServletAsignarTeleoperador extends HttpServlet {
                     num = conversaciones.size();
                 }
             }
+            Conversacion c = new Conversacion();
+            c.setAsunto(asunto);
+            c.setIdTeleoperador(tlp);
+            c.setIdUsuario(usuario);
+            List<Mensaje> listaMensaje = new ArrayList<>();
+            c.setMensajeList(listaMensaje);
+            
+            List<Conversacion> listaC = new ArrayList<>();
+            listaC.addAll(usuario.getConversacionList());
+            listaC.addAll(usuario.getConversacionList1());
+            listaC.add(c);
+            usuario.setConversacionList(listaC);
+            
+            List<Conversacion> listaC2 = new ArrayList<>();
+            listaC2.addAll(tlp.getConversacionList());
+            listaC2.addAll(tlp.getConversacionList1());
+            listaC2.add(c);
+            tlp.setConversacionList(listaC2);
+            
+            this.conversacionFacade.create(c);
+            this.usuarioFacade.edit(usuario);
+            this.usuarioFacade.edit(tlp);
         }
         
-        RequestDispatcher rd = request.getRequestDispatcher("ServletConversacionListar");
-        rd.forward(request, response);
+        response.sendRedirect("ServletConversacionListar");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

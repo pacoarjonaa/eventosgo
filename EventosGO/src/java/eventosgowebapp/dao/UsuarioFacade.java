@@ -54,7 +54,6 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         q = this.em.createQuery("SELECT u FROM Usuario u WHERE u.rol = :rol");
         q.setParameter("rol", rol);
         res = q.getResultList();
-        
         return res;
     }
     
