@@ -41,7 +41,7 @@
             <header class="container">
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end"">
-                    <a class="btn btn-primary" href="crearEvento.jsp" role="button">Crear evento</a>
+                    <a class="btn btn-primary bi bi-hammer" href="crearEvento.jsp" role="button"> Crear evento</a>
                 </div>
 
                 <h1 class="display-1">Mis eventos</h1>
@@ -62,7 +62,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%                            int i;
+                        <%                            
+                            int i;
                             for (i = 0; i < eventos.size(); i++) {
                         %>
 

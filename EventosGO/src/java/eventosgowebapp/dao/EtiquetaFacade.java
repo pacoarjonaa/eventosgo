@@ -6,6 +6,8 @@
 package eventosgowebapp.dao;
 
 import eventosgowebapp.entity.Etiqueta;
+import eventosgowebapp.entity.EventoEtiqueta;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -45,5 +47,7 @@ public class EtiquetaFacade extends AbstractFacade<Etiqueta> {
         }
         return et;
     }
+
+    
     
 }
