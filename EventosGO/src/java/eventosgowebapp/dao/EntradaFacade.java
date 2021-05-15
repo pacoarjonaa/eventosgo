@@ -33,16 +33,8 @@ public class EntradaFacade extends AbstractFacade<Entrada> {
     public EntradaFacade() {
         super(Entrada.class);
     }
-    
-    public  Integer countEntradas(Evento evento) {
-        Query q;
 
-        q = this.em.createQuery("SELECT COUNT(E) FROM Entrada E WHERE E.id = :ID");
-        q.setParameter("ID", evento);
-
-        return (Integer) q.getSingleResult();
-    }
-    
+     
     public List<Entrada> findByIdEvento(Evento evento){
         Query q;
         
@@ -53,10 +45,17 @@ public class EntradaFacade extends AbstractFacade<Entrada> {
     
     public List<Entrada> findByIdUsuario(Integer idUsuario){
         Query q;
+        List<Entrada> listaEntradas = null;
         
         q=em.createQuery("select e from Entrada e where e.idUsuario.id = :idUsuario");
         q.setParameter("idUsuario", idUsuario);
-        return q.getResultList();
+        
+        listaEntradas = q.getResultList();
+        if( q.getResultList() == null){
+            return null;
+        }else{
+            return listaEntradas;
+        }
     }
     
     public List<Entrada> findByIdUsuarioAndIdEvento(UsuarioEvento usuario, Evento evento){

@@ -3,6 +3,7 @@
     Created on : 12-may-2021, 20:09:38
     Author     : Kiko BM
 --%>
+ 
 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="eventosgowebapp.entity.Evento"%>
@@ -25,8 +26,9 @@
     <%
         Evento evento = (Evento) request.getAttribute("evento");
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+        Integer numeroEntradas = (Integer)request.getAttribute("numeroEntradas");
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         
-        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
         String volver = "ServletCreadorPrincipal";
         
         if(usuario.getRol() == 0){
@@ -35,6 +37,15 @@
             volver = "ServletCreadorPrincipal";
         }
 
+    %>
+    
+    <% 
+        if(usuario == null){
+    %>
+        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->  
+        <p> Inicie Sesion o Registrese si aun no lo esta</p></br>    
+     <% 
+        }else{
     %>
 
 
@@ -106,11 +117,31 @@
                     </div> 
                 </div>
                 <div class="row"><br/></div>
+                <%  // Falta condicion de que las entradas que hay == aforo
+                     if((usuario.getRol() == 4)  && (evento.getAforo() > 0) && numeroEntradas != evento.getAforo()){
+                  %>
+                <div>
+                    <a class="btn btn-link" href="ServletParaComprarEntradas?id=<%= evento.getId() %>" role="button"> Comprar entradas</a>
+                </div> 
+                <%
+                      }else if(usuario.getRol() == 4){
+                      
+                 %>
+                    <p> No hay entradas disponibles para este evento</p>
+                <%
+                      }
+                      
+                 %>
+
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start"">
                     <a class="btn btn-primary" href="<%= volver %>" role="button">Volver</a>
                 </div>
             </div>
         </section>
-
+        
+                    
     </body>
+    <% 
+        }
+    %>
 </html>
