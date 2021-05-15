@@ -69,29 +69,30 @@
                                 Aqu&iacute; puede solicitar una conversaci&oacute;n con un teleoperador.
                             </div>
                         </div>
-                        <form action="ServletAsignarTeleoperador" class="row g-3">
-                            <div class="col-auto">
-                                <label class="form-label">Asunto</label>
-                            </div>
-                            <div class="col-auto">
-                                <input type="text" class="form-control" name="asunto">
-                            </div>
-                            <div class="col-auto">
-                                <input type="submit" class="btn btn-primary mb-3" value="Solicitar">
-                            </div>
-                        </form>
                     </div>
-                    <%
-                    } else {
-                    %>
-                    <div class="mt-auto align-middle">
-                        <a class="btn btn-outline-dark btn-circle btn-circle-sm m-1" href="" role="button">
-                            <i class="bi bi-plus">Consultar chats</i>
-                        </a>
-                    </div>
-                    <%
-                        }
-                    %>
+                    <form action="ServletAsignarTeleoperador" class="row g-3 justify-content-center">
+                        <div class="col-auto">
+                            <label class="form-label">Asunto</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" class="form-control" name="asunto">
+                        </div>
+                        <div class="col-auto">
+                            <input type="submit" class="btn btn-primary mb-3" value="Solicitar">
+                        </div>
+                    </form>
+                </div>
+                <%
+                } else {
+                %>
+                <div class="mt-auto align-middle">
+                    <a class="btn btn-outline-dark btn-circle btn-circle-sm m-1" href="" role="button">
+                        <i class="bi bi-plus">Consultar chats</i>
+                    </a>
+                </div>
+                <%
+                    }
+                %>
             </header>
         </section>
         <article class="container">
