@@ -25,6 +25,16 @@
     <%
         Evento evento = (Evento) request.getAttribute("evento");
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+        
+        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
+        String volver = "ServletCreadorPrincipal";
+        
+        if(usuario.getRol() == 0){
+            volver = "ServletAdminEventoCargar";
+        }else if (usuario.getRol() == 1 ){
+            volver = "ServletCreadorPrincipal";
+        }
+
     %>
 
 
@@ -97,7 +107,7 @@
                 </div>
                 <div class="row"><br/></div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start"">
-                    <a class="btn btn-primary" href="ServletCreadorPrincipal" role="button">Volver</a>
+                    <a class="btn btn-primary" href="<%= volver %>" role="button">Volver</a>
                 </div>
             </div>
         </section>

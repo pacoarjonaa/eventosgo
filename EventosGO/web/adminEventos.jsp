@@ -82,10 +82,10 @@
                                 <a class="btn btn-outline-info" href="ServletEventoVer?eventoid=<%= listaEventos.get(i).getId()%>" role="button">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a class="btn btn-outline-success" href="ServletAdminCrudEvento?id=<%= listaEventos.get(i).getId()%>&accion=editar" role="button">
+                                <a class="btn btn-outline-success" href="ServletAdminCrudEventoEditar?id=<%= listaEventos.get(i).getId()%>" role="button">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <a class="btn btn-outline-danger" href="ServletEventoBorrar?eventoid=<%= listaEventos.get(i).getId()%>" role="button">
+                                <a class="btn btn-outline-danger" href="ServletAdminCrudEventoBorrar?id=<%= listaEventos.get(i).getId()%>" role="button">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>
