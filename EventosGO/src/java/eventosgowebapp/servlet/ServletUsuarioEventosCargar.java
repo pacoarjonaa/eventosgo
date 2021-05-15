@@ -55,9 +55,11 @@ public class ServletUsuarioEventosCargar extends HttpServlet {
         String filtroEvento = request.getParameter("filtroEvento");
         Map<Evento, Integer> eventosMap = new HashMap();
         List<Integer> idEventosToRemove = (List) request.getSession().getAttribute("remove");
+        List<Entrada> listaEntradas = this.entradaFacade.findByIdUsuario(userEvento.getId());
     
-        if (idEventosToRemove != null && !idEventosToRemove.isEmpty()){
-            for(Entrada e: this.entradaFacade.findByIdUsuario(userEvento.getId())){
+        if(listaEntradas != null){
+            if (idEventosToRemove != null && !idEventosToRemove.isEmpty()){
+            for(Entrada e: listaEntradas){
                 Evento evento;
                 if(filtroEvento==null || filtroEvento.isEmpty()){
                     evento = eventoFacade.find(e.getIdEvento().getId());
@@ -88,6 +90,7 @@ public class ServletUsuarioEventosCargar extends HttpServlet {
                     }
                 }
             }
+        }
         }
             
         request.setAttribute("eventos", eventosMap);

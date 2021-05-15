@@ -6,14 +6,11 @@
 package eventosgowebapp.servlet;
 
 import eventosgowebapp.dao.EntradaFacade;
-import eventosgowebapp.dao.EtiquetaFacade;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.entity.Evento;
-import static eventosgowebapp.entity.EventoAforo_.evento;
-import eventosgowebapp.entity.EventoEtiqueta;
+import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,19 +21,17 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Kiko BM
+ * @author pacoa
  */
-@WebServlet(name = "ServletEventoVer", urlPatterns = {"/ServletEventoVer"})
-public class ServletEventoVer extends HttpServlet {
+@WebServlet(name = "ServletParaComprarEntradas", urlPatterns = {"/ServletParaComprarEntradas"})
+public class ServletParaComprarEntradas extends HttpServlet {
 
     @EJB
-    private EtiquetaFacade etiquetaFacade;
+    private EntradaFacade entradaFacade;
 
     @EJB
     private EventoFacade eventoFacade;
-    
-     @EJB
-    private EntradaFacade entradaFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,27 +43,22 @@ public class ServletEventoVer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String strTo = "verEvento.jsp";
-        
-        String id = request.getParameter("eventoid");
-        Evento elevento = this.eventoFacade.find(new Integer(id));
-        
-        int numeroEntradas = this.entradaFacade.findByIdEvento(elevento).size();
-        
-        String accion;
-        accion = (String)request.getParameter("accion");
-        
-        if(accion == null){
-            request.setAttribute("numeroEntradas", numeroEntradas);
-            strTo = "verEvento.jsp";
-        }else if (accion.equalsIgnoreCase("editar")){
-            strTo = "editarEvento.jsp";
-        }
+        response.setContentType("text/html;charset=UTF-8");
         
         
-        request.setAttribute("evento", elevento);
+        String idEvento = request.getParameter("id");
+        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
+                
+        Evento evento = this.eventoFacade.find(new Integer(idEvento));
+        int entradasCompradas = this.entradaFacade.findByIdEvento(evento).size();
+        int entradasCompradasUsuario = this.entradaFacade.findByIdUsuario(usuario.getId()).size();
+        int entradasDisponibles = evento.getAforo() - entradasCompradas;
         
-        RequestDispatcher rd = request.getRequestDispatcher(strTo);
+        request.setAttribute("evento", evento);
+        request.setAttribute("entradasDisponibles", entradasDisponibles);
+        request.setAttribute("entradasCompradasUsuario", entradasCompradasUsuario);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("comprarEntradas.jsp");
         rd.forward(request, response);
     }
 

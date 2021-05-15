@@ -26,7 +26,7 @@
     <%
         Evento evento = (Evento) request.getAttribute("evento");
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
-        int numeroEntradas = (int)request.getAttribute("numeroEntradas");
+        Integer numeroEntradas = (Integer)request.getAttribute("numeroEntradas");
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         
     %>
@@ -109,11 +109,11 @@
                     </div> 
                 </div>
                 <div class="row"><br/></div>
-                <%
-                     if((usuario.getRol() == 4) && (numeroEntradas > 0) && (evento.getAforo() > 0)){
+                <%  // Falta condicion de que las entradas que hay == aforo
+                     if((usuario.getRol() == 4)  && (evento.getAforo() > 0) && numeroEntradas != evento.getAforo()){
                   %>
                 <div>
-                    <a class="btn btn-link" href="#" role="button"> Comprar entradas</a>
+                    <a class="btn btn-link" href="ServletParaComprarEntradas?id=<%= evento.getId() %>" role="button"> Comprar entradas</a>
                 </div> 
                 <%
                       }else if(usuario.getRol() == 4){

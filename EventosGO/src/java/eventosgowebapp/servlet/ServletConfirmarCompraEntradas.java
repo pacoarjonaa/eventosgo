@@ -6,14 +6,15 @@
 package eventosgowebapp.servlet;
 
 import eventosgowebapp.dao.EntradaFacade;
-import eventosgowebapp.dao.EtiquetaFacade;
 import eventosgowebapp.dao.EventoFacade;
+import eventosgowebapp.dao.UsuarioEventoFacade;
+import eventosgowebapp.dao.UsuarioFacade;
+import eventosgowebapp.entity.Entrada;
 import eventosgowebapp.entity.Evento;
-import static eventosgowebapp.entity.EventoAforo_.evento;
-import eventosgowebapp.entity.EventoEtiqueta;
+import eventosgowebapp.entity.Usuario;
+import eventosgowebapp.entity.UsuarioEvento;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,19 +25,20 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Kiko BM
+ * @author pacoa
  */
-@WebServlet(name = "ServletEventoVer", urlPatterns = {"/ServletEventoVer"})
-public class ServletEventoVer extends HttpServlet {
-
-    @EJB
-    private EtiquetaFacade etiquetaFacade;
+@WebServlet(name = "ServletConfirmarCompraEntradas", urlPatterns = {"/ServletConfirmarCompraEntradas"})
+public class ServletConfirmarCompraEntradas extends HttpServlet {
 
     @EJB
     private EventoFacade eventoFacade;
-    
-     @EJB
+
+    @EJB
+    private UsuarioEventoFacade usuarioEventoFacade;
+
+    @EJB
     private EntradaFacade entradaFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,28 +50,29 @@ public class ServletEventoVer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String strTo = "verEvento.jsp";
+        response.setContentType("text/html;charset=UTF-8");
         
-        String id = request.getParameter("eventoid");
-        Evento elevento = this.eventoFacade.find(new Integer(id));
         
-        int numeroEntradas = this.entradaFacade.findByIdEvento(elevento).size();
+        String idEvento = request.getParameter("idEvento");
+        String idUsuario = request.getParameter("idUsuario");
+        String numEntradas = request.getParameter("entradas");
         
-        String accion;
-        accion = (String)request.getParameter("accion");
+        Evento evento = this.eventoFacade.find(new Integer(idEvento));
+        UsuarioEvento usuario = this.usuarioEventoFacade.find(new Integer(idUsuario));  // Aqui esta el error
+        Entrada entrada;
         
-        if(accion == null){
-            request.setAttribute("numeroEntradas", numeroEntradas);
-            strTo = "verEvento.jsp";
-        }else if (accion.equalsIgnoreCase("editar")){
-            strTo = "editarEvento.jsp";
+        int i = 0;
+        while(i < new Integer(numEntradas)){
+            entrada = new Entrada();
+            entrada.setIdEvento(evento);
+            entrada.setIdUsuario(usuario);
+            this.entradaFacade.create(entrada);
+            i++;
         }
         
-        
-        request.setAttribute("evento", elevento);
-        
-        RequestDispatcher rd = request.getRequestDispatcher(strTo);
+        RequestDispatcher rd = request.getRequestDispatcher("ServletUsuarioEventosCargar");
         rd.forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
