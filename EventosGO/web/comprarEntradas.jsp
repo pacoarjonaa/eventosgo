@@ -26,19 +26,23 @@
         Evento evento = (Evento)request.getAttribute("evento"); 
         Integer entradasDisponibles = (Integer)request.getAttribute("entradasDisponibles");
         Integer entradasCompradasUsuario = (Integer)request.getAttribute("entradasCompradasUsuario");
-        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
+        UsuarioEvento usuario = (UsuarioEvento)request.getSession().getAttribute("usuarioEvento");
+        String error = (String) request.getAttribute("error");
+        
     %>
   
     <body>
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
          
         <%
-            if(entradasCompradasUsuario < evento.getMaximoEntradasUsuario()){
+            if(error == null || error.isEmpty()){
         %>  
         <form action="ServletConfirmarCompraEntradas">
             
             <input type="hidden" name="idEvento" value="<%= evento.getId() %>" />
             <input type="hidden" name="idUsuario" value="<%= usuario.getId() %>" />
+            <input type="hidden" name="entradasCompradasUsuario" value="<%= entradasCompradasUsuario %>" />
+            <input type="hidden" name="entradasDisponibles" value="<%= entradasDisponibles %>" />
             
         <h1>Compra de entradas para <%= evento.getTitulo() %> </h1>
         <p>Entradas disponibles: <%= entradasDisponibles %></p>
@@ -57,7 +61,7 @@
         <%
             }else{
         %>
-        <h1> Ya no puede comprar mas entradas para este Evento.</h1>
+        <h1> <%= error %></h1>
         <%
             }
         %>

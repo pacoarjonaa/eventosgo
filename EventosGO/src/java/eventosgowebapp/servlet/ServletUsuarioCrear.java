@@ -112,7 +112,7 @@ public class ServletUsuarioCrear extends HttpServlet {
         }
         
        
-        RequestDispatcher rd = request.getRequestDispatcher("ServletUsuarioEventosDisponiblesCargar");
+        RequestDispatcher rd = request.getRequestDispatcher("ServletEventosDisponiblesCargar");
         rd.forward(request, response);
     }
 

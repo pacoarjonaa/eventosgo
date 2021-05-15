@@ -9,6 +9,7 @@ import eventosgowebapp.dao.EntradaFacade;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.entity.Evento;
 import eventosgowebapp.entity.Usuario;
+import eventosgowebapp.entity.UsuarioEvento;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -47,16 +48,18 @@ public class ServletParaComprarEntradas extends HttpServlet {
         
         
         String idEvento = request.getParameter("id");
-        Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
+        UsuarioEvento usuario = (UsuarioEvento)request.getSession().getAttribute("usuarioEvento");
                 
         Evento evento = this.eventoFacade.find(new Integer(idEvento));
         int entradasCompradas = this.entradaFacade.findByIdEvento(evento).size();
-        int entradasCompradasUsuario = this.entradaFacade.findByIdUsuario(usuario.getId()).size();
+        int entradasCompradasUsuario = this.entradaFacade.findByIdUsuarioAndIdEvento(usuario.getId(), evento.getId()).size();
         int entradasDisponibles = evento.getAforo() - entradasCompradas;
+        String strError = (String) request.getAttribute("error");
         
         request.setAttribute("evento", evento);
         request.setAttribute("entradasDisponibles", entradasDisponibles);
         request.setAttribute("entradasCompradasUsuario", entradasCompradasUsuario);
+        request.setAttribute("error", strError);
         
         RequestDispatcher rd = request.getRequestDispatcher("comprarEntradas.jsp");
         rd.forward(request, response);

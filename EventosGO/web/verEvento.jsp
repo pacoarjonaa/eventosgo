@@ -113,7 +113,7 @@
                         Nº m&aacute;ximo de entradas por usuario:
                     </div>
                     <div class="col-8">
-                        <%= evento.getCoste()%><br/>
+                        <%= evento.getMaximoEntradasUsuario() %><br/>
                     </div> 
                 </div>
                 <div class="row"><br/></div>
