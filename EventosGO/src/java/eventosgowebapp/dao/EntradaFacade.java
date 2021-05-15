@@ -6,9 +6,14 @@
 package eventosgowebapp.dao;
 
 import eventosgowebapp.entity.Entrada;
+import eventosgowebapp.entity.Evento;
+import eventosgowebapp.entity.Usuario;
+import eventosgowebapp.entity.UsuarioEvento;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +33,37 @@ public class EntradaFacade extends AbstractFacade<Entrada> {
     public EntradaFacade() {
         super(Entrada.class);
     }
+
+     
+    public List<Entrada> findByIdEvento(Evento evento){
+        Query q;
+        
+        q=em.createQuery("select e from Entrada e where e.idEvento = :idEvento");
+        q.setParameter("idEvento", evento);
+        return q.getResultList();
+    }
     
+    public List<Entrada> findByIdUsuario(Integer idUsuario){
+        Query q;
+        List<Entrada> listaEntradas = null;
+        
+        q=em.createQuery("select e from Entrada e where e.idUsuario.id = :idUsuario");
+        q.setParameter("idUsuario", idUsuario);
+        
+        listaEntradas = q.getResultList();
+        if( q.getResultList() == null){
+            return null;
+        }else{
+            return listaEntradas;
+        }
+    }
+    
+    public List<Entrada> findByIdUsuarioAndIdEvento(Integer idUsuario, Integer evento){
+        Query q;
+        
+        q=em.createQuery("select e from Entrada e where e.idUsuario.id = :idUsuario and e.idEvento.id = :idEvento");
+        q.setParameter("idUsuario", idUsuario);
+        q.setParameter("idEvento", evento);
+        return q.getResultList();
+    }
 }

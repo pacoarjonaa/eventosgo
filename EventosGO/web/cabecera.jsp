@@ -27,11 +27,11 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand fs-2" href="paginaInicioWeb.jsp">EventosGO</a>
+                <a class="navbar-brand fs-2" href="ServletEventosDisponiblesCargar">EventosGO</a>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="paginaInicioWeb.jsp">Inicio</a>
+                            <a class="nav-link" aria-current="page" href="ServletEventosDisponiblesCargar">Inicio</a>
                         </li>
                         <%
                             if (rol == 1) {
@@ -52,6 +52,15 @@
                             }
                         %>
                         <%
+                            if (rol == 4) {
+                        %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ServletUsuarioEventosCargar">Mis Eventos</a>
+                        </li>
+                        <%
+                            }
+                        %>
+                        <%
                             if (rol == 2 || rol == 4 || rol == 1) {
                         %>
                         <li class="nav-item">
@@ -67,7 +76,7 @@
                             <a class="nav-link" href="ServletAdminUsuarioCargar">Lista Usuarios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="ServletAdminEventoCargar">Lista Eventos</a>
+                            <a class="nav-link" href="ServletEventosCargar">Lista Eventos</a>
                         </li>
                         <%
                             }

@@ -6,13 +6,11 @@
 package eventosgowebapp.servlet;
 
 import eventosgowebapp.dao.EntradaFacade;
-import eventosgowebapp.dao.EtiquetaFacade;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.entity.Evento;
-import static eventosgowebapp.entity.EventoAforo_.evento;
-import eventosgowebapp.entity.EventoEtiqueta;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -24,19 +22,14 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Kiko BM
+ * @author pacoa
  */
-@WebServlet(name = "ServletEventoVer", urlPatterns = {"/ServletEventoVer"})
-public class ServletEventoVer extends HttpServlet {
-
-    @EJB
-    private EtiquetaFacade etiquetaFacade;
+@WebServlet(name = "ServletEventosDisponiblesCargar", urlPatterns = {"/ServletEventosDisponiblesCargar"})
+public class ServletEventosDisponiblesCargar extends HttpServlet {
 
     @EJB
     private EventoFacade eventoFacade;
-    
-     @EJB
-    private EntradaFacade entradaFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,30 +41,23 @@ public class ServletEventoVer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String strTo = "verEvento.jsp";
+        response.setContentType("text/html;charset=UTF-8");
         
-        String id = request.getParameter("eventoid");
-        Evento elevento = this.eventoFacade.find(new Integer(id));
+        List<Evento> listaEventosDisponibles = new ArrayList();
+        Date fechaActual = new Date();
         
-        int numeroEntradas = this.entradaFacade.findByIdEvento(elevento).size();
-        
-        String accion;
-        accion = (String)request.getParameter("accion");
-        
-        if(accion == null){
-            request.setAttribute("numeroEntradas", numeroEntradas);
-            strTo = "verEvento.jsp";
-        }else if (accion.equalsIgnoreCase("editar")){
-            strTo = "editarEvento.jsp";
+        for(Evento evento : this.eventoFacade.findAll()){
+            if(fechaActual.before(evento.getFechaEvento())){
+                listaEventosDisponibles.add(evento);
+            }
         }
+       
+        request.setAttribute("listaEventosDisponibles", listaEventosDisponibles);
         
-        
-        request.setAttribute("evento", elevento);
-        
-        RequestDispatcher rd = request.getRequestDispatcher(strTo);
+        RequestDispatcher rd = request.getRequestDispatcher("paginaInicioWeb.jsp");
         rd.forward(request, response);
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -110,5 +96,6 @@ public class ServletEventoVer extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }
+  

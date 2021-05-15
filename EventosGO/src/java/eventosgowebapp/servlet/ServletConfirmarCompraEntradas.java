@@ -6,14 +6,15 @@
 package eventosgowebapp.servlet;
 
 import eventosgowebapp.dao.EntradaFacade;
-import eventosgowebapp.dao.EtiquetaFacade;
 import eventosgowebapp.dao.EventoFacade;
+import eventosgowebapp.dao.UsuarioEventoFacade;
+import eventosgowebapp.dao.UsuarioFacade;
+import eventosgowebapp.entity.Entrada;
 import eventosgowebapp.entity.Evento;
-import static eventosgowebapp.entity.EventoAforo_.evento;
-import eventosgowebapp.entity.EventoEtiqueta;
+import eventosgowebapp.entity.Usuario;
+import eventosgowebapp.entity.UsuarioEvento;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,19 +25,20 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Kiko BM
+ * @author pacoa
  */
-@WebServlet(name = "ServletEventoVer", urlPatterns = {"/ServletEventoVer"})
-public class ServletEventoVer extends HttpServlet {
-
-    @EJB
-    private EtiquetaFacade etiquetaFacade;
+@WebServlet(name = "ServletConfirmarCompraEntradas", urlPatterns = {"/ServletConfirmarCompraEntradas"})
+public class ServletConfirmarCompraEntradas extends HttpServlet {
 
     @EJB
     private EventoFacade eventoFacade;
-    
-     @EJB
+
+    @EJB
+    private UsuarioEventoFacade usuarioEventoFacade;
+
+    @EJB
     private EntradaFacade entradaFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,28 +50,46 @@ public class ServletEventoVer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String strTo = "verEvento.jsp";
+        response.setContentType("text/html;charset=UTF-8");
         
-        String id = request.getParameter("eventoid");
-        Evento elevento = this.eventoFacade.find(new Integer(id));
         
-        int numeroEntradas = this.entradaFacade.findByIdEvento(elevento).size();
+        String idEvento = request.getParameter("idEvento");
+        String idUsuario = request.getParameter("idUsuario");
+        Integer numEntradas = new Integer(request.getParameter("entradas"));
+        Integer entradasCompradasUsuario = new Integer(request.getParameter("entradasCompradasUsuario"));
+        Integer entradasDisponibles = new Integer(request.getParameter("entradasDisponibles"));
+                
+        Evento evento = this.eventoFacade.find(new Integer(idEvento));
+        UsuarioEvento usuario = this.usuarioEventoFacade.find(new Integer(idUsuario));  // Aqui esta el error
+        Entrada entrada;
+        String strError = "";
         
-        String accion;
-        accion = (String)request.getParameter("accion");
+        RequestDispatcher rd = request.getRequestDispatcher("ServletParaComprarEntradas?id=" + idEvento);
+       
+        int i = 0;
+        if(entradasDisponibles - numEntradas < 0){
+            strError = "El numero de entradas seleccionada hace superar el aforo máximo de este evento.";
+            request.setAttribute("error", strError);
+            rd.forward(request, response);
+        } else if(numEntradas + entradasCompradasUsuario > evento.getMaximoEntradasUsuario()){
+            strError = "El numero de entradas seleccionadas hace superar el numero maximo de entradas por usuario para este evento.";
+            request.setAttribute("error", strError);
+            rd.forward(request, response);
+        }else{
+            while(i < numEntradas){
+                entrada = new Entrada();
+                entrada.setIdEvento(evento);
+                entrada.setIdUsuario(usuario);
+                this.entradaFacade.create(entrada);
+                i++;
+            }
+           
+            RequestDispatcher rd2 = request.getRequestDispatcher("ServletUsuarioEventosCargar");
+            rd2.forward(request, response);
         
-        if(accion == null){
-            request.setAttribute("numeroEntradas", numeroEntradas);
-            strTo = "verEvento.jsp";
-        }else if (accion.equalsIgnoreCase("editar")){
-            strTo = "editarEvento.jsp";
         }
         
-        
-        request.setAttribute("evento", elevento);
-        
-        RequestDispatcher rd = request.getRequestDispatcher(strTo);
-        rd.forward(request, response);
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -4,6 +4,8 @@
     Author     : pacoa
 --%>
 
+<%@page import="eventosgowebapp.entity.Evento"%>
+<%@page import="java.util.List"%>
 <%@page import="eventosgowebapp.entity.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,6 +27,9 @@
 
     </head>
     <body>
+        <%
+            List<Evento> listaEventosDisponibles = (List)request.getAttribute("listaEventosDisponibles");
+        %>
         
        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
@@ -57,14 +62,20 @@
             </button>
         </div>
         <!-- END SLIDES -->
-
+        <%
+            for(Evento evento : listaEventosDisponibles){
+        %>
+            
             <div class="card" style="width: 18rem;">
                 <img src="Imagenes/eventoEjemplo1.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Titulo Evento</h5>
-                    <p class="card-text">Aqui iria una breve descripcion del evento en cuestion</p>
-                    <a href="#" class="btn btn-primary">Ir al evento</a>
+                    <h5 class="card-title"><%= evento.getTitulo() %></h5>
+                    <p class="card-text"><%= evento.getDescripcion()%></p>
+                    <a class="btn btn-primary bi bi-hammer" href="ServletEventoVer?eventoid=<%= evento.getId() %>" role="button"> Ir al evento</a>
                 </div>
             </div>
+        <%
+            }
+        %>
     </body>
 </html>
