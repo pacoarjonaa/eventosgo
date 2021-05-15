@@ -37,17 +37,13 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Conversacion.findById", query = "SELECT c FROM Conversacion c WHERE c.id = :id")})
 public class Conversacion implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "ASUNTO")
+    @Column(name = "ASUNTO", length = 100, nullable = false)
     private String asunto;
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     private Integer id;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID")
     @ManyToOne(optional = false)

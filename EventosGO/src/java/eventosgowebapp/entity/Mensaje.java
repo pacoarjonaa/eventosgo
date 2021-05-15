@@ -39,25 +39,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Mensaje.findByHora", query = "SELECT m FROM Mensaje m WHERE m.hora = :hora")})
 public class Mensaje implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "FECHA")
+    @Column(name = "FECHA", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "HORA")
+    @Column(name = "HORA" , nullable = false)
     @Temporal(TemporalType.TIME)
     private Date hora;
-    @Basic(optional = false)
-    @NotNull
     @Lob
-    @Size(min = 1, max = 32700)
-    @Column(name = "TEXTO")
+    @Column(name = "TEXTO", length = 32700, nullable = false)
     private String texto;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "VISTO")
+    @Column(name = "VISTO", nullable = false)
     private int visto;
 
     private static final long serialVersionUID = 1L;

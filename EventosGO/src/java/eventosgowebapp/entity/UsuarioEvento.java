@@ -43,27 +43,21 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "UsuarioEvento.findBySexo", query = "SELECT u FROM UsuarioEvento u WHERE u.sexo = :sexo")})
 public class UsuarioEvento implements Serializable {
 
-    @Basic(optional = false)
-    @Column(name = "APELLIDOS", length=50)
+    @Column(name = "APELLIDOS", length=50, nullable = false)
     private String apellidos;
-    @Basic(optional = false)
-    @Column(name = "DOMICILIO", length=100)
+    @Column(name = "DOMICILIO", length=100, nullable = false)
     private String domicilio;
-    @Basic(optional = false)
-    @Column(name = "CIUDAD", length=50)
+    @Column(name = "CIUDAD", length=50, nullable = false)
     private String ciudad;
-    @Basic(optional = false)
-    @Column(name = "FECHA_NACIMIENTO")
+    @Column(name = "FECHA_NACIMIENTO", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
-    @Basic(optional = false)
-    @Column(name = "SEXO")
+    @Column(name = "SEXO", nullable = false)
     private int sexo;
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     private Integer id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Entrada> entradaList;
