@@ -6,9 +6,11 @@
 package eventosgowebapp.dao;
 
 import eventosgowebapp.entity.Mensaje;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,13 @@ public class MensajeFacade extends AbstractFacade<Mensaje> {
     public MensajeFacade() {
         super(Mensaje.class);
     }
-    
+
+    public List<Mensaje> chat(int c) {
+        Query q;
+        List<Mensaje> res;
+        q = this.em.createQuery("SELECT m FROM Mensaje m WHERE m.idConversacion = :c");
+        q.setParameter("c", c);
+        res = q.getResultList();
+        return res;
+    }
 }
