@@ -5,15 +5,18 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EstudioFacade;
+import eventosgowebapp.dao.ConversacionFacade;
+import eventosgowebapp.dao.MensajeFacade;
 import eventosgowebapp.dao.UsuarioFacade;
-import eventosgowebapp.entity.Estudio;
+import eventosgowebapp.entity.Conversacion;
+import eventosgowebapp.entity.Mensaje;
 import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,15 +27,18 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Pablo
  */
-@WebServlet(name = "ServletEstudioEliminar", urlPatterns = {"/ServletEstudioEliminar"})
-public class ServletEstudioEliminar extends HttpServlet {
+@WebServlet(name = "ServletMensajeEnviar", urlPatterns = {"/ServletMensajeEnviar"})
+public class ServletMensajeEnviar extends HttpServlet {
 
     @EJB
-    private EstudioFacade estudioFacade;
-
+    private ConversacionFacade conversacionFacade;
+    
+    @EJB
+    private MensajeFacade mensajeFacade;
+    
     @EJB
     private UsuarioFacade usuarioFacade;
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,16 +50,25 @@ public class ServletEstudioEliminar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Estudio e = this.estudioFacade.find(new Integer(request.getParameter("estudio")));
-        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-        List<Estudio> lista = u.getEstudioList();
-        lista.remove(e);
-        u.setEstudioList(lista);
+        String texto = new String(request.getParameter("mensaje").getBytes("ISO-8859-1"), "UTF-8");
+        Conversacion conversacion = this.conversacionFacade.find(Integer.parseInt(request.getParameter("idConversacion")));
+        Usuario usuario = this.usuarioFacade.find(Integer.parseInt(request.getParameter("idUsuario")));
+        
+        Mensaje mensaje = new Mensaje();
+        mensaje.setFecha(new Date());
+        mensaje.setHora(new Date());
+        mensaje.setIdConversacion(conversacion);
+        mensaje.setIdUsuario(usuario);
+        mensaje.setTexto(texto);
+        mensaje.setVisto(0);
 
-        this.estudioFacade.remove(e);
-        this.usuarioFacade.edit(u);
-
-        response.sendRedirect("ServletEstudioCargar");
+        List<Mensaje> lista = conversacion.getMensajeList();
+        lista.add(mensaje);
+        conversacion.setMensajeList(lista);
+        this.mensajeFacade.create(mensaje);
+        this.conversacionFacade.edit(conversacion);
+        
+        response.sendRedirect("ServletMensajeCargar?idConversacion="+conversacion.getId());
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

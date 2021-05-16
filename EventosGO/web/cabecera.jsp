@@ -10,7 +10,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Cabecera</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+        <!-- Iconos de Boostrap -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
     </head>
     <body>
         <%
@@ -55,7 +62,7 @@
                             if (rol == 2 || rol == 4 || rol == 1) {
                         %>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Chat</a>
+                            <a class="nav-link" href="ServletConversacionListar">Mis Conversaciones</a>
                         </li>
                         <%
                             }
@@ -91,5 +98,9 @@
             </div>
         </nav>
         <!-- END Navbar -->
+
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
     </body>
 </html>

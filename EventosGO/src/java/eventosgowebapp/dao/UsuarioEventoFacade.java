@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -82,23 +83,14 @@ public class UsuarioEventoFacade extends AbstractFacade<UsuarioEvento> {
     public List<UsuarioEvento> filtroEdad(int min, int max, List<UsuarioEvento> l) {
         Query q;
         List<UsuarioEvento> res = new LinkedList<>();
-//        if (l == null) {
-//            q = this.em.createQuery("SELECT u FROM UsuarioEvento u WHERE (CURRENT_DATE-u.fechaNacimiento) >= :min");
-//            q.setParameter("min", min);
-//            q.setParameter("max", max);
-//            res = q.getResultList();
-//        } else {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/YYYY");
-            SimpleDateFormat sdt = new SimpleDateFormat("DD/MM/YYYY");
-
-            LocalDate ld = LocalDate.now();
-            for (UsuarioEvento u : l) {
-                LocalDate fecha_nac = LocalDate.parse(sdt.format(u.getFechaNacimiento()), dtf);
-                int x = Period.between(fecha_nac, ld).getYears();
-                if (min <= x && x <= max) {
-                    res.add(u);
-                }
-//            }
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("MM");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("dd");
+        for (UsuarioEvento u : l) {
+            int x = Period.between(LocalDate.of(Integer.parseInt(sdf.format(u.getFechaNacimiento())), Integer.parseInt(sdf1.format(u.getFechaNacimiento())), Integer.parseInt(sdf2.format(u.getFechaNacimiento()))), LocalDate.now()).getYears();
+            if (min <= x && x <= max) {
+                res.add(u);
+            }
         }
 
         return res;

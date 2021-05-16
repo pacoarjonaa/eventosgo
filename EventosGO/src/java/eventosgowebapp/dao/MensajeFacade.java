@@ -6,9 +6,11 @@
 package eventosgowebapp.dao;
 
 import eventosgowebapp.entity.Mensaje;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,5 @@ public class MensajeFacade extends AbstractFacade<Mensaje> {
     public MensajeFacade() {
         super(Mensaje.class);
     }
-    
+
 }
