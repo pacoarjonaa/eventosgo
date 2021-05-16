@@ -5,12 +5,15 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.ConversacionFacade;
+import eventosgowebapp.dao.UsuarioFacade;
 import eventosgowebapp.entity.Conversacion;
 import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ServletConversacionListar", urlPatterns = {"/ServletConversacionListar"})
 public class ServletConversacionListar extends HttpServlet {
 
+    @EJB
+    private ConversacionFacade conversacionFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,9 +44,7 @@ public class ServletConversacionListar extends HttpServlet {
             throws ServletException, IOException {
         Usuario u = (Usuario) request.getSession().getAttribute("usuario");
 
-        List<Conversacion> lista = new ArrayList<>();
-        lista.addAll(u.getConversacionList());
-        lista.addAll(u.getConversacionList1());
+        List<Conversacion> lista = this.conversacionFacade.findByUsuario(u);
 
         request.setAttribute("listaConversaciones", lista);
         request.setAttribute("user", u);

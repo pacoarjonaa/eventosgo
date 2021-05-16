@@ -38,65 +38,64 @@
                 <h1 class="display-1 text-center mb-4"><%= c.getAsunto()%></h1>
                 <div class="d-flex">
                     <h3 class="me-auto display-5"><%= destino%></h2>
-                    <h3 class="ms-auto display-5"><%= origen%></h2>
-                </div>
-                <hr class="my-3">
-            </header>
-            <article class="container shadow p-3 mb-2 bg-body rounded">
-                <%                    for (Mensaje m : listaMensajes) {
+                        <h3 class="ms-auto display-5"><%= origen%></h2>
+                            </div>
+                            <hr class="my-3">
+                            </header>
+                            <article class="container shadow p-3 mb-2 bg-body rounded overflow-auto" style="max-height: 500px; max-width: 100%">
+                                    <%                    for (Mensaje m : listaMensajes) {
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                                            if (u.getId() == m.getIdUsuario().getId()) {
+                                    %>
+                                    <!-- Mensaje de Suyo -->
+                                    <div class="row justify-content-end">
+                                        <div class="col-auto">
+                                            <div class="alert-success text-end px-5 py-2 ms-5 mb-4">
+                                                <p class="text-break"><%= m.getTexto()%></p>
 
-                        if (u.getId() == m.getIdUsuario().getId()) {
-                %>
-                <!-- Mensaje de Suyo -->
-                <div class="row justify-content-end">
-                    <div class="col-auto">
-                        <div class="alert-success text-end px-5 py-2 ms-5 mb-4">
-                            <p class="text-break"><%= m.getTexto()%></p>
+                                                <span class=""><%= sdf.format(m.getHora())%></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Mensaje -->
+                                    <%
+                                    } else {
+                                    %>
+                                    <!-- Mensaje de Usuario -->
+                                    <div class="row ">
+                                        <div class="col-auto justify-content-start">
+                                            <div class="alert-dark text-start mb-4 px-5 py-2 me-5">
+                                                <p class="text-break"><%= m.getTexto()%></p>
 
-                            <span class=""><%= sdf.format(m.getFecha())%></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- END Mensaje -->
-                <%
-                } else {
-                %>
-                <!-- Mensaje de Usuario -->
-                <div class="row ">
-                    <div class="col-auto justify-content-start">
-                        <div class="alert-dark text-start mb-4 px-5 py-2 me-5">
-                            <p class="text-break"><%= m.getTexto()%></p>
+                                                <span class=""><%= sdf.format(m.getHora())%></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Mensaje -->
+                                    <%                        }
+                                        }
+                                    %>
+                            </article>
+                            <%
+                                if (u.getId() == c.getIdTeleoperador().getId() || u.getId() == c.getIdUsuario().getId()) {
+                            %>
+                            <div class="container">
+                                <form action="ServletMensajeEnviar">
+                                    <input type="text" hidden="" value="<%= c.getId()%>" name="idConversacion"/>
+                                    <input type="text" hidden="" value="<%= u.getId()%>" name="idUsuario"/>
+                                    <input type="text" class="form-control" placeholder="Enviar un mensaje" name="mensaje"/>
+                                    <button class="btn btn-primary">
+                                        <i class="bi bi-arrow-right-square-fill"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <%
+                                }
+                            %>
 
-                            <span class=""><%= sdf.format(m.getFecha())%></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- END Mensaje -->
-                <%                        }
-                    }
-                %>
-            </article>
-            <%
-                if (u.getId() == c.getIdTeleoperador().getId() || u.getId() == c.getIdUsuario().getId()) {
-            %>
-            <div class="container">
-                <form action="ServletMensajeEnviar">
-                    <input type="text" hidden="" value="<%= c.getId()%>" name="idConversacion"/>
-                    <input type="text" hidden="" value="<%= u.getId()%>" name="idUsuario"/>
-                    <input type="text" class="form-control" placeholder="Enviar un mensaje" name="mensaje"/>
-                    <button class="btn btn-primary">
-                        <i class="bi bi-arrow-right-square-fill"></i>
-                    </button>
-                </form>
-            </div>
-            <%
-                }
-            %>
+                            </section>
+                            </div>
 
-        </section>
-    </div>
-
-</body>
-</html>
+                            </body>
+                            </html>
