@@ -34,7 +34,7 @@
                 <div class="list-group">
                     <%                        for (Conversacion c : lista) {
                     %>
-                    <a href="" class="list-group-item list-group-item-action">
+                    <a href="ServletMensajeCargar?idConversacion=<%= c.getId() %>" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h3 class="mb-1"><%= c.getAsunto()%></h3>
                         </div>

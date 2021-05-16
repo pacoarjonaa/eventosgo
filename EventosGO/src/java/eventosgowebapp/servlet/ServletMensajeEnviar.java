@@ -50,7 +50,7 @@ public class ServletMensajeEnviar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String texto = request.getParameter("mensaje");
+        String texto = new String(request.getParameter("mensaje").getBytes("ISO-8859-1"), "UTF-8");
         Conversacion conversacion = this.conversacionFacade.find(Integer.parseInt(request.getParameter("idConversacion")));
         Usuario usuario = this.usuarioFacade.find(Integer.parseInt(request.getParameter("idUsuario")));
         
@@ -68,9 +68,7 @@ public class ServletMensajeEnviar extends HttpServlet {
         this.mensajeFacade.create(mensaje);
         this.conversacionFacade.edit(conversacion);
         
-        request.setAttribute("idConversacion", conversacion.getId());
-        
-        response.sendRedirect("ServletMensajeCargar");
+        response.sendRedirect("ServletMensajeCargar?idConversacion="+conversacion.getId());
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -88,33 +88,13 @@
                 <div class="list-group">
                     <%                        for (Conversacion c : lista) {
                             int cntSinLeer = 0;
-                            if (c.getMensajeList().size() > 0) {
-                                Mensaje m = c.getMensajeList().get(c.getMensajeList().size() - 1);
                                 for (Mensaje m1 : c.getMensajeList()) {
                                     if (m1.getVisto() == 0 && !m1.getIdUsuario().equals((Usuario) request.getAttribute("user"))) {
                                         cntSinLeer++;
                                     }
                                 }
                     %>
-                    <a href="" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h3 class="mb-1"><%= c.getAsunto()%></h3>
-                            <%
-                                if (cntSinLeer > 0) {
-                            %>
-                            <span class="badge bg-primary fs-5"> <%= cntSinLeer%></span>
-                            <%
-                                }
-                            %>
-
-                        </div>
-                        <p><%= (c.getMensajeList().size() > 0) ? c.getMensajeList().get(c.getMensajeList().size() - 1).getTexto() : ""%></p>
-                        <small><%= (rol == 2) ? c.getIdUsuario().getCorreo() : c.getIdTeleoperador().getNombre()%></small>
-                    </a>
-                    <%
-                        }
-                    %>
-                    <a href="" class="list-group-item list-group-item-action">
+                    <a href="ServletMensajeCargar?idConversacion=<%= c.getId()%>" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h3 class="mb-1"><%= c.getAsunto()%></h3>
                             <%

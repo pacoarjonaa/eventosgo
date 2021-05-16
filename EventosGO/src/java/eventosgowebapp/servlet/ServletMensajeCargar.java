@@ -9,9 +9,11 @@ import eventosgowebapp.dao.ConversacionFacade;
 import eventosgowebapp.dao.MensajeFacade;
 import eventosgowebapp.entity.Conversacion;
 import eventosgowebapp.entity.Mensaje;
+import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,18 +46,27 @@ public class ServletMensajeCargar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Conversacion conversacion = this.conversacionFacade.find(Integer.parseInt(request.getParameter("idConversacion")));
-        List<Mensaje> lista = this.mensajeFacade.chat(conversacion.getId());
-        request.setAttribute("teleoperador", conversacion.getIdTeleoperador());
-        request.setAttribute("usuario", conversacion.getIdUsuario());
-        request.setAttribute("asunto", conversacion.getAsunto());
+        Conversacion conversacion = this.conversacionFacade.find(new Integer(request.getParameter("idConversacion")));
+        List<Mensaje> lista = conversacion.getMensajeList();
+        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
 
-        for (Mensaje m : lista) {
-            m.setVisto(1);
-            this.mensajeFacade.edit(m);
-        }
+//        FALLO GORDACO COMO VALIDAR LOS MENSAJES LEIDOS DEL CHAT
+//        for (Mensaje m : conversacion.getMensajeList()) {
+//            if (Objects.equals(conversacion.getIdUsuario().getId(), u.getId()) || Objects.equals(u.getId(), conversacion.getIdTeleoperador().getId())) {
+//                if (!Objects.equals(u.getId(), m.getIdUsuario().getId())) {
+//                    lista.remove(m);
+//                    m.setVisto(1);
+//                    this.mensajeFacade.edit(m);
+//                    lista.add(m);
+//                }
+//            }
+//        }
+//        conversacion.setMensajeList(lista);
+//        this.conversacionFacade.edit(conversacion);
+        
         request.setAttribute("mensajes", lista);
-
+        request.setAttribute("conversacion", conversacion);
+        request.setAttribute("user", (Usuario) request.getSession().getAttribute("usuario"));
         RequestDispatcher rd = request.getRequestDispatcher("chatConversacion.jsp");
         rd.forward(request, response);
     }

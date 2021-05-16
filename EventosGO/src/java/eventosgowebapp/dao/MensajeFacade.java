@@ -31,12 +31,4 @@ public class MensajeFacade extends AbstractFacade<Mensaje> {
         super(Mensaje.class);
     }
 
-    public List<Mensaje> chat(int c) {
-        Query q;
-        List<Mensaje> res;
-        q = this.em.createQuery("SELECT m FROM Mensaje m WHERE m.idConversacion = :c");
-        q.setParameter("c", c);
-        res = q.getResultList();
-        return res;
-    }
 }
