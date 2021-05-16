@@ -38,11 +38,7 @@ public class ConversacionFacade extends AbstractFacade<Conversacion> {
         q.setParameter("u1", u);
         q.setParameter("u2", u);
         List<Conversacion> lista = q.getResultList();
-        if (lista != null && !lista.isEmpty()) {
-            return lista;
-        } else {
-            return null;
-        }
+        return lista;
     }
 
 }

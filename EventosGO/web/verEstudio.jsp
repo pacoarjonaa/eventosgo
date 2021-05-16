@@ -46,8 +46,6 @@
                     <tbody>
                         <%
                             int i = 1;
-                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/YYYY");
-                            SimpleDateFormat sdt = new SimpleDateFormat("DD/MM/YYYY");
                             for (UsuarioEvento u : lista) {
                         %>
                         <tr>

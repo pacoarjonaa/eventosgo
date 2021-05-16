@@ -79,17 +79,16 @@
                     <tbody>
                         <%
                             int i = 1;
-                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/YYYY");
-                            SimpleDateFormat sdt = new SimpleDateFormat("DD/MM/YYYY");
-                            LocalDate ld = LocalDate.now();
                             for (UsuarioEvento u : lista) {
                         %>
                         <tr>
-                            <th scope="row">i</th>
+                            <th scope="row"><%= i %></th>
                             <td><%= u.getUsuario().getNombre()%></td>
                             <%
-                                LocalDate fecha_nac = LocalDate.parse(sdt.format(u.getFechaNacimiento()), dtf);
-                                int edad = Period.between(fecha_nac, ld).getYears();
+                                SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+                                SimpleDateFormat sdf1 = new SimpleDateFormat("MM");
+                                SimpleDateFormat sdf2 = new SimpleDateFormat("dd");
+                                int edad = Period.between(LocalDate.of(Integer.parseInt(sdf.format(u.getFechaNacimiento())), Integer.parseInt(sdf1.format(u.getFechaNacimiento())), Integer.parseInt(sdf2.format(u.getFechaNacimiento()))), LocalDate.now()).getYears();
                             %>
                             <td><%= edad%></td>
                             <td><%= u.getCiudad()%></td>
