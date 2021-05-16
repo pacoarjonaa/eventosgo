@@ -61,7 +61,7 @@ public class ServletUsuarioEventoEliminar extends HttpServlet {
         Date fechaActual = new Date();
         List<Integer> idEventosToRemove = (List) request.getSession().getAttribute("remove");
         
-        for(Entrada e : this.entradaFacade.findByIdUsuarioAndIdEvento(userEvento, evento)){
+        for(Entrada e : this.entradaFacade.findByIdUsuarioAndIdEvento(userEvento.getId(), evento.getId())){
             if(fechaActual.before(evento.getFechaEvento())){
                 this.entradaFacade.remove(e);
                 userEvento.getEntradaList().remove(e);

@@ -55,24 +55,41 @@ public class ServletConfirmarCompraEntradas extends HttpServlet {
         
         String idEvento = request.getParameter("idEvento");
         String idUsuario = request.getParameter("idUsuario");
-        String numEntradas = request.getParameter("entradas");
-        
+        Integer numEntradas = new Integer(request.getParameter("entradas"));
+        Integer entradasCompradasUsuario = new Integer(request.getParameter("entradasCompradasUsuario"));
+        Integer entradasDisponibles = new Integer(request.getParameter("entradasDisponibles"));
+                
         Evento evento = this.eventoFacade.find(new Integer(idEvento));
         UsuarioEvento usuario = this.usuarioEventoFacade.find(new Integer(idUsuario));  // Aqui esta el error
         Entrada entrada;
+        String strError = "";
         
+        RequestDispatcher rd = request.getRequestDispatcher("ServletParaComprarEntradas?id=" + idEvento);
+       
         int i = 0;
-        while(i < new Integer(numEntradas)){
-            entrada = new Entrada();
-            entrada.setIdEvento(evento);
-            entrada.setIdUsuario(usuario);
-            this.entradaFacade.create(entrada);
-            i++;
+        if(entradasDisponibles - numEntradas < 0){
+            strError = "El numero de entradas seleccionada hace superar el aforo máximo de este evento.";
+            request.setAttribute("error", strError);
+            rd.forward(request, response);
+        } else if(numEntradas + entradasCompradasUsuario > evento.getMaximoEntradasUsuario()){
+            strError = "El numero de entradas seleccionadas hace superar el numero maximo de entradas por usuario para este evento.";
+            request.setAttribute("error", strError);
+            rd.forward(request, response);
+        }else{
+            while(i < numEntradas){
+                entrada = new Entrada();
+                entrada.setIdEvento(evento);
+                entrada.setIdUsuario(usuario);
+                this.entradaFacade.create(entrada);
+                i++;
+            }
+           
+            RequestDispatcher rd2 = request.getRequestDispatcher("ServletUsuarioEventosCargar");
+            rd2.forward(request, response);
+        
         }
         
-        RequestDispatcher rd = request.getRequestDispatcher("ServletUsuarioEventosCargar");
-        rd.forward(request, response);
-        
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

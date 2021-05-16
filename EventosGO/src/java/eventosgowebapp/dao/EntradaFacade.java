@@ -58,11 +58,11 @@ public class EntradaFacade extends AbstractFacade<Entrada> {
         }
     }
     
-    public List<Entrada> findByIdUsuarioAndIdEvento(UsuarioEvento usuario, Evento evento){
+    public List<Entrada> findByIdUsuarioAndIdEvento(Integer idUsuario, Integer evento){
         Query q;
         
-        q=em.createQuery("select e from Entrada e where e.idUsuario = :idUsuario and e.idEvento = :idEvento");
-        q.setParameter("idUsuario", usuario);
+        q=em.createQuery("select e from Entrada e where e.idUsuario.id = :idUsuario and e.idEvento.id = :idEvento");
+        q.setParameter("idUsuario", idUsuario);
         q.setParameter("idEvento", evento);
         return q.getResultList();
     }

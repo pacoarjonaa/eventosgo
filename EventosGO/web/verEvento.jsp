@@ -29,6 +29,14 @@
         Integer numeroEntradas = (Integer)request.getAttribute("numeroEntradas");
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         
+        String volver = "ServletCreadorPrincipal";
+        
+        if(usuario.getRol() == 0){
+            volver = "ServletAdminEventoCargar";
+        }else if (usuario.getRol() == 1 ){
+            volver = "ServletCreadorPrincipal";
+        }
+
     %>
     
     <% 
@@ -105,7 +113,7 @@
                         Nº m&aacute;ximo de entradas por usuario:
                     </div>
                     <div class="col-8">
-                        <%= evento.getCoste()%><br/>
+                        <%= evento.getMaximoEntradasUsuario() %><br/>
                     </div> 
                 </div>
                 <div class="row"><br/></div>
@@ -126,7 +134,7 @@
                  %>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start"">
-                    <a class="btn btn-primary" href="ServletCreadorPrincipal" role="button">Volver</a>
+                    <a class="btn btn-primary" href="<%= volver %>" role="button">Volver</a>
                 </div>
             </div>
         </section>
