@@ -5,6 +5,7 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EntradaFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.dao.EtiquetaFacade;
 import eventosgowebapp.dao.EventoEtiquetaFacade;
 import eventosgowebapp.dao.UsuarioFacade;
+import eventosgowebapp.entity.Entrada;
 import eventosgowebapp.entity.Etiqueta;
 import eventosgowebapp.entity.Evento;
 import eventosgowebapp.entity.EventoEtiqueta;
@@ -37,6 +39,9 @@ import javax.servlet.RequestDispatcher;
  */
 @WebServlet(name = "ServletEventoGuardar", urlPatterns = {"/ServletEventoGuardar"})
 public class ServletEventoGuardar extends HttpServlet {
+
+    @EJB
+    private EntradaFacade entradaFacade;
 
     @EJB
     private EventoFacade eventoFacade;
@@ -72,7 +77,7 @@ public class ServletEventoGuardar extends HttpServlet {
         List<Etiqueta> listaEtiquetas = new ArrayList<>();
         Date fechaEvento=null, fechaEntradas=null;
         Evento nuevoEvento;
-        
+        List<Entrada> listaEntradas = new ArrayList<>();
         
         id = request.getParameter("id");
         creador = this.userFacade.find(new Integer(request.getParameter("idCreador")));
@@ -119,6 +124,7 @@ public class ServletEventoGuardar extends HttpServlet {
         } else{
             nuevoEvento = this.eventoFacade.find(new Integer(id));  // Editar evento existente
         }
+        
        
         nuevoEvento.setTitulo(titulo);
         nuevoEvento.setDescripcion(descripcion);
@@ -128,6 +134,7 @@ public class ServletEventoGuardar extends HttpServlet {
         nuevoEvento.setFechaEvento(fechaEvento);
         nuevoEvento.setFechaFinReservas(fechaEntradas);
         nuevoEvento.setIdCreador(creador);
+        
         
         
         if(id == null || id.isEmpty()){
@@ -150,7 +157,7 @@ public class ServletEventoGuardar extends HttpServlet {
         }
         
         if(creador.getRol() == 0){
-            response.sendRedirect("ServletAdminEventoCargar");
+            response.sendRedirect("ServletEventosCargar");
         }else{
             response.sendRedirect("ServletCreadorPrincipal");
         }

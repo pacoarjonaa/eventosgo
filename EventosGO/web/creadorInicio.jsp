@@ -20,6 +20,10 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
+        <!-- Iconos de Boostrap -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+        
         <!--        W3 CSS -->
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
@@ -27,7 +31,7 @@
         List<Evento> eventos = (List) request.getAttribute("eventos");
     %>
     <body>
-        
+
         <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
 
@@ -37,27 +41,28 @@
             <header class="container">
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end"">
-                    <a class="btn btn-primary" href="crearEvento.jsp" role="button">Crear evento</a>
+                    <a class="btn btn-primary bi bi-hammer" href="crearEvento.jsp" role="button"> Crear evento</a>
                 </div>
-                
+
                 <h1 class="display-1">Mis eventos</h1>
-                
+
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" name="filtroEvento" placeholder="Buscar" aria-label="Search">
                     <button class="btn btn-sm btn-outline-secondary" type="submit">Buscar</button>
                 </form>
             </header>
             <article>
-                <table class="table table-responsive-md table-hover table-sm fs-6 text-center" title="Lista de eventos">
+                <table class="table table-responsive-md table-hover table-sm fs-6 text-center align-middle" title="Lista de eventos">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Fecha</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <%
+                        <%                            
                             int i;
                             for (i = 0; i < eventos.size(); i++) {
                         %>
@@ -65,17 +70,28 @@
                         <tr>
 
                             <th scope="row"><%= (i + 1)%></th>
-                            <td> <a href="ServletEstudioCargar"> <%= eventos.get(i).getTitulo()%> </a></td>
-                            <td><a href="ServletEstudioCargar"> <%= new SimpleDateFormat("dd/MM/yyyy").format(eventos.get(i).getFechaEvento())%> </a></td>
-
+                            <td><%= eventos.get(i).getTitulo()%></td>
+                            <td><%= new SimpleDateFormat("dd/MM/yyyy").format(eventos.get(i).getFechaEvento())%></td>
+                            <td>
+                                <a class="btn btn-outline-info" href="ServletEventoVer?eventoid=<%= eventos.get(i).getId()%>" role="button">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a class="btn btn-outline-success" href="ServletEventoVer?eventoid=<%= eventos.get(i).getId()%>&accion=editar" role="button">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="btn btn-outline-danger" href="ServletEventoBorrar?eventoid=<%= eventos.get(i).getId()%>" role="button">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
                         </tr>
 
                         <%
                             }
-                            for (int j = 10; j > i; j--) {
+                            for (int j = i +1; j <= 10; j++) {
                         %>
                         <tr>
-                            <th scope="row"><%= (11 - j)%></th>
+                            <th scope="row"><%= j %></th>
+                            <td>*</td>
                             <td>*</td>
                             <td>*</td>
                         </tr>

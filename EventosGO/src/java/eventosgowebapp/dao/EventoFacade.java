@@ -91,4 +91,20 @@ public class EventoFacade extends AbstractFacade<Evento> {
         List<Evento> res = q.getResultList();
         return res;
     }
+    
+    public Evento findBySimiliarNameAndId(String name, Integer id) {
+        Query q;
+        List<Evento> res = null;
+        Evento evRes= null;
+        
+        
+        q = em.createQuery("select e from Evento e where e.titulo like :titulo and e.id = :id ");
+        q.setParameter("titulo", "%" + name + "%");
+        q.setParameter("id", id);
+        res = q.getResultList();
+        if(res != null && !res.isEmpty()){
+            evRes = res.get(0);
+        } 
+        return evRes;
+    }
 }

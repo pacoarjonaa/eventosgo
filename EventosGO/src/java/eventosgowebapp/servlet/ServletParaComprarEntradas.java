@@ -5,11 +5,13 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EntradaFacade;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.entity.Evento;
+import eventosgowebapp.entity.Usuario;
+import eventosgowebapp.entity.UsuarioEvento;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,8 +24,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author pacoa
  */
-@WebServlet(name = "ServletAdminEventoCargar", urlPatterns = {"/ServletAdminEventoCargar"})
-public class ServletAdminEventoCargar extends HttpServlet {
+@WebServlet(name = "ServletParaComprarEntradas", urlPatterns = {"/ServletParaComprarEntradas"})
+public class ServletParaComprarEntradas extends HttpServlet {
+
+    @EJB
+    private EntradaFacade entradaFacade;
 
     @EJB
     private EventoFacade eventoFacade;
@@ -41,9 +46,22 @@ public class ServletAdminEventoCargar extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        List<Evento> lista =  this.eventoFacade.findAll();
-        request.setAttribute("listaEventos", lista);
-        RequestDispatcher rd = request.getRequestDispatcher("adminEventos.jsp");
+        
+        String idEvento = request.getParameter("id");
+        UsuarioEvento usuario = (UsuarioEvento)request.getSession().getAttribute("usuarioEvento");
+                
+        Evento evento = this.eventoFacade.find(new Integer(idEvento));
+        int entradasCompradas = this.entradaFacade.findByIdEvento(evento).size();
+        int entradasCompradasUsuario = this.entradaFacade.findByIdUsuarioAndIdEvento(usuario.getId(), evento.getId()).size();
+        int entradasDisponibles = evento.getAforo() - entradasCompradas;
+        String strError = (String) request.getAttribute("error");
+        
+        request.setAttribute("evento", evento);
+        request.setAttribute("entradasDisponibles", entradasDisponibles);
+        request.setAttribute("entradasCompradasUsuario", entradasCompradasUsuario);
+        request.setAttribute("error", strError);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("comprarEntradas.jsp");
         rd.forward(request, response);
     }
 
