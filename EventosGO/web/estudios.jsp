@@ -13,17 +13,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Estudios Estad&iacute;sticos</title>
+        <%
+            List<Estudio> estudios = (List) request.getAttribute("listaEstudios");
+            int pagina = (Integer) request.getAttribute("pagina");
+            List<Integer> resultados = (List) request.getAttribute("resultadoEstudios");
+        %>
+    </head>
+    <body>
 
-        <!--        Boostrap -->
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-
-        <!--        W3 CSS -->
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-        <!-- Iconos de Boostrap -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
         <!-- Botones redondos -->
         <style>
@@ -49,17 +47,6 @@
             }
         </style>
         <!-- END Botones redondos -->
-
-
-        <%
-            List<Estudio> estudios = (List) request.getAttribute("listaEstudios");
-            int pagina = (Integer) request.getAttribute("pagina");
-            List<Integer> resultados = (List) request.getAttribute("resultadoEstudios");
-        %>
-    </head>
-    <body>
-
-        <%@include file="cabecera.jsp" %> <!-- Introduce la cabecera -->
 
         <!-- Sección con la tabla de los estudios -->
         <div class="container">
@@ -175,9 +162,5 @@
             <!-- END Navbar de paginación de los estudios-->
         </section>
         <!-- END Sección con la tabla de los estudios -->
-
-        <!-- Option 1: Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
-
     </body>
 </html>

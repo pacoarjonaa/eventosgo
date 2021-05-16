@@ -121,8 +121,9 @@ public class ServletEstudioCargar extends HttpServlet {
                                 }
                             }
 
-                            res = aux;
+                            
                         }
+                        res = aux;
 
                     }
 
