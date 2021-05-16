@@ -5,6 +5,7 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EntradaFacade;
 import eventosgowebapp.dao.EstudioFacade;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.dao.UsuarioEventoFacade;
@@ -46,6 +47,9 @@ public class ServletEstudioCargar extends HttpServlet {
 
     @EJB
     private EventoFacade eventoFacade;
+
+    @EJB
+    private EntradaFacade entradaFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -98,7 +102,7 @@ public class ServletEstudioCargar extends HttpServlet {
                     int[] genero = {masculino, femenino, otro};
                     res = this.usuarioEventoFacade.filtroSexo(genero, res);
 
-                    if (ciudad != null) {
+                    if (ciudad != null && !ciudad.isEmpty()) {
                         res = this.usuarioEventoFacade.filtroCiudad(ciudad, res);
                     }
 
@@ -110,20 +114,22 @@ public class ServletEstudioCargar extends HttpServlet {
                         if (listEventos != null) {
                             for (UsuarioEvento u1 : res) {
 
-                                List<Entrada> entradas = u1.getEntradaList();
+                                List<Entrada> entradas = (this.entradaFacade.findByIdUsuario(u1.getId()) == null) ? new ArrayList<>() : this.entradaFacade.findByIdUsuario(u1.getId());
 
                                 for (Entrada e : entradas) {
 
                                     if (listEventos.contains(e.getIdEvento())) {
-                                        aux.add(u1);
+                                        if (!aux.contains(u1)) {
+                                            aux.add(u1);
+                                        }
+
                                     }
 
                                 }
                             }
 
-                            
+                            res = aux;
                         }
-                        res = aux;
 
                     }
 

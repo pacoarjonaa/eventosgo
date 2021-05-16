@@ -5,6 +5,7 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EntradaFacade;
 import eventosgowebapp.dao.EstudioFacade;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.dao.UsuarioEventoFacade;
@@ -43,6 +44,9 @@ public class ServletCalcularEstudio extends HttpServlet {
     @EJB
     private EventoFacade eventoFacade;
 
+    @EJB
+    private EntradaFacade entradaFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -56,12 +60,12 @@ public class ServletCalcularEstudio extends HttpServlet {
             throws ServletException, IOException {
         List<UsuarioEvento> lista = new ArrayList<>();
         String titulo = (request.getParameter("titulo") != null) ? new String(request.getParameter("titulo").getBytes("ISO-8859-1"), "UTF-8") : null;
-        
+
         // Filtros estudio: ciudad, rango edad
         int edadMinima = Integer.parseInt(request.getParameter("edad_min"));
         int edadMaxima = Integer.parseInt(request.getParameter("edad_max"));
         String ciudad = (request.getParameter("ciudad") != null) ? new String(request.getParameter("ciudad").getBytes("ISO-8859-1"), "UTF-8") : null;
-        int anio = (request.getParameter("anio") != null) ? Integer.parseInt(request.getParameter("anio")) : -1;
+        int anio = (request.getParameter("anio") != null && !request.getParameter("anio").isEmpty()) ? Integer.parseInt(request.getParameter("anio")) : -1;
         int masculino = (request.getParameter("masculino") != null) ? Integer.parseInt(request.getParameter("masculino")) : -1;
         int femenino = (request.getParameter("femenino") != null) ? Integer.parseInt(request.getParameter("femenino")) : -1;
         int otro = (request.getParameter("otro") != null) ? Integer.parseInt(request.getParameter("otro")) : -1;
@@ -77,7 +81,7 @@ public class ServletCalcularEstudio extends HttpServlet {
                 int[] genero = {masculino, femenino, otro};
                 res = this.usuarioEventoFacade.filtroSexo(genero, res);
 
-                if (ciudad != null) {
+                if (ciudad != null && !ciudad.isEmpty()) {
                     res = this.usuarioEventoFacade.filtroCiudad(ciudad, res);
                 }
 
@@ -89,12 +93,15 @@ public class ServletCalcularEstudio extends HttpServlet {
                     if (listEventos != null) {
                         for (UsuarioEvento u : res) {
 
-                            List<Entrada> entradas = u.getEntradaList();
+                            List<Entrada> entradas = (this.entradaFacade.findByIdUsuario(u.getId()) == null) ? new ArrayList<>() : this.entradaFacade.findByIdUsuario(u.getId());
 
                             for (Entrada e : entradas) {
 
                                 if (listEventos.contains(e.getIdEvento())) {
-                                    aux.add(u);
+                                    if (!aux.contains(u)) {
+                                        aux.add(u);
+                                    }
+
                                 }
 
                             }
@@ -108,9 +115,9 @@ public class ServletCalcularEstudio extends HttpServlet {
             }
 
         }
-        
+
         Estudio est = null;
-        
+
         if (request.getParameter("idEstudio") != null) {
             est = this.estudioFacade.find(Integer.parseInt(request.getParameter("idEstudio")));
         } else {
