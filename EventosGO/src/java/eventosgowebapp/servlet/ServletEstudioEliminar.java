@@ -53,8 +53,7 @@ public class ServletEstudioEliminar extends HttpServlet {
         this.estudioFacade.remove(e);
         this.usuarioFacade.edit(u);
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletEstudioCargar");
-        requestDispatcher.forward(request, response);
+        response.sendRedirect("ServletEstudioCargar");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

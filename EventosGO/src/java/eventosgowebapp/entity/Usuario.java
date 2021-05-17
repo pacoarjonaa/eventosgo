@@ -44,17 +44,13 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCreador")
     private List<Evento> eventoCollection;
 
-    @Basic (optional = false)
-    @Column(name = "CORREO")
+    @Column(name = "CORREO", nullable = false)
     private String correo;
-    @Basic (optional = false)
-    @Column(name = "CONTRASENA")
+    @Column(name = "CONTRASENA", nullable = false)
     private String contrasena;
-    @Basic (optional = false)
-    @Column(name = "NOMBRE")
+    @Column(name = "NOMBRE", nullable = false)
     private String nombre;
-    @Basic (optional = false)
-    @Column(name = "ROL")
+    @Column(name = "ROL", nullable = false)
     private int rol;
 
     private static final long serialVersionUID = 1L;

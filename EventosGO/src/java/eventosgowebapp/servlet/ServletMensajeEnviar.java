@@ -5,13 +5,18 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EntradaFacade;
-import eventosgowebapp.dao.EtiquetaFacade;
-import eventosgowebapp.dao.EventoFacade;
-import eventosgowebapp.entity.Evento;
+import eventosgowebapp.dao.ConversacionFacade;
+import eventosgowebapp.dao.MensajeFacade;
+import eventosgowebapp.dao.UsuarioFacade;
+import eventosgowebapp.entity.Conversacion;
+import eventosgowebapp.entity.Mensaje;
+import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,19 +25,20 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Kiko BM
+ * @author Pablo
  */
-@WebServlet(name = "ServletEventoVer", urlPatterns = {"/ServletEventoVer"})
-public class ServletEventoVer extends HttpServlet {
+@WebServlet(name = "ServletMensajeEnviar", urlPatterns = {"/ServletMensajeEnviar"})
+public class ServletMensajeEnviar extends HttpServlet {
 
     @EJB
-    private EtiquetaFacade etiquetaFacade;
-
-    @EJB
-    private EventoFacade eventoFacade;
+    private ConversacionFacade conversacionFacade;
     
-     @EJB
-    private EntradaFacade entradaFacade;
+    @EJB
+    private MensajeFacade mensajeFacade;
+    
+    @EJB
+    private UsuarioFacade usuarioFacade;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,28 +50,25 @@ public class ServletEventoVer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String strTo = "verEvento.jsp";
+        String texto = new String(request.getParameter("mensaje").getBytes("ISO-8859-1"), "UTF-8");
+        Conversacion conversacion = this.conversacionFacade.find(Integer.parseInt(request.getParameter("idConversacion")));
+        Usuario usuario = this.usuarioFacade.find(Integer.parseInt(request.getParameter("idUsuario")));
         
-        String id = request.getParameter("eventoid");
-        Evento elevento = this.eventoFacade.find(new Integer(id));
+        Mensaje mensaje = new Mensaje();
+        mensaje.setFecha(new Date());
+        mensaje.setHora(new Date());
+        mensaje.setIdConversacion(conversacion);
+        mensaje.setIdUsuario(usuario);
+        mensaje.setTexto(texto);
+        mensaje.setVisto(0);
+
+        List<Mensaje> lista = conversacion.getMensajeList();
+        lista.add(mensaje);
+        conversacion.setMensajeList(lista);
+        this.mensajeFacade.create(mensaje);
+        this.conversacionFacade.edit(conversacion);
         
-        int numeroEntradas = this.entradaFacade.findByIdEvento(elevento).size();
-        
-        String accion;
-        accion = (String)request.getParameter("accion");
-        
-        if(accion == null){
-            request.setAttribute("numeroEntradas", numeroEntradas);
-            strTo = "verEvento.jsp";
-        }else if (accion.equalsIgnoreCase("editar")){
-            strTo = "editarEvento.jsp";
-        }
-        
-        
-        request.setAttribute("evento", elevento);
-        
-        RequestDispatcher rd = request.getRequestDispatcher(strTo);
-        rd.forward(request, response);
+        response.sendRedirect("ServletMensajeCargar?idConversacion="+conversacion.getId());
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

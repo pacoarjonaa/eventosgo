@@ -5,14 +5,16 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EstudioFacade;
+import eventosgowebapp.dao.ConversacionFacade;
 import eventosgowebapp.dao.UsuarioFacade;
-import eventosgowebapp.entity.Estudio;
+import eventosgowebapp.entity.Conversacion;
 import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,14 +25,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author juanm
  */
-@WebServlet(name = "ServletAlmacenarEstudio", urlPatterns = {"/ServletAlmacenarEstudio"})
-public class ServletAlmacenarEstudio extends HttpServlet {
+@WebServlet(name = "ServletConversacionListar", urlPatterns = {"/ServletConversacionListar"})
+public class ServletConversacionListar extends HttpServlet {
 
     @EJB
-    private EstudioFacade estudioFacade;
-
-    @EJB
-    private UsuarioFacade usuarioFacade;
+    private ConversacionFacade conversacionFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,33 +42,14 @@ public class ServletAlmacenarEstudio extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String titulo = new String(request.getParameter("titulo").getBytes("ISO-8859-1"), "UTF-8");
-        String resultado = new String (request.getParameter("resultado").getBytes("ISO-8859-1"), "UTF-8");
         Usuario u = (Usuario) request.getSession().getAttribute("usuario");
-        List<Estudio> lista = u.getEstudioList();
-        Estudio e;
-        
-        if (request.getParameter("estudio") != null) {
-            e = this.estudioFacade.find(Integer.parseInt(request.getParameter("estudio")));
-            lista.remove(e);
-        } else {
-            e = new Estudio();
-            e.setIdAnalista(u);
-        }
-        e.setTitulo(titulo);
-        e.setResultado(resultado);
-        lista.add(e);
-        u.setEstudioList(lista);
-        if (request.getParameter("estudio") != null) {
-            this.estudioFacade.edit(e);
-        } else {
-            this.estudioFacade.create(e);
-        }
 
-        this.usuarioFacade.edit(u);
+        List<Conversacion> lista = this.conversacionFacade.findByUsuario(u);
 
-        response.sendRedirect("ServletEstudioCargar");
+        request.setAttribute("listaConversaciones", lista);
+        request.setAttribute("user", u);
+        RequestDispatcher rd = request.getRequestDispatcher("misConversaciones.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

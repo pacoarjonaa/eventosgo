@@ -20,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,11 +37,13 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Conversacion.findById", query = "SELECT c FROM Conversacion c WHERE c.id = :id")})
 public class Conversacion implements Serializable {
 
+    @Column(name = "ASUNTO", length = 100, nullable = false)
+    private String asunto;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     private Integer id;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID")
     @ManyToOne(optional = false)
@@ -113,6 +117,14 @@ public class Conversacion implements Serializable {
     @Override
     public String toString() {
         return "eventosgowebapp.entities.Conversacion[ id=" + id + " ]";
+    }
+
+    public String getAsunto() {
+        return asunto;
+    }
+
+    public void setAsunto(String asunto) {
+        this.asunto = asunto;
     }
     
 }

@@ -17,13 +17,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Ver Estudio</title>
-        <!--        Boostrap -->
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-
-        <!--        W3 CSS -->
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
     <body>
         <%
@@ -53,17 +46,16 @@
                     <tbody>
                         <%
                             int i = 1;
-                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("DD/MM/YYYY");
-                            SimpleDateFormat sdt = new SimpleDateFormat("DD/MM/YYYY");
-                            LocalDate ld = LocalDate.now();
                             for (UsuarioEvento u : lista) {
                         %>
                         <tr>
-                            <th scope="row">i</th>
+                            <th scope="row"><%= i %></th>
                             <td><%= u.getUsuario().getNombre()%></td>
                             <%
-                                LocalDate fecha_nac = LocalDate.parse(sdt.format(u.getFechaNacimiento()), dtf);
-                                int edad = Period.between(fecha_nac, ld).getYears();
+                                SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+                                SimpleDateFormat sdf1 = new SimpleDateFormat("MM");
+                                SimpleDateFormat sdf2 = new SimpleDateFormat("dd");
+                                int edad = Period.between(LocalDate.of(Integer.parseInt(sdf.format(u.getFechaNacimiento())), Integer.parseInt(sdf1.format(u.getFechaNacimiento())), Integer.parseInt(sdf2.format(u.getFechaNacimiento()))), LocalDate.now()).getYears();
                             %>
                             <td><%= edad%></td>
                             <td><%= u.getCiudad()%></td>
@@ -77,6 +69,6 @@
             </article>
         </section>        
         <!-- END Sección con la tabla de usuarios que cumplen el filtro para estudio -->
-        
+
     </body>
 </html>

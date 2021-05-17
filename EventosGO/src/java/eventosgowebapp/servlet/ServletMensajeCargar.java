@@ -5,11 +5,16 @@
  */
 package eventosgowebapp.servlet;
 
-import eventosgowebapp.dao.EntradaFacade;
-import eventosgowebapp.dao.EtiquetaFacade;
-import eventosgowebapp.dao.EventoFacade;
-import eventosgowebapp.entity.Evento;
+import eventosgowebapp.dao.ConversacionFacade;
+import eventosgowebapp.dao.MensajeFacade;
+import eventosgowebapp.entity.Conversacion;
+import eventosgowebapp.entity.Mensaje;
+import eventosgowebapp.entity.Usuario;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,19 +25,17 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Kiko BM
+ * @author Pablo
  */
-@WebServlet(name = "ServletEventoVer", urlPatterns = {"/ServletEventoVer"})
-public class ServletEventoVer extends HttpServlet {
+@WebServlet(name = "ServletMensajeCargar", urlPatterns = {"/ServletMensajeCargar"})
+public class ServletMensajeCargar extends HttpServlet {
 
     @EJB
-    private EtiquetaFacade etiquetaFacade;
+    private ConversacionFacade conversacionFacade;
 
     @EJB
-    private EventoFacade eventoFacade;
-    
-     @EJB
-    private EntradaFacade entradaFacade;
+    private MensajeFacade mensajeFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,27 +47,30 @@ public class ServletEventoVer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String strTo = "verEvento.jsp";
-        
-        String id = request.getParameter("eventoid");
-        Evento elevento = this.eventoFacade.find(new Integer(id));
-        
-        int numeroEntradas = this.entradaFacade.findByIdEvento(elevento).size();
-        
-        String accion;
-        accion = (String)request.getParameter("accion");
-        
-        if(accion == null){
-            request.setAttribute("numeroEntradas", numeroEntradas);
-            strTo = "verEvento.jsp";
-        }else if (accion.equalsIgnoreCase("editar")){
-            strTo = "editarEvento.jsp";
+        Conversacion c = this.conversacionFacade.find(new Integer(request.getParameter("idConversacion")));
+        List<Mensaje> lista = c.getMensajeList();
+        Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+        List<Mensaje> aux = new ArrayList<>();
+        for (Mensaje m : lista) {
+            if (m.getVisto() == 0) {
+                if (u.getId() == c.getIdTeleoperador().getId() || u.getId() == c.getIdUsuario().getId()) {
+                    if (u.getId() != m.getIdUsuario().getId()) {
+                        m.setVisto(1);
+                        this.mensajeFacade.edit(m);
+                    }
+                }
+            }
+            aux.add(m);
         }
         
+        c.setMensajeList(aux);
+        this.conversacionFacade.edit(c);
         
-        request.setAttribute("evento", elevento);
-        
-        RequestDispatcher rd = request.getRequestDispatcher(strTo);
+
+        request.setAttribute("mensajes", lista);
+        request.setAttribute("conversacion", c);
+        request.setAttribute("user", (Usuario) request.getSession().getAttribute("usuario"));
+        RequestDispatcher rd = request.getRequestDispatcher("chatConversacion.jsp");
         rd.forward(request, response);
     }
 

@@ -5,6 +5,7 @@
  */
 package eventosgowebapp.servlet;
 
+import eventosgowebapp.dao.EntradaFacade;
 import eventosgowebapp.dao.EstudioFacade;
 import eventosgowebapp.dao.EventoFacade;
 import eventosgowebapp.dao.UsuarioEventoFacade;
@@ -31,15 +32,18 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ServletEstudioVer", urlPatterns = {"/ServletEstudioVer"})
 public class ServletEstudioVer extends HttpServlet {
-    
+
     @EJB
     private EstudioFacade estudioFacade;
-    
+
     @EJB
     private UsuarioEventoFacade usuarioEventoFacade;
-    
+
     @EJB
     private EventoFacade eventoFacade;
+
+    @EJB
+    private EntradaFacade entradaFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,72 +58,75 @@ public class ServletEstudioVer extends HttpServlet {
             throws ServletException, IOException {
         Estudio e = this.estudioFacade.find(new Integer(request.getParameter("estudio")));
         String s = e.getResultado();
-            int edadMinima;
-            int edadMaxima;
-            String ciudad;
-            int anio;
-            int masculino;
-            int femenino;
-            int otro;
-            try (Scanner sc = new Scanner(s)) {
-                sc.useDelimiter(";");
-                edadMinima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
-                edadMaxima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
-                String aux = sc.next();
-                ciudad = (sc.hasNext() && !aux.isEmpty()) ? aux : null;
-                anio = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
-                masculino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
-                femenino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
-                otro = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
-            }
+        int edadMinima;
+        int edadMaxima;
+        String ciudad;
+        int anio;
+        int masculino;
+        int femenino;
+        int otro;
+        try (Scanner sc = new Scanner(s)) {
+            sc.useDelimiter(";");
+            edadMinima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            edadMaxima = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            String aux = sc.next();
+            ciudad = (sc.hasNext() && !aux.isEmpty()) ? aux : null;
+            anio = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            masculino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            femenino = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+            otro = (sc.hasNext()) ? Integer.parseInt(sc.next()) : -1;
+        }
 
-            List<UsuarioEvento> res = this.usuarioEventoFacade.findAll();
+        List<UsuarioEvento> res = this.usuarioEventoFacade.findAll();
 
-            if (edadMinima <= edadMaxima) {
+        if (edadMinima <= edadMaxima) {
 
-                res = this.usuarioEventoFacade.filtroEdad(edadMinima, edadMaxima, res);
+            res = this.usuarioEventoFacade.filtroEdad(edadMinima, edadMaxima, res);
 
-                if (masculino != -1 || femenino != -1 || otro != -1) {
+            if (masculino != -1 || femenino != -1 || otro != -1) {
 
-                    int[] genero = {masculino, femenino, otro};
-                    res = this.usuarioEventoFacade.filtroSexo(genero, res);
+                int[] genero = {masculino, femenino, otro};
+                res = this.usuarioEventoFacade.filtroSexo(genero, res);
 
-                    if (ciudad != null) {
-                        res = this.usuarioEventoFacade.filtroCiudad(ciudad, res);
-                    }
+                if (ciudad != null && !ciudad.isEmpty()) {
+                    res = this.usuarioEventoFacade.filtroCiudad(ciudad, res);
+                }
 
-                    if (anio > 0) {
+                if (anio > 0) {
 
-                        List<Evento> listEventos = this.eventoFacade.filtroAnio(anio, this.eventoFacade.findAll());
-                        List<UsuarioEvento> aux = new ArrayList<>();
+                    List<Evento> listEventos = this.eventoFacade.filtroAnio(anio, this.eventoFacade.findAll());
+                    List<UsuarioEvento> aux = new ArrayList<>();
 
-                        if (listEventos != null) {
-                            for (UsuarioEvento u1 : res) {
+                    if (listEventos != null) {
+                        for (UsuarioEvento u : res) {
 
-                                List<Entrada> entradas = u1.getEntradaList();
+                            List<Entrada> entradas = (this.entradaFacade.findByIdUsuario(u.getId()) == null) ? new ArrayList<>() : this.entradaFacade.findByIdUsuario(u.getId());
 
-                                for (Entrada e1 : entradas) {
+                            for (Entrada e1 : entradas) {
 
-                                    if (listEventos.contains(e1.getIdEvento())) {
-                                        aux.add(u1);
+                                if (listEventos.contains(e1.getIdEvento())) {
+                                    if (!aux.contains(u)) {
+                                        aux.add(u);
                                     }
 
                                 }
-                            }
 
-                            res = aux;
+                            }
                         }
 
+                        res = aux;
                     }
 
                 }
 
             }
-            
-            request.setAttribute("estudio", e);
-            request.setAttribute("resultado", res);
-            RequestDispatcher rd = request.getRequestDispatcher("verEstudio.jsp");
-            rd.forward(request, response);
+
+        }
+
+        request.setAttribute("estudio", e);
+        request.setAttribute("resultado", res);
+        RequestDispatcher rd = request.getRequestDispatcher("verEstudio.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

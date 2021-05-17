@@ -4,11 +4,13 @@
 	ID_TELEOPERADOR es una foreign key de USUARIO de rol 2
 	ID_USUARIO es una foreign key de USUARIO de rol 1 o 4
 	ID es un autoincremental
+	ASUNTO es una cadena que indica el asunto por el que se abre la conversacion
 */
 create table CONVERSACION
 (
 	ID INTEGER not null generated always as identity (start with 1, increment by 1),
-	ID_TELEOPERADOR INTEGER not null,
+	ASUNTO VARCHAR(100) not null,
+ 	ID_TELEOPERADOR INTEGER not null,
 	ID_USUARIO INTEGER not null,
 	primary key (ID)
 );
@@ -122,6 +124,7 @@ create table EVENTO_ETIQUETA
 	ID es un autoincremental
 	ID_CONVERSACION es una foreign key de CONVERSACION
 	ID_USUARIO es una foreign key de USUARIO con rol 1, 2 o 4
+	VISTO : 0 cuando el mensaje no ha sido leído y 1 si el mensaje ya ha sido leído
 */
 create table MENSAJE
 (
@@ -131,6 +134,7 @@ create table MENSAJE
 	FECHA DATE not null,
 	HORA TIME not null,
 	TEXTO LONG VARCHAR not null,
+	VISTO INTEGER not null,
 	primary key (ID)
 );
 
