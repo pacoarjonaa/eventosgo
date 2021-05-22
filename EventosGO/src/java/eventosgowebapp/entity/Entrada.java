@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,13 +40,13 @@ public class Entrada implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "entrada")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "entrada", fetch = FetchType.LAZY)
     private EntradaAforo entradaAforo;
     @JoinColumn(name = "ID_EVENTO", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private Evento idEvento;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UsuarioEvento idUsuario;
 
     public Entrada() {

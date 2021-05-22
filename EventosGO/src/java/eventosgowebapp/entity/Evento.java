@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -78,14 +79,14 @@ public class Evento implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvento")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvento", fetch = FetchType.LAZY)
     private List<EventoEtiqueta> eventoEtiquetaList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "evento")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "evento", fetch = FetchType.LAZY)
     private EventoAforo eventoAforo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvento")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvento", fetch = FetchType.LAZY)
     private List<Entrada> entradaList;
     @JoinColumn(name = "ID_CREADOR", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario idCreador;
 
     public Evento() {

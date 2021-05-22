@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,17 +60,17 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario", fetch = FetchType.LAZY)
     private List<Conversacion> conversacionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTeleoperador")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTeleoperador", fetch = FetchType.LAZY)
     private List<Conversacion> conversacionList1;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
     private UsuarioEvento usuarioEvento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAnalista")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAnalista", fetch = FetchType.LAZY)
     private List<Estudio> estudioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCreador")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCreador", fetch = FetchType.LAZY)
     private List<Evento> eventoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario", fetch = FetchType.LAZY)
     private List<Mensaje> mensajeList;
 
     public Usuario() {

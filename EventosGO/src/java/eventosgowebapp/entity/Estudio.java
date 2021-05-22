@@ -8,6 +8,7 @@ package eventosgowebapp.entity;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,7 +44,7 @@ public class Estudio implements Serializable {
     @Column(name = "ID")
     private Integer id;
     @JoinColumn(name = "ID_ANALISTA", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario idAnalista;
 
     public Estudio() {

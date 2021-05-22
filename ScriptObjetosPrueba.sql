@@ -6,7 +6,7 @@
 -- Usuarios
 
 INSERT INTO EVENTOSGO.USUARIO (CORREO, CONTRASENA, NOMBRE, ROL) 
-	VALUES ('administrador@eventosgo.com', '12345', 'Administrador Julián', 0);
+	VALUES ('administrador@eventosgo.com', '12345', 'Administrador Julian', 0);
 INSERT INTO EVENTOSGO.USUARIO (CORREO, CONTRASENA, NOMBRE, ROL) 
 	VALUES ('juanma@gmail.com', '12345', 'Juan Manuel', 4);
 INSERT INTO EVENTOSGO.USUARIO (CORREO, CONTRASENA, NOMBRE, ROL) 
@@ -25,14 +25,14 @@ INSERT INTO EVENTOSGO.USUARIO (CORREO, CONTRASENA, NOMBRE, ROL)
 	VALUES ('albert@eventosgo.com', '12345', 'Albert Einstein', 3);
 
 INSERT INTO EVENTOSGO.USUARIO_EVENTO (ID, APELLIDOS, DOMICILIO, CIUDAD, FECHA_NACIMIENTO, SEXO) 
-	VALUES (2, 'GonzÃ¡lez', 'MÃ¡laga Capital', 'MÃ¡laga', '2000-09-02', 0);
+	VALUES (2, 'Gonzalez', 'Malaga Capital', 'Malaga', '2000-09-02', 0);
 INSERT INTO EVENTOSGO.USUARIO_EVENTO (ID, APELLIDOS, DOMICILIO, CIUDAD, FECHA_NACIMIENTO, SEXO) 
-	VALUES (3, 'DurÃ¡n', 'Kandinsky', 'MÃ¡laga', '2000-11-01', 0);
+	VALUES (3, 'Duran', 'Kandinsky', 'Malaga', '2000-11-01', 0);
 
 -- Eventos
 
 INSERT INTO EVENTOSGO.EVENTO (TITULO, DESCRIPCION, FECHA_EVENTO, FECHA_FIN_RESERVAS, COSTE, MAXIMO_ENTRADAS_USUARIO, AFORO, ID_CREADOR) 
-	VALUES ('Cine de verano', 'TintÃ­n y el Secreto del Unicornio', '2021-06-13', '2021-06-16', 0.0, 3, 25, 4);
+	VALUES ('Cine de verano', 'Tinti­n y el Secreto del Unicornio', '2021-06-13', '2021-06-16', 0.0, 3, 25, 4);
 INSERT INTO EVENTOSGO.EVENTO (TITULO, DESCRIPCION, FECHA_EVENTO, FECHA_FIN_RESERVAS, COSTE, MAXIMO_ENTRADAS_USUARIO, AFORO, ID_CREADOR) 
 	VALUES ('Carrera de Karts', 'Carrera en Campillos', '2021-07-31', '2021-07-18', 30.0, 1, 12, 4);
 
