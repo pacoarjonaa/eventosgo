@@ -61,7 +61,7 @@
         </div>
 
         <div>
-            <form action="ServletAdminEventoCargar">
+            <form action="ServletEventosCargar">
                 <input type="submit" value="Volver"/>
             </form>
 

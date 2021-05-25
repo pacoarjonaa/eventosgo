@@ -37,6 +37,7 @@ public class ServletEventoBorrar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         String strId = request.getParameter("eventoid");
 
         Evento evento = this.eventoFacade.find(new Integer(strId));        

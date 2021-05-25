@@ -44,7 +44,7 @@ public class ServletAdminCrudEventoBorrar extends HttpServlet {
         Evento evento = this.eventoFacade.find(new Integer(strId));        
         this.eventoFacade.remove(evento);
 
-        response.sendRedirect("ServletAdminEventoCargar"); 
+        response.sendRedirect("ServletEventosCargar"); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
