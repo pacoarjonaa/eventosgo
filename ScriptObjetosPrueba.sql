@@ -32,7 +32,7 @@ INSERT INTO EVENTOSGO.USUARIO_EVENTO (ID, APELLIDOS, DOMICILIO, CIUDAD, FECHA_NA
 -- Eventos
 
 INSERT INTO EVENTOSGO.EVENTO (TITULO, DESCRIPCION, FECHA_EVENTO, FECHA_FIN_RESERVAS, COSTE, MAXIMO_ENTRADAS_USUARIO, AFORO, ID_CREADOR) 
-	VALUES ('Cine de verano', 'Tinti­n y el Secreto del Unicornio', '2021-06-13', '2021-06-16', 0.0, 3, 25, 4);
+	VALUES ('Cine de verano', 'Tintin y el Secreto del Unicornio', '2021-06-13', '2021-06-16', 0.0, 3, 25, 4);
 INSERT INTO EVENTOSGO.EVENTO (TITULO, DESCRIPCION, FECHA_EVENTO, FECHA_FIN_RESERVAS, COSTE, MAXIMO_ENTRADAS_USUARIO, AFORO, ID_CREADOR) 
 	VALUES ('Carrera de Karts', 'Carrera en Campillos', '2021-07-31', '2021-07-18', 30.0, 1, 12, 4);
 
@@ -92,9 +92,9 @@ INSERT INTO EVENTOSGO.MENSAJE (ID_CONVERSACION, ID_USUARIO, FECHA, HORA, TEXTO, 
 -- Estudios
 
 INSERT INTO EVENTOSGO.ESTUDIO (ID_ANALISTA, TITULO, RESULTADO) 
-	VALUES (8, 'Usuarios menores de 25 años que se han apuntado a cualquier evento durante el año 2021', '0;24;;2021;0;1;2');
+	VALUES (8, 'Usuarios menores de 25 anios que se han apuntado a cualquier evento durante el 2021', '0;24;;2021;0;1;2');
 INSERT INTO EVENTOSGO.ESTUDIO (ID_ANALISTA, TITULO, RESULTADO) 
-	VALUES (8, 'Usuarios masculinos menores de 26 años', '0;25;;-1;0;-1;-1');
+	VALUES (8, 'Usuarios masculinos menores de 26 anios', '0;25;;-1;0;-1;-1');
 
 
 																													
